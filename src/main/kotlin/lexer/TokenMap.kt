@@ -27,9 +27,11 @@ fun getTokenMap():EnumMap<TokenType,TokenMatcher>{
     tokenMap[TokenType.ASSIGNATION] = TokenMatcher(TokenType.ASSIGNATION, "=")
     tokenMap[TokenType.SEMICOLON] = TokenMatcher(TokenType.SEMICOLON, ";")
     tokenMap[TokenType.COLON] = TokenMatcher(TokenType.COLON, ":")
+    tokenMap[TokenType.OPENPARENTHESIS] = TokenMatcher(TokenType.OPENPARENTHESIS, "\\(")
+    tokenMap[TokenType.CLOSEPARENTHESIS] = TokenMatcher(TokenType.CLOSEPARENTHESIS, "\\)")
 
     //LITERALS
-    tokenMap[TokenType.STRING] = TokenMatcher(TokenType.STRING, "\'[^\']*\' | \"[^\"]*\"")
+    tokenMap[TokenType.STRING] = TokenMatcher(TokenType.STRING, "\'[^\']*\'|\"[^\"]*\"")
     tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "[0-9]+")
     return tokenMap
 }
