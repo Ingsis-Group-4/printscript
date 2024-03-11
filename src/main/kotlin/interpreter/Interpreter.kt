@@ -15,61 +15,83 @@ class Interpreter : Visitor<Any> {
 
     override fun visit(node: AssignationNode) {
         val value = node.expression.accept(this)
-        environment.createVariable(node.identifier.variableName, value, node.identifier.variableType)
+        environment.updateVariable(node.identifier.variableName, createEnvironmentValue(value))
     }
 
-    override fun visit(node: DivisionNode): Int {
+    override fun visit(node: DivisionNode): Double {
         val left = node.left.accept(this)
         val right = node.right.accept(this)
 
-        if (left is Int && right is Int) {
+        if (left is Double && right is Double) {
             return left / right
         }
         throw RuntimeException("Invalid division")
     }
 
-    override fun visit(node: IdentifierNode): Pair<String, VariableType?> {
-        return Pair(node.variableName, node.variableType)
+    override fun visit(node: IdentifierNode): EnvironmentValue {
+        return environment.getVariable(node.variableName)
     }
 
-    override fun <K> visit(node: LiteralNode<K>): Any {
-        return node.value!!
+    override fun visit(node: StringNode): String {
+        return node.value
     }
 
+    override fun visit(node: NumberNode): Double {
+        return node.value
+    }
 
     override fun visit(node: PrintLnNode) {
-        TODO("Not yet implemented")
+        print(node.expression.accept(this))
     }
 
-    override fun visit(node: ProductNode): Int {
+    override fun visit(node: ProductNode): Double {
         val left = node.left.accept(this)
         val right = node.right.accept(this)
-        if (left is Int && right is Int) {
+        if (left is Double && right is Double) {
             return left * right
         }
         throw RuntimeException("Invalid product")
     }
 
-    override fun visit(node: SubtractionNode): Int {
+    override fun visit(node: SubtractionNode): Double {
         val left = node.left.accept(this)
         val right = node.right.accept(this)
-        if (left is Int && right is Int) {
+        if (left is Double && right is Double) {
             return left - right
         }
         throw RuntimeException("Invalid subtraction")
     }
 
-    override fun visit(node: SumNode): Int {
+    override fun visit(node: SumNode): Double {
         val left = node.left.accept(this)
         val right = node.right.accept(this)
-        if (left is Int && right is Int) {
+        if (left is Double && right is Double) {
             return left + right
         }
         throw RuntimeException("Invalid sum")
     }
 
     override fun visit(node: VariableDeclarationNode) {
-        TODO("Not yet implemented")
+        when (node.expression) {
+            null -> environment.createVariable(node.identifier.variableName, NullValue(), node.identifier.variableType)
+            else -> {
+                val value = node.expression.accept(this)
+                environment.createVariable(
+                    node.identifier.variableName,
+                    createEnvironmentValue(value),
+                    node.identifier.variableType
+                )
+
+            }
+        }
+    }
+
+    private fun <T> createEnvironmentValue(value: T): EnvironmentValue {
+        return when (value) {
+            is Double -> NumberValue(value)
+            is String -> StringValue(value)
+            else -> NullValue()
+        }
     }
 
 }
