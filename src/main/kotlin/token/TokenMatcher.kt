@@ -14,9 +14,6 @@ public class TokenMatcher {
         val regex = matchers.joinToString("|") { it.pattern.toString() }
         this.pattern = Pattern.compile(regex)
     }
-    public fun getPattern():Pattern{
-        return pattern
-    }
     public fun getMatcher(input:String): Matcher {
         return pattern.matcher(input)
     }
