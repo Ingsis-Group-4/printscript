@@ -1,3 +1,7 @@
 package org.example.ast
 
-sealed interface AST
+import org.example.interpreter.Visitor
+
+sealed interface AST{
+    fun <T> accept(visitor: Visitor<T>): T
+}

@@ -1,3 +1,10 @@
 package org.example.ast
 
-data class ProgramNode(val statements: List<StatementNode>): AST
+import org.example.interpreter.Visitor
+
+data class ProgramNode(val statements: List<StatementNode>) : AST {
+    override fun <T> accept(visitor: Visitor<T>): T {
+        return visitor.visit(this)
+    }
+
+}

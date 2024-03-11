@@ -1,3 +1,9 @@
 package org.example.ast
 
-class IdentifierNode(val variableName: String, val variableType: VariableType): ExpressionNode
+import org.example.interpreter.Visitor
+
+class IdentifierNode(val variableName: String, val variableType: VariableType?) : ExpressionNode {
+    override fun <T> accept(visitor: Visitor<T>): T {
+        return visitor.visit(this)
+    }
+}
