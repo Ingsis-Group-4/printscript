@@ -94,4 +94,7 @@ class Interpreter : Visitor<Any> {
         }
     }
 
+    public fun getEnvironment(): Environment {
+        return environment
+    }
 }
