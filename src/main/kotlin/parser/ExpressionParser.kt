@@ -8,7 +8,8 @@ import org.example.position.Position
 import org.example.token.Token
 import org.example.token.TokenType
 
-class ExpressionParser(private val parserSelector: Map<Token, Parser>): Parser {
+//private val parserSelector: Map<Token, Parser>
+class ExpressionParser(): Parser {
     //TODO("por la recursividad, las operaciones se resuelven de derecha a izquierda, lo cual no es lo esperado.")
     override fun parse(tokens: List<Token>, currentIndex: Int): ExpressionNode {
         val token = next(tokens, currentIndex)
