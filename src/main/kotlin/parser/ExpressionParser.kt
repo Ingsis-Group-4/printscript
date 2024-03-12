@@ -8,7 +8,6 @@ import org.example.position.Position
 import org.example.token.Token
 import org.example.token.TokenType
 
-
 //private val parserSelector: Map<Token, Parser>
 class ExpressionParser(): Parser {
     //TODO("por la recursividad, las operaciones se resuelven de derecha a izquierda, lo cual no es lo esperado.")
