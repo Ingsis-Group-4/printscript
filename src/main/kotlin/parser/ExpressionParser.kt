@@ -4,31 +4,33 @@ import org.example.ast.AST
 import org.example.ast.ExpressionNode
 import org.example.ast.LiteralNode
 import org.example.ast.SumNode
+import org.example.parser.status.ErrorStatus
+import org.example.parser.status.SuccessStatus
 import org.example.position.Position
 import org.example.token.Token
 import org.example.token.TokenType
 
 //private val parserSelector: Map<Token, Parser>
-class ExpressionParser(): Parser {
+class ExpressionParser(private val parserSelector: Map<TokenType, Parser>): Parser {
     //TODO("por la recursividad, las operaciones se resuelven de derecha a izquierda, lo cual no es lo esperado.")
-    override fun parse(tokens: List<Token>, currentIndex: Int): ExpressionNode {
+    override fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState> {
         val token = next(tokens, currentIndex)
-        when(token.type) {
+        return when(token.type) {
             TokenType.NUMBER,
             TokenType.STRING,
-            TokenType.IDENTIFIER -> return parseExpression(tokens, currentIndex+1)
-            else -> throw Exception("Invalid expression at position ${token.start}")
+            TokenType.IDENTIFIER -> parseExpression(tokens, currentIndex+1)
+            else -> Pair(null, ParserState(ErrorStatus("Invalid token at position ${token.start}"), currentIndex))
         }
     }
 
-    private fun parseExpression(tokens: List<Token>, currentIndex: Int): ExpressionNode {
+    private fun parseExpression(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState> {
         val nextToken = next(tokens, currentIndex)
         val token = at(tokens, currentIndex)
         return when(nextToken.type) {
-            TokenType.SEMICOLON -> LiteralNode(token.value)
-            TokenType.SUM -> SumNode(LiteralNode(token.value), parse(tokens, currentIndex + 1))
+            TokenType.SEMICOLON -> Pair(LiteralNode(token.value), ParserState(SuccessStatus(), nextIndex(currentIndex)))
+            TokenType.SUM -> Pair(SumNode(LiteralNode(token.value), parse(tokens, nextIndex(currentIndex)).first as ExpressionNode), ParserState(SuccessStatus(), currentIndex + 2))
             //TODO("Implement other operators here!")
-            else -> throw Exception("Invalid expression at position ${token.start}")
+            else -> Pair(null, ParserState(ErrorStatus("Invalid token at position ${nextToken.start}"), currentIndex))
         }
     }
 

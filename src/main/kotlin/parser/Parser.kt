@@ -4,5 +4,5 @@ import org.example.ast.AST
 import org.example.token.Token
 
 interface Parser {
-    fun parse(tokens: List<Token>, currentIndex: Int): AST
+    fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState>
 }
