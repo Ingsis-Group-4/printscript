@@ -18,7 +18,7 @@ class ExpressionParser(private val parserSelector: Map<TokenType, Parser>): Pars
         return when(token.type) {
             TokenType.NUMBER,
             TokenType.STRING,
-            TokenType.IDENTIFIER -> parseExpression(tokens, currentIndex+1)
+            TokenType.IDENTIFIER -> parseExpression(tokens, nextIndex(currentIndex))
             else -> Pair(null, ParserState(ErrorStatus("Invalid token at position ${token.start}"), currentIndex))
         }
     }
