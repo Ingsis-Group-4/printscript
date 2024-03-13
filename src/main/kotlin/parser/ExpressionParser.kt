@@ -28,7 +28,13 @@ class ExpressionParser(private val parserSelector: Map<TokenType, Parser>): Pars
         val token = at(tokens, currentIndex)
         return when(nextToken.type) {
             TokenType.SEMICOLON -> Pair(LiteralNode(token.value), ParserState(SuccessStatus(), nextIndex(currentIndex)))
-            TokenType.SUM -> Pair(SumNode(LiteralNode(token.value), parse(tokens, nextIndex(currentIndex)).first as ExpressionNode), ParserState(SuccessStatus(), currentIndex + 2))
+            TokenType.SUM -> {
+                val nextExpression = parse(tokens, nextIndex(currentIndex))
+                Pair(
+                    SumNode(LiteralNode(token.value), nextExpression.first as ExpressionNode),
+                    ParserState(SuccessStatus(), nextExpression.second.lastValidatedIndex)
+                )
+            }
             //TODO("Implement other operators here!")
             else -> Pair(null, ParserState(ErrorStatus("Invalid token at position ${nextToken.start}"), currentIndex))
         }

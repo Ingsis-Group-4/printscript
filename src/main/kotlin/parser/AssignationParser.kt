@@ -11,7 +11,7 @@ import org.example.token.TokenType
 class AssignationParser(private val parserSelector: Map<TokenType, Parser>): Parser {
     override fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST, ParserState> {
         val token = next(tokens, currentIndex)
-        val nestedParseResult = getNestedParserResult(token, tokens, currentIndex, parserSelector)
+        val nestedParseResult = getNestedParserResult(token, tokens, nextIndex(currentIndex), parserSelector)
         val ast = AssignationNode(IdentifierNode(token.value), nestedParseResult.first as ExpressionNode)
         val finalState = nestedParseResult.second
         return Pair(ast, finalState)
