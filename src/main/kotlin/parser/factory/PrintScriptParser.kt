@@ -1,4 +1,4 @@
-package org.example.factory
+package org.example.parser.factory
 
 import org.example.parser.*
 import org.example.token.TokenType
@@ -6,11 +6,23 @@ import org.example.token.TokenType
 object PrintScriptParser: ParserFactory {
     private val parserSelector: Map<TokenType, Parser> = mapOf(
         TokenType.LET to VariableDeclarationParserFactory.create(),
-        TokenType.IDENTIFIER to AssignationParserFactory.create()
+        TokenType.IDENTIFIER to AssignationParserFactory.create(),
+        TokenType.PRINTLN to PrintLnParserFactory.create()
     )
 
     override fun create(): Parser {
         return ProgramParser(parserSelector)
+    }
+
+}
+
+object PrintLnParserFactory: ParserFactory {
+    private val parserSelector: Map<TokenType, Parser> = mapOf(
+        TokenType.IDENTIFIER to ExpressionParserFactory.create()
+    )
+
+    override fun create(): Parser {
+        return PrintLnParser(parserSelector)
     }
 
 }
