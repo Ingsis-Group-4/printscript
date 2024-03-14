@@ -26,3 +26,5 @@ fun getNestedParserResult(token: Token, tokens: List<Token>, currentIndex: Int, 
 fun nextIndex(currentIndex: Int, step: Int = 1): Int {
     return currentIndex + step
 }
+
+// a = "hola"$

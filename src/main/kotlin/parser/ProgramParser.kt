@@ -3,6 +3,9 @@ package org.example.parser
 import org.example.ast.AST
 import org.example.ast.ProgramNode
 import org.example.ast.StatementNode
+import org.example.parser.result.ErrorResult
+import org.example.parser.result.ParserResult
+import org.example.parser.result.SuccessResult
 import org.example.parser.status.ErrorStatus
 import org.example.parser.status.SuccessStatus
 import org.example.token.Token
@@ -10,7 +13,7 @@ import org.example.token.TokenType
 
 
 class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
-    override fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST, ParserState> {
+    override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
         val initialStatus = SuccessStatus()
         val initialState = ParserState(initialStatus, currentIndex)
         val (parsedStatements, finalState) = parseStatements(tokens, initialState)
@@ -18,7 +21,9 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         return Pair(ast, finalState)
     }
 
-    private fun parseStatements(tokens: List<Token>, currentState: ParserState): Pair<List<StatementNode>, ParserState> {
+
+
+    private fun parseStatements(tokens: List<Token>, currentState: ParserState): ParserResult {
         var currentIndex = currentState.lastValidatedIndex
         val statements = emptyList<StatementNode>().toMutableList()
 
@@ -37,6 +42,51 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
     private fun parseNextStatement(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState> {
         val token = at(tokens, currentIndex)
         return getNestedParserResult(token, tokens, currentIndex, parserSelector)
+    }
+
+    fun parser2(tokens: List<Token>, currentIndex: Int): ParserResult{
+        val statementTokens = divideIntoStatements(tokens)
+        return parseStatements2(statementTokens, currentIndex)
+    }
+
+    private fun divideIntoStatements(tokens: List<Token>): List<List<Token>> {
+        val statements = mutableListOf<List<Token>>()
+        var currentStatement = mutableListOf<Token>()
+        for (token in tokens) {
+            if (token.type == TokenType.SEMICOLON) {
+                statements.add(currentStatement)
+                currentStatement = mutableListOf()
+            } else {
+                currentStatement.add(token)
+            }
+        }
+        return statements
+    }
+
+    private fun parseNextStatement2(tokens: List<Token>, currentIndex: Int): ParserResult{}
+
+    private fun parseStatements2(statementTokens: List<List<Token>>, currentIndex: Int): ParserResult{
+        val asts = mutableListOf<StatementNode>()
+
+        var lastIndexedValue = currentIndex;
+
+        for (statement in statementTokens) {
+            when (val statementResult = parseNextStatement2(statement, currentIndex)) {
+                is SuccessResult -> {
+                    when (statementResult.value) {
+                        is StatementNode -> {
+                            lastIndexedValue = statementResult.lastValidatedIndex
+                            asts.add(statementResult.value)
+                        }
+                        else -> return ErrorResult("Error parsing statement", statementResult.lastValidatedIndex)
+                    }
+                }
+
+                is ErrorResult -> return statementResult
+            }
+        }
+
+        return SuccessResult(ProgramNode(asts), lastIndexedValue)
     }
 }
 

@@ -1,13 +1,16 @@
 package parser
 
-import org.example.factory.AssignationParserFactory
-import org.example.factory.PrintScriptParser
-import org.example.parser.ProgramParser
+import org.example.ast.AssignationNode
+import org.example.ast.ProgramNode
+import org.example.ast.StatementNode
+import org.example.parser.factory.PrintScriptParser
 import org.example.parser.status.SuccessStatus
 import org.example.position.Position
 import org.example.token.Token
 import org.example.token.TokenType
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class ParserTest {
     @Test
@@ -42,6 +45,13 @@ class ParserTest {
 
         val result = parser.parse(input, 0)
         assert(result.second.status is SuccessStatus)
+        assertEquals(4, result.second.lastValidatedIndex)
+        assertIs<ProgramNode>(result.first)
+
+        val statements = (result.first as ProgramNode).statements
+
+        assertEquals(statements.size, 1)
+        assertIs<AssignationNode>(statements.get(0))
     }
 
     @Test
