@@ -14,7 +14,4 @@ class ProgramInterpreter(private val node: ProgramNode): Interpreter {
         }
         return VoidValue()
     }
-
-
-
 }
