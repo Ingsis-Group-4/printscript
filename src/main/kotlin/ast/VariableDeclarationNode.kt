@@ -1,6 +1,6 @@
 package org.example.ast
 
-import org.example.interpreter.Visitor
+import org.example.common.visitor.Visitor
 
 class VariableDeclarationNode(
     val identifier: IdentifierNode,

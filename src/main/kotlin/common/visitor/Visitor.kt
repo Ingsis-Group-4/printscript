@@ -1,4 +1,4 @@
-package org.example.interpreter
+package org.example.common.visitor
 
 import org.example.ast.*
 

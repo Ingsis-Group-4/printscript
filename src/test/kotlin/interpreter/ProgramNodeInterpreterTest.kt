@@ -1,21 +1,20 @@
 package interpreter
 
 import org.example.ast.*
-import org.example.interpreter.Interpreter
+import org.example.interpreter.ProgramNodeInterpreter
 import org.example.interpreter.NullValue
 import org.example.interpreter.NumberValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
-class InterpreterTest {
-    private var interpreter = Interpreter()
+class ProgramNodeInterpreterTest {
+    private var programNodeInterpreter = ProgramNodeInterpreter()
 
     @BeforeEach
     fun setUp(){
-        interpreter = Interpreter()
+        programNodeInterpreter = ProgramNodeInterpreter()
     }
 
     @Test
@@ -32,8 +31,8 @@ class InterpreterTest {
             )
         )
 
-        interpreter.visit(input)
-        val resultEnvironment = interpreter.getEnvironment()
+        programNodeInterpreter.visit(input)
+        val resultEnvironment = programNodeInterpreter.getEnvironment()
         val result = resultEnvironment.getVariable("x")
         assert(result is NumberValue)
         assert((result as NumberValue).value == 10.0)
@@ -46,7 +45,7 @@ class InterpreterTest {
             right = NumberNode(2.0)
         )
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == 5.0)
     }
 
@@ -54,7 +53,7 @@ class InterpreterTest {
     fun testStringLiteral(){
         val input = StringNode("Hello, World!")
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == "Hello, World!")
     }
 
@@ -62,7 +61,7 @@ class InterpreterTest {
     fun testNumberLiteral(){
         val input = NumberNode(10.0)
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == 10.0)
     }
 
@@ -76,7 +75,7 @@ class InterpreterTest {
             right = NumberNode(2.0)
         )
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == 20.0)
     }
 
@@ -97,8 +96,8 @@ class InterpreterTest {
             )
         )
 
-        interpreter.visit(input)
-        val resultEnvironment = interpreter.getEnvironment()
+        programNodeInterpreter.visit(input)
+        val resultEnvironment = programNodeInterpreter.getEnvironment()
         val result = resultEnvironment.getVariable("x")
         assert(result is NumberValue)
         assert((result as NumberValue).value == 10.0)
@@ -111,7 +110,7 @@ class InterpreterTest {
             right = NumberNode(2.0)
         )
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == 8.0)
     }
 
@@ -122,7 +121,7 @@ class InterpreterTest {
             right = NumberNode(2.0)
         )
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
         assert(result == 12.0)
     }
 
@@ -133,8 +132,8 @@ class InterpreterTest {
             NumberNode(10.0)
         )
 
-        interpreter.visit(input)
-        val resultEnvironment = interpreter.getEnvironment()
+        programNodeInterpreter.visit(input)
+        val resultEnvironment = programNodeInterpreter.getEnvironment()
         val result = resultEnvironment.getVariable("x")
         assert(result is NumberValue)
         assert((result as NumberValue).value == 10.0)
@@ -146,8 +145,8 @@ class InterpreterTest {
             IdentifierNode("x", VariableType.NUMBER)
         )
 
-        interpreter.visit(input)
-        val resultEnvironment = interpreter.getEnvironment()
+        programNodeInterpreter.visit(input)
+        val resultEnvironment = programNodeInterpreter.getEnvironment()
         val result = resultEnvironment.getVariable("x")
         assert(result is NullValue)
     }
@@ -159,7 +158,7 @@ class InterpreterTest {
             right = NumberNode(10.0)
         )
 
-        val result = interpreter.visit(input)
+        val result = programNodeInterpreter.visit(input)
 //        assert(result == "Hello, 10.0") TODO: This is the intended result, but the interpreter is not implemented to handle this
     }
 
@@ -171,13 +170,13 @@ class InterpreterTest {
         )
 
         assertThrows<Exception> {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         }
 
-        interpreter = Interpreter()
+        programNodeInterpreter = ProgramNodeInterpreter()
 
         try {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         } catch (e: Exception) {
             assertEquals("Variable x does not exist", e.message)
         }
@@ -197,13 +196,13 @@ class InterpreterTest {
         )
 
         assertThrows<Exception> {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         }
 
-        interpreter = Interpreter()
+        programNodeInterpreter = ProgramNodeInterpreter()
 
         try {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         } catch (e: Exception) {
             assertEquals("Variable x already exists", e.message)
         }
@@ -224,13 +223,13 @@ class InterpreterTest {
         )
 
         assertThrows<Exception> {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         }
 
-        interpreter = Interpreter()
+        programNodeInterpreter = ProgramNodeInterpreter()
 
         try {
-            interpreter.visit(input)
+            programNodeInterpreter.visit(input)
         } catch (e: Exception) {
             assertEquals("Variable x is not a number", e.message)
         }

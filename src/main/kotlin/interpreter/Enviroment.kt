@@ -5,14 +5,14 @@ import org.example.ast.VariableType
 class Environment {
     private val variables = HashMap<String, EnvironmentElement>()
 
-    fun createVariable(name: String, value: EnvironmentValue, type: VariableType?) {
+    fun createVariable(name: String, value: Value, type: VariableType?) {
         if (variables.containsKey(name)) {
             throw Exception("Variable $name already exists")
         }
         variables[name] = EnvironmentElement(value, type!!)
     }
 
-    fun updateVariable(name: String, value: EnvironmentValue) {
+    fun updateVariable(name: String, value: Value) {
         if (!variables.containsKey(name)) {
             throw Exception("Variable $name does not exist")
         }
@@ -32,21 +32,13 @@ class Environment {
         variables[name] = EnvironmentElement(value, oldValue?.type!!)
     }
 
-    fun getVariable(name: String): EnvironmentValue {
+    fun getVariable(name: String): Value {
         if (!variables.containsKey(name)) {
             throw Exception("Variable $name does not exist")
         }
         return variables[name]?.value ?: throw Exception("Variable $name is not initialized")
     }
 
-    data class EnvironmentElement(val value: EnvironmentValue = NullValue(), val type: VariableType) {
-        fun updateValue(value: EnvironmentValue) {
-            EnvironmentElement(value, type)
-        }
-    }
+    data class EnvironmentElement(val value: Value = NullValue(), val type: VariableType)
 }
 
-interface EnvironmentValue
-class NumberValue(val value: Double) : EnvironmentValue
-class StringValue(val value: String) : EnvironmentValue
-class NullValue : EnvironmentValue
