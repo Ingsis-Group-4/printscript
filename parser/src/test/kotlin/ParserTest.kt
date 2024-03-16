@@ -1,40 +1,40 @@
 package parser
 
-
 import org.example.parser.factory.ProgramParserFactory
 import org.example.parser.result.SuccessResult
-import org.example.position.Position
-import org.example.token.Token
-import org.example.token.TokenType
+import position.Position
+import token.Token
+import token.TokenType
+
 import kotlin.test.Test
 
 class ParserTest {
     @Test
-    fun testAssignation(){
+    fun testAssignation() {
         val parser = ProgramParserFactory.create()
         val input = listOf(
             Token(
                 TokenType.IDENTIFIER,
                 Position(1, 1),
-                Position(1,1),
+                Position(1, 1),
                 "a"
             ),
             Token(
                 TokenType.ASSIGNATION,
                 Position(1, 2),
-                Position(1,2),
+                Position(1, 2),
                 "="
             ),
             Token(
                 TokenType.NUMBER,
                 Position(1, 3),
-                Position(1,3),
+                Position(1, 3),
                 "1"
             ),
             Token(
                 TokenType.SEMICOLON,
                 Position(1, 4),
-                Position(1,4),
+                Position(1, 4),
                 ";"
             )
         )
@@ -44,8 +44,10 @@ class ParserTest {
     }
 
     @Test
-    fun testProgramParser(){}
+    fun testProgramParser() {
+    }
 
     @Test
-    fun testVariableAssignationParser(){}
+    fun testVariableAssignationParser() {
+    }
 }

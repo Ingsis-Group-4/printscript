@@ -1,7 +1,7 @@
 package org.example.parser.factory
 
 import org.example.parser.*
-import org.example.token.TokenType
+import token.TokenType
 
 /**
  * Factory interface for creating parsers
@@ -16,7 +16,7 @@ interface ParserFactory {
 /**
  * Factory to create a parser for the program
  */
-object ProgramParserFactory: ParserFactory {
+object ProgramParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
@@ -34,7 +34,7 @@ object ProgramParserFactory: ParserFactory {
 /**
  * Factory to create a parser for the variable declaration
  */
-object VariableDeclarationParserFactory: ParserFactory {
+object VariableDeclarationParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
@@ -52,7 +52,7 @@ object VariableDeclarationParserFactory: ParserFactory {
 /**
  * Factory to create a parser for the assignation
  */
-object AssignationParserFactory: ParserFactory {
+object AssignationParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
@@ -70,7 +70,7 @@ object AssignationParserFactory: ParserFactory {
 /**
  * Factory to create a parser for the expression
  */
-object ExpressionParserFactory: ParserFactory {
+object ExpressionParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
@@ -84,12 +84,12 @@ object ExpressionParserFactory: ParserFactory {
 /**
  * Factory to create a parser for the println statement
  */
-object PrintLnParserFactory: ParserFactory {
+object PrintLnParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
     private val parserSelector: Map<TokenType, Parser> = mapOf(
-            TokenType.IDENTIFIER to ExpressionParserFactory.create()
+        TokenType.IDENTIFIER to ExpressionParserFactory.create()
     )
 
     override fun create(): Parser {

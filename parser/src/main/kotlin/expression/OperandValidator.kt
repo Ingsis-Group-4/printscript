@@ -1,7 +1,7 @@
 package org.example.parser.expression
 
-import org.example.token.Token
-import org.example.token.TokenType
+import token.Token
+import token.TokenType
 
 /**
  * Interface that defines a validator for operands in an expression parser.
@@ -27,6 +27,7 @@ object DefaultOperandValidator : OperandValidator {
             TokenType.IDENTIFIER,
             TokenType.NUMBER,
             TokenType.STRING -> true
+
             else -> false
         }
     }

@@ -1,7 +1,7 @@
 package org.example.parser
 
 import org.example.parser.result.ParserResult
-import org.example.token.Token
+import token.Token
 
 /**
  * Interface for defining parsers.

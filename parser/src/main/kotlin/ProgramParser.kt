@@ -1,14 +1,14 @@
 package org.example.parser
 
-import org.example.ast.ProgramNode
-import org.example.ast.StatementNode
+import ast.ProgramNode
+import ast.StatementNode
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
 import org.example.parser.result.FailureResult
 import org.example.parser.utils.at
 import org.example.parser.utils.getSyntaxSubtree
-import org.example.token.Token
-import org.example.token.TokenType
+import token.Token
+import token.TokenType
 
 
 class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
@@ -45,6 +45,7 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
                     lastIndexedValue = result.lastValidatedIndex
                     asts.add(result.value as StatementNode)
                 }
+
                 is FailureResult -> return result
             }
         }
@@ -61,6 +62,7 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
                     else -> FailureResult("Error parsing statement", result.lastValidatedIndex)
                 }
             }
+
             is FailureResult -> result
         }
     }

@@ -1,7 +1,8 @@
 package org.example.parser.type
 
-import org.example.ast.VariableType
-import org.example.token.TokenType
+import ast.VariableType
+import token.TokenType
+
 
 /**
  * Interface that defines a type provider for syntactic analysis.

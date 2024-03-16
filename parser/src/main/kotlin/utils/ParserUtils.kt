@@ -1,11 +1,13 @@
 package org.example.parser.utils
 
+import ast.ExpressionNode
+import ast.IdentifierNode
 import org.example.parser.Parser
 import org.example.parser.result.FailureResult
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
-import org.example.token.Token
-import org.example.token.TokenType
+import token.Token
+import token.TokenType
 
 /**
  * Returns the token in the list `tokens` at the next index after `index`.
@@ -35,7 +37,12 @@ fun at(tokens: List<Token>, index: Int): Token {
  * @param parserSelector Map of token types to parser instances.
  * @return The parser result representing the syntax subtree.
  */
-fun getSyntaxSubtree(token: Token, tokens: List<Token>, currentIndex: Int, parserSelector: Map<TokenType, Parser>): ParserResult {
+fun getSyntaxSubtree(
+    token: Token,
+    tokens: List<Token>,
+    currentIndex: Int,
+    parserSelector: Map<TokenType, Parser>
+): ParserResult {
     return parserSelector[token.type]?.parse(tokens, currentIndex)!! // TODO no asumir que existe
 }
 
@@ -68,4 +75,25 @@ fun isEndOfStatement(tokens: List<Token>, currentIndex: Int): Boolean {
  */
 fun isTokenValid(tokens: List<Token>, tokenIndex: Int, expectedType: TokenType): Boolean {
     return at(tokens, tokenIndex).type == expectedType
+}
+
+fun parseAssignationSyntax(
+    tokens: List<Token>,
+    currentIndex: Int,
+    identifierNode: IdentifierNode,
+    buildParserResult: (IdentifierNode, ExpressionNode, Int) -> ParserResult,
+    parserSelector: Map<TokenType, Parser>
+): ParserResult {
+    val syntaxSubtreeResult = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
+    return when (syntaxSubtreeResult) {
+        is SuccessResult -> {
+            val semicolonIndex = nextIndex(syntaxSubtreeResult.lastValidatedIndex)
+            if (!isEndOfStatement(tokens, semicolonIndex)) {
+                return FailureResult("Expected a semicolon at position $semicolonIndex", semicolonIndex)
+            }
+            buildParserResult(identifierNode, syntaxSubtreeResult.value as ExpressionNode, semicolonIndex)
+        }
+
+        is FailureResult -> syntaxSubtreeResult
+    }
 }
