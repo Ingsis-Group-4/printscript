@@ -7,7 +7,7 @@ import kotlin.String
 class TokenMatcher {
     private val pattern: Pattern
 
-    constructor(type: TokenType, regex: kotlin.String) {
+    constructor(type: TokenType, regex: String) {
         this.pattern = Pattern.compile(String.format("(?<%s>%s)", type, regex))
     }
 

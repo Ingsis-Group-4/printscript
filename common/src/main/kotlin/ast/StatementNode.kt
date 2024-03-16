@@ -1,3 +1,3 @@
 package ast
 
-sealed interface StatementNode;
+sealed interface StatementNode

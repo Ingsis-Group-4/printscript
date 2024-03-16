@@ -1,3 +1,3 @@
 package ast
 
-sealed interface VariableStatementNode : StatementNode;
+sealed interface VariableStatementNode : StatementNode

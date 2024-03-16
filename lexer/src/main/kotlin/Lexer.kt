@@ -11,7 +11,7 @@ class Lexer(val tokenMap: Map<TokenType, TokenMatcher>) {
     fun lex(input: String): List<Token> {
         val tokenTypes = tokenMap.keys.toList()
         val tokenList = mutableListOf<Token>()
-        var currentLineCounter = 1;
+        var currentLineCounter = 1
         for (currentLine in input.lines()) {
             //get the tokens of the current line
             tokenList+= getTokensByLine(currentLine, tokenTypes, currentLineCounter)
