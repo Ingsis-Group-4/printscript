@@ -2,5 +2,5 @@ package org.example.ast
 
 class VariableDeclarationNode(
     val identifier: IdentifierNode,
-    val expression: ExpressionNode?,
+    val expression: ExpressionNode? = null,
 ): VariableStatementNode;
