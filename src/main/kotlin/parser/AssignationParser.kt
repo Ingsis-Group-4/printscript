@@ -1,31 +1,46 @@
 package org.example.parser
 
-import org.example.ast.AST
-import org.example.ast.AssignationNode
-import org.example.ast.ExpressionNode
-import org.example.ast.IdentifierNode
-import org.example.parser.status.ErrorStatus
+import org.example.ast.*
+import org.example.parser.result.FailureResult
+import org.example.parser.result.ParserResult
+import org.example.parser.result.SuccessResult
+import org.example.parser.utils.*
 import org.example.token.Token
 import org.example.token.TokenType
 
 class AssignationParser(private val parserSelector: Map<TokenType, Parser>): Parser {
-    override fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST, ParserState> {
-        val token = next(tokens, currentIndex)
-        val nestedParseResult = getNestedParserResult(token, tokens, nextIndex(currentIndex), parserSelector)
-        val ast = AssignationNode(IdentifierNode(token.value), nestedParseResult.first as ExpressionNode)
-        val finalState = nestedParseResult.second
-        return Pair(ast, finalState)
-
-
-//        when(token.type){
-//            TokenType.ASSIGNATION->{return parseAssignation(tokens, currentIndex)}
-//            else -> throw Exception("Invalid assignation at position ${token.start}")
-//        }
-
+    override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
+        return when (val assignmentTokensResult = parseAssignmentTokens(tokens, currentIndex)) {
+            is SuccessResult -> parseAssignationSyntax(tokens, assignmentTokensResult.lastValidatedIndex, assignmentTokensResult.value as IdentifierNode)
+            is FailureResult -> assignmentTokensResult
+        }
     }
-//    private fun parseAssignation(tokens:List<Token>, currentIndex:Int):AST{
-//        val variableName = at(tokens, currentIndex).value
-//        val expression = ExpressionParser().parse(tokens, currentIndex+1)
-//        return AssignationNode(IdentifierNode(variableName), expression)
-//    }
+
+    private fun parseAssignmentTokens(tokens: List<Token>, currentIndex: Int): ParserResult {
+        val currentToken = at(tokens, currentIndex)
+        val nextToken = next(tokens, currentIndex)
+        if (currentToken.type != TokenType.IDENTIFIER || nextToken.type != TokenType.ASSIGNATION) {
+            return FailureResult("Expected an identifier followed by an assignation token at position $currentIndex", currentIndex)
+        }
+        return SuccessResult(IdentifierNode(currentToken.value), nextIndex(currentIndex, 2))
+    }
+
+    private fun parseAssignationSyntax(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): ParserResult {
+        val syntaxSubtreeResult = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
+        return when (syntaxSubtreeResult) {
+            is SuccessResult -> {
+                val semicolonIndex = nextIndex(syntaxSubtreeResult.lastValidatedIndex)
+                if (!isEndOfStatement(tokens, semicolonIndex)) {
+                    return FailureResult("Expected a semicolon at position $semicolonIndex", semicolonIndex)
+                }
+                buildParserResult(identifierNode, syntaxSubtreeResult.value as ExpressionNode, semicolonIndex)
+            }
+            is FailureResult -> syntaxSubtreeResult
+        }
+    }
+
+    private fun buildParserResult(identifierNode: IdentifierNode, expressionNode: ExpressionNode, lastValidatedIndex: Int): ParserResult {
+        val ast = AssignationNode(identifierNode, expressionNode)
+        return SuccessResult(ast, lastValidatedIndex)
+    }
 }

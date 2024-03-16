@@ -1,9 +1,8 @@
 package parser
 
-import org.example.factory.AssignationParserFactory
-import org.example.factory.PrintScriptParser
-import org.example.parser.ProgramParser
-import org.example.parser.status.SuccessStatus
+
+import org.example.parser.factory.ProgramParserFactory
+import org.example.parser.result.SuccessResult
 import org.example.position.Position
 import org.example.token.Token
 import org.example.token.TokenType
@@ -12,7 +11,7 @@ import kotlin.test.Test
 class ParserTest {
     @Test
     fun testAssignation(){
-        val parser = PrintScriptParser.create()
+        val parser = ProgramParserFactory.create()
         val input = listOf(
             Token(
                 TokenType.IDENTIFIER,
@@ -41,7 +40,7 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
-        assert(result.second.status is SuccessStatus)
+        assert(result is SuccessResult)
     }
 
     @Test

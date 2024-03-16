@@ -1,75 +1,70 @@
 package org.example.parser
 
 import org.example.ast.*
-import org.example.parser.status.ErrorStatus
-import org.example.parser.status.SuccessStatus
+import org.example.parser.result.FailureResult
+import org.example.parser.result.ParserResult
+import org.example.parser.result.SuccessResult
+import org.example.parser.type.DefaultTypeProvider
+import org.example.parser.utils.*
 import org.example.token.Token
 import org.example.token.TokenType
 
 class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parser>): Parser {
 
-    override fun parse(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState> {
-        val token = next(tokens, currentIndex)
-        if (token.type == TokenType.IDENTIFIER) {
-            val identifier = token.value
-            val nextToken = next(tokens, nextIndex(currentIndex))
-            if (nextToken.type == TokenType.COLON) {
-                return parseDeclaration(tokens, currentIndex, identifier)
-            }
+    override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
+        val identifierIndex = nextIndex(currentIndex)
+        val colonIndex = nextIndex(identifierIndex)
+        if (!areInitialTokensValid(tokens, currentIndex, identifierIndex, colonIndex)) {
+            return FailureResult("Expected a let token followed by an identifier and a colon token at position $currentIndex", currentIndex)
         }
-        return Pair(null, ParserState(ErrorStatus("Invalid token at position ${token.start}"), currentIndex))
-    }
-
-    private fun parseDeclaration(tokens: List<Token>, currentIndex: Int, identifier: String): Pair<AST?, ParserState> {
-        val type = next(tokens, nextIndex(currentIndex, 2))
-        return when (type.type) {
-            TokenType.NUMBERTYPE,
-            TokenType.STRINGTYPE -> {
-                val identifierNode = IdentifierNode(identifier, getType(type.type))
-                handleSymbol(tokens, nextIndex(currentIndex, 3), identifierNode)
-            }
-            else -> throw Exception("Invalid type at position ${type.start}")
+        return when (val identifierNode = parseDeclaration(tokens, colonIndex, at(tokens, identifierIndex))) {
+            is SuccessResult -> parseAssignation(tokens, identifierNode.lastValidatedIndex, identifierNode.value as IdentifierNode)
+            is FailureResult -> identifierNode
         }
     }
 
-    private fun handleSymbol(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): Pair<AST?, ParserState> {
-        val symbol = next(tokens, currentIndex)
-        return when (symbol.type) {
-            TokenType.SEMICOLON -> {
-                val ast = VariableDeclarationNode(identifierNode, null)
-                return Pair(ast, ParserState(SuccessStatus(), nextIndex(currentIndex)))
-            }
-            // aca recien se puede dividir
-//            TokenType.ASSIGNATION -> parseVariableAssignment(tokens, currentIndex + 1, identifierNode)
-//            else -> Pair(null, ParserState(ErrorStatus("Invalid token at position ${symbol.start}"), currentIndex))
+    private fun areInitialTokensValid(tokens: List<Token>, letIndex: Int, identifierIndex: Int, colonIndex: Int): Boolean {
+        return isTokenValid(tokens, letIndex, TokenType.LET) &&
+                isTokenValid(tokens, identifierIndex, TokenType.IDENTIFIER) &&
+                isTokenValid(tokens, colonIndex, TokenType.COLON)
+    }
+
+    private fun parseDeclaration(tokens: List<Token>, currentIndex: Int, identifierToken: Token): ParserResult {
+        val typeIndex = nextIndex(currentIndex)
+        when (val type = DefaultTypeProvider.getType(at(tokens, typeIndex).type)) {
+            null -> return FailureResult("Invalid type at position $typeIndex", typeIndex)
             else -> {
-                val result = getNestedParserResult(symbol, tokens, nextIndex(currentIndex), parserSelector)
-                val ast = VariableDeclarationNode(identifierNode, result.first as ExpressionNode)
-                Pair(ast, result.second)
+                val identifierNode = IdentifierNode(identifierToken.value, type)
+                return SuccessResult(identifierNode, typeIndex)
             }
         }
     }
 
-//    private fun parseVariableAssignment(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): Pair<AST?, ParserState> {
-//        val result = parseExpression(tokens, currentIndex)
-//        val ast = VariableDeclarationNode(identifierNode, result.first as ExpressionNode)
-//        return Pair(ast, result.second)
-//    }
-//
-//
-//    private fun parseExpression(tokens: List<Token>, currentIndex: Int): Pair<AST?, ParserState> {
-//        return ExpressionParser().parse(tokens, currentIndex)
-//    }
-
-
-    private fun getType(type: TokenType): VariableType {
-        return when (type) {
-            TokenType.NUMBERTYPE -> VariableType.NUMBER
-            TokenType.STRINGTYPE -> VariableType.STRING
-            else -> throw Exception("Invalid type")
+    private fun parseAssignation(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): ParserResult {
+        val token = next(tokens, currentIndex)
+        return when (token.type) {
+            TokenType.SEMICOLON -> buildParserResult(identifierNode, null, nextIndex(currentIndex))
+            TokenType.ASSIGNATION -> parseAssignationSyntax(tokens, nextIndex(currentIndex), identifierNode)
+            else -> FailureResult("Expected an assignation token or semicolon at position $currentIndex", currentIndex)
         }
     }
 
+    private fun parseAssignationSyntax(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): ParserResult {
+        val syntaxSubtreeResult = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
+        return when (syntaxSubtreeResult) {
+            is SuccessResult -> {
+                val semicolonIndex = nextIndex(syntaxSubtreeResult.lastValidatedIndex)
+                if (!isEndOfStatement(tokens, semicolonIndex)) {
+                    return FailureResult("Expected a semicolon at position $semicolonIndex", semicolonIndex)
+                }
+                buildParserResult(identifierNode, syntaxSubtreeResult.value as ExpressionNode, semicolonIndex)
+            }
+            is FailureResult -> syntaxSubtreeResult
+        }
+    }
 
-
+    private fun buildParserResult(identifierNode: IdentifierNode, expressionNode: ExpressionNode?, lastValidatedIndex: Int): ParserResult {
+        val ast = VariableDeclarationNode(identifierNode, expressionNode)
+        return SuccessResult(ast, lastValidatedIndex)
+    }
 }
