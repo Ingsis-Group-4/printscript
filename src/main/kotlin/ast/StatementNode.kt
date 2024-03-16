@@ -1,3 +1,3 @@
 package org.example.ast
 
-sealed interface StatementNode;
+sealed interface StatementNode: AST;
