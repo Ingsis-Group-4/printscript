@@ -89,7 +89,9 @@ object PrintLnParserFactory : ParserFactory {
      * Selector for parsers based on token type
      */
     private val parserSelector: Map<TokenType, Parser> = mapOf(
-        TokenType.IDENTIFIER to ExpressionParserFactory.create()
+        TokenType.IDENTIFIER to ExpressionParserFactory.create(),
+        TokenType.NUMBER to ExpressionParserFactory.create(),
+        TokenType.STRING to ExpressionParserFactory.create(),
     )
 
     override fun create(): Parser {

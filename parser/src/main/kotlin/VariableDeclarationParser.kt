@@ -56,12 +56,13 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
     }
 
     private fun parseAssignation(tokens: List<Token>, currentIndex: Int, identifierNode: IdentifierNode): ParserResult {
-        val token = next(tokens, currentIndex)
+        val newCurrentIndex = nextIndex(currentIndex)
+        val token = at(tokens, newCurrentIndex)
         return when (token.type) {
             TokenType.SEMICOLON -> buildParserResult(identifierNode, null, nextIndex(currentIndex))
             TokenType.ASSIGNATION -> parseAssignationSyntax(
                 tokens,
-                nextIndex(currentIndex),
+                nextIndex(newCurrentIndex),
                 identifierNode,
                 ::buildParserResult,
                 parserSelector

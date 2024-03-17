@@ -1,13 +1,12 @@
 package parser
 
 import ast.*
-import org.example.parser.factory.AssignationParserFactory
-import org.example.parser.factory.ProgramParserFactory
-import org.example.parser.factory.VariableDeclarationParserFactory
+import org.example.parser.factory.*
 import org.example.parser.result.SuccessResult
 import position.Position
 import token.Token
 import token.TokenType
+import kotlin.test.Ignore
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -45,6 +44,7 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
+
         assertIs<SuccessResult>(result)
         assertIs<ProgramNode>(result.value)
         assertIs<StatementNode>((result.value as ProgramNode).statements[0])
@@ -105,6 +105,7 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
+
         assertIs<SuccessResult>(result)
         assertIs<ProgramNode>(result.value)
         assertEquals(2, (result.value as ProgramNode).statements.size)
@@ -143,6 +144,7 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
+
         assertIs<SuccessResult>(result)
         assertIs<AssignationNode>(result.value)
         assertEquals("a", (result.value as AssignationNode).identifier.variableName)
@@ -186,6 +188,7 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
+
         assertIs<SuccessResult>(result)
         assertIs<VariableDeclarationNode>(result.value)
         assertEquals("a", (result.value as VariableDeclarationNode).identifier.variableName)
@@ -217,7 +220,7 @@ class ParserTest {
                 TokenType.NUMBERTYPE,
                 Position(1, 7),
                 Position(1, 7),
-                "Number"
+                "number"
             ),
             Token(
                 TokenType.ASSIGNATION,
@@ -240,9 +243,112 @@ class ParserTest {
         )
 
         val result = parser.parse(input, 0)
+
         assertIs<SuccessResult>(result)
         assertIs<VariableDeclarationNode>(result.value)
         assertEquals("a", (result.value as VariableDeclarationNode).identifier.variableName)
         assertIs<LiteralNode<Number>>((result.value as VariableDeclarationNode).expression)
+    }
+
+    @Test
+    fun testPrintLnParser() {
+        val parser = PrintLnParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.PRINTLN,
+                Position(1, 1),
+                Position(1, 1),
+                "println"
+            ),
+            Token(
+                TokenType.OPENPARENTHESIS,
+                Position(1, 8),
+                Position(1, 8),
+                "("
+            ),
+            Token(
+                TokenType.STRING,
+                Position(1, 9),
+                Position(1, 9),
+                "Hello, World!"
+            ),
+            Token(
+                TokenType.CLOSEPARENTHESIS,
+                Position(1, 21),
+                Position(1, 21),
+                ")"
+            ),
+            Token(
+                TokenType.SEMICOLON,
+                Position(1, 22),
+                Position(1, 22),
+                ";"
+            )
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<PrintLnNode>(result.value)
+        assertIs<LiteralNode<String>>((result.value as PrintLnNode).expression)
+        assertEquals("Hello, World!", ((result.value as PrintLnNode).expression as LiteralNode<*>).value)
+    }
+
+    @Test
+    fun testExpressionParserWithNumberLiteral() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result);
+        assertIs<LiteralNode<Double>>(result.value)
+        assertEquals(1.0, (result.value as LiteralNode<*>).value)
+    }
+
+    @Test
+    fun testExpressionParserWithStringLiteral() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.STRING,
+                Position(1, 1),
+                Position(1, 1),
+                "Hello, World!"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result);
+        assertIs<LiteralNode<String>>(result.value)
+        assertEquals("Hello, World!", (result.value as LiteralNode<*>).value)
+    }
+
+    @Ignore // TODO: Implement the identifier node in the expression parser
+    @Test
+    fun testExpressionParserWithIdentifier() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.IDENTIFIER,
+                Position(1, 1),
+                Position(1, 1),
+                "a"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result);
+        assertIs<IdentifierNode>(result.value)
+        assertEquals("a", (result.value as IdentifierNode).variableName)
     }
 }

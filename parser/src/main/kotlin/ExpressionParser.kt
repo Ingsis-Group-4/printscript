@@ -13,8 +13,8 @@ import token.TokenType
 class ExpressionParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
     override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
         if (isOperand(tokens, currentIndex)) {
-            val operand = at(tokens, currentIndex).value
-            return SuccessResult(LiteralNode(operand), currentIndex)
+            val operand = at(tokens, currentIndex)
+            return buildSuccessResult(operand, currentIndex)
         }
         return FailureResult("Invalid operand at position ${at(tokens, currentIndex).start}", currentIndex)
     }
@@ -22,5 +22,19 @@ class ExpressionParser(private val parserSelector: Map<TokenType, Parser>) : Par
     private fun isOperand(tokens: List<Token>, currentIndex: Int): Boolean {
         val token = at(tokens, currentIndex)
         return DefaultOperandValidator.isValid(token)
+    }
+
+    private fun buildSuccessResult(operand: Token, currentIndex: Int, ): ParserResult {
+        return when (operand.type){
+            TokenType.NUMBER -> {
+                return SuccessResult(LiteralNode(operand.value.toDouble()), currentIndex)
+            }
+            TokenType.STRING -> {
+                return SuccessResult(LiteralNode(operand.value), currentIndex)
+            }
+            else -> {
+                FailureResult("Invalid operand at position ${operand.start}", currentIndex)
+            }
+        }
     }
 }
