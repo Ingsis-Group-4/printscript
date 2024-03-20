@@ -27,10 +27,22 @@ class ExpressionParser(private val parserSelector: Map<TokenType, Parser>) : Par
     private fun buildSuccessResult(operand: Token, currentIndex: Int, ): ParserResult {
         return when (operand.type){
             TokenType.NUMBER -> {
-                return SuccessResult(LiteralNode(operand.value.toDouble()), currentIndex)
+                return SuccessResult(
+                    LiteralNode(
+                        operand.value.toDouble(),
+                        start = operand.start,
+                        end = operand.end
+                    ), currentIndex)
             }
             TokenType.STRING -> {
-                return SuccessResult(LiteralNode(operand.value), currentIndex)
+                return SuccessResult(
+                    LiteralNode(
+                        operand.value,
+                        start = operand.start,
+                        end = operand.end
+                    ),
+                    currentIndex
+                )
             }
             else -> {
                 FailureResult("Invalid operand at position ${operand.start}", currentIndex)
