@@ -76,9 +76,9 @@ object ExpressionParserFactory : ParserFactory {
      */
     private val operatorSelector: Map<TokenType, Parser> = mapOf(
         TokenType.SUM to SumParserFactory.create(),
-//        TokenType.SUBTRACTION to SubtractionParserFactory.create(),
-//        TokenType.MULTIPLICATION to MultiplicationParserFactory.create(),
-//        TokenType.DIVISION to DivisionParserFactory.create(),
+        TokenType.SUBTRACTION to SubtractionParserFactory.create(),
+        TokenType.MULTIPLICATION to MultiplicationParserFactory.create(),
+        TokenType.DIVISION to DivisionParserFactory.create(),
     )
 
     private val operandSelector: Map<TokenType, Parser> = mapOf(
