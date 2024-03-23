@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonObject
 /**
  * Each rule provider is responsible for creating a rule from a JSON configuration object
  * */
-interface RuleProvider{
+interface RuleConfigurer{
 
     /**
      * Get the rule from the JSON configuration object

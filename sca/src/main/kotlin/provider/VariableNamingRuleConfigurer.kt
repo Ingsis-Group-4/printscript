@@ -8,7 +8,7 @@ import org.example.rule.VariableNamingRule
 /**
  * Rule provider for VariableNamingRule
  * */
-class VariableNamingRuleProvider : RuleProvider{
+class VariableNamingRuleConfigurer : RuleConfigurer{
     private val ruleConfigName = "variableNamingRule"
 
     /**

@@ -9,8 +9,8 @@ import java.io.File
 /**
  * Provider for StaticCodeAnalyzer. Receives a map of rule names to their respective RuleProvider
  * */
-class StaticCodeAnalyzerProvider(
-    private val providers: Map<String, RuleProvider>
+class StaticCodeAnalyzerConfigurer(
+    private val providers: Map<String, RuleConfigurer>
 ){
 
     /**

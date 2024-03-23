@@ -1,17 +1,17 @@
 package org.example.factory
 
-import org.example.provider.StaticCodeAnalyzerProvider
-import org.example.provider.PrintLnArgumentNonExpressionRuleProvider
-import org.example.provider.VariableNamingRuleProvider
+import org.example.provider.StaticCodeAnalyzerConfigurer
+import org.example.provider.PrintLnArgumentNonExpressionRuleConfigurer
+import org.example.provider.VariableNamingRuleConfigurer
 
 class StaticCodeAnalyzerProviderFactory {
 
-    private val ruleProviders = mapOf(
-        "variableNamingRule" to VariableNamingRuleProvider(),
-        "printLnArgumentNonExpressionRule" to PrintLnArgumentNonExpressionRuleProvider()
+    private val ruleConfigurers = mapOf(
+        "variableNamingRule" to VariableNamingRuleConfigurer(),
+        "printLnArgumentNonExpressionRule" to PrintLnArgumentNonExpressionRuleConfigurer()
     )
 
-    fun create(): StaticCodeAnalyzerProvider {
-        return StaticCodeAnalyzerProvider(ruleProviders)
+    fun create(): StaticCodeAnalyzerConfigurer {
+        return StaticCodeAnalyzerConfigurer(ruleConfigurers)
     }
 }

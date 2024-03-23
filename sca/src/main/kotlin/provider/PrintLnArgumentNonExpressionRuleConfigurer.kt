@@ -7,7 +7,7 @@ import org.example.rule.Rule
 /**
  * Rule provider for PrintLnArgumentNonExpressionRule
  * */
-class PrintLnArgumentNonExpressionRuleProvider : RuleProvider{
+class PrintLnArgumentNonExpressionRuleConfigurer : RuleConfigurer{
     private val ruleConfigName = "printLnArgumentNonExpressionRule"
 
     /**
