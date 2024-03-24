@@ -6,14 +6,14 @@ import org.example.interpreter.VoidValue
 import kotlin.test.Test
 
 class ProgramInterpreterTest {
-
     @Test
-    fun testDeclarationAssignationAndPrint(){
-        val input = listOf(
-            VariableDeclarationNode(IdentifierNode("x", VariableType.STRING)),
-            AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a")),
-            PrintLnNode(IdentifierNode("x", VariableType.STRING))
-        )
+    fun testDeclarationAssignationAndPrint()  {
+        val input =
+            listOf(
+                VariableDeclarationNode(IdentifierNode("x", VariableType.STRING)),
+                AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a")),
+                PrintLnNode(IdentifierNode("x", VariableType.STRING)),
+            )
 
         val interpreter = ProgramInterpreter(ProgramNode(input))
 
@@ -23,12 +23,13 @@ class ProgramInterpreterTest {
     }
 
     @Test
-    fun testDeclarationAssignationAndReAssignation(){
-        val input = listOf(
-            VariableDeclarationNode(IdentifierNode("x", VariableType.STRING)),
-            AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a")),
-            AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("b"))
-        )
+    fun testDeclarationAssignationAndReAssignation()  {
+        val input =
+            listOf(
+                VariableDeclarationNode(IdentifierNode("x", VariableType.STRING)),
+                AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a")),
+                AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("b")),
+            )
 
         val interpreter = ProgramInterpreter(ProgramNode(input))
 

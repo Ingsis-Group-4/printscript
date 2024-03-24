@@ -13,5 +13,4 @@ class ExpressionInterpreter(private val node: ExpressionNode, private val enviro
             is LiteralNode<*> -> LiteralInterpreter(node, environment).interpret()
         }
     }
-
 }

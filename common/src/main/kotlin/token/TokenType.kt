@@ -1,17 +1,17 @@
 package token
 
 enum class TokenType() {
-    //keywords
+    // keywords
     LET,
     PRINTLN,
     NUMBERTYPE,
     STRINGTYPE,
 
-    //literal
+    // literal
     STRING,
     NUMBER,
 
-    //operators
+    // operators
     COLON,
     ASSIGNATION,
     CLOSEPARENTHESIS,
@@ -22,7 +22,6 @@ enum class TokenType() {
     SUBTRACTION,
     SUM,
 
-    //identifiers
-    IDENTIFIER
-
+    // identifiers
+    IDENTIFIER,
 }

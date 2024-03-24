@@ -10,5 +10,4 @@ class LiteralInterpreter(private val node: LiteralNode<*>, val environment: Envi
             else -> throw Exception("Unknown literal type")
         }
     }
-
 }
