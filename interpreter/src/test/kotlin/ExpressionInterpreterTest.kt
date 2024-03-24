@@ -1,6 +1,12 @@
 package interpreter
 
-import ast.*
+import ast.DivisionNode
+import ast.IdentifierNode
+import ast.LiteralNode
+import ast.ProductNode
+import ast.SubtractionNode
+import ast.SumNode
+import ast.VariableType
 import org.example.interpreter.Environment
 import org.example.interpreter.ExpressionInterpreter
 import org.example.interpreter.NumberValue
@@ -11,7 +17,7 @@ import kotlin.test.assertEquals
 
 class ExpressionInterpreterTest {
     @Test
-    fun testExpressionWithLiteral()  {
+    fun testExpressionWithLiteral() {
         val input = LiteralNode(10.0)
         val interpreter = ExpressionInterpreter(input, Environment())
 
@@ -22,7 +28,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithVariable()  {
+    fun testExpressionWithVariable() {
         val input = IdentifierNode("x", VariableType.STRING)
 
         val environment = Environment()
@@ -37,7 +43,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithSimpleSum()  {
+    fun testExpressionWithSimpleSum() {
         val input = SumNode(LiteralNode(10.0), LiteralNode(20.0))
         val interpreter = ExpressionInterpreter(input, Environment())
 
@@ -48,7 +54,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithSimpleSumOfVariables()  {
+    fun testExpressionWithSimpleSumOfVariables() {
         val input = SumNode(IdentifierNode("x", VariableType.NUMBER), IdentifierNode("y", VariableType.NUMBER))
 
         val environment = Environment()
@@ -64,7 +70,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithConcatOfStrings()  {
+    fun testExpressionWithConcatOfStrings() {
         val input = SumNode(LiteralNode("Hello"), LiteralNode("World"))
         val interpreter = ExpressionInterpreter(input, Environment())
 
@@ -75,7 +81,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithSimpleSubtraction()  {
+    fun testExpressionWithSimpleSubtraction() {
         val input = SubtractionNode(LiteralNode(10.0), LiteralNode(20.0))
         val interpreter = ExpressionInterpreter(input, Environment())
 
@@ -86,7 +92,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithSimpleDivision()  {
+    fun testExpressionWithSimpleDivision() {
         val input = DivisionNode(LiteralNode(20.0), LiteralNode(20.0))
         val interpreter = ExpressionInterpreter(input, Environment())
 
@@ -97,7 +103,7 @@ class ExpressionInterpreterTest {
     }
 
     @Test
-    fun testExpressionWithSimpleProduct()  {
+    fun testExpressionWithSimpleProduct() {
         val input = ProductNode(LiteralNode(20.0), LiteralNode(20.0))
         val interpreter = ExpressionInterpreter(input, Environment())
 

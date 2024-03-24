@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 
 class IdentifierInterpreter {
     @Test
-    fun testIdentifierInterpreter()  {
+    fun testIdentifierInterpreter() {
         val input = IdentifierNode("x", VariableType.STRING)
 
         val environment = Environment()

@@ -9,7 +9,7 @@ import kotlin.test.Test
 
 class FunctionStatementInterpreterTest {
     @Test
-    fun testPrintStatement()  {
+    fun testPrintStatement() {
         val input = PrintLnNode(LiteralNode("hello"))
 
         val interpreter = FunctionStatementInterpreter(input, Environment())
