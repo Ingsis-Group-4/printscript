@@ -40,13 +40,12 @@ tasks.register("ktlintFormat", JavaExec) {
     args "-F", "src/**/*.kt", "**.kts", "!**/build/**"
 }
 
-tasks.register('copyGitHooks', Copy) {
-    from 'scripts/pre-commit-format'
-    into '.git/hooks'
-    eachFile { details ->
-        details.mode = 0755
-    }
+task installGitHooks(type: Copy) {
+    from new File(rootProject.rootDir, 'scripts/pre-commit-format')
+    into { new File(rootProject.rootDir, '.git/hooks') }
 }
+
+build.dependsOn installGitHooks
 
 test {
     useJUnitPlatform()

@@ -14,7 +14,7 @@ import org.example.parser.utils.parseAssignationSyntax
 import token.Token
 import token.TokenType
 
-class VariableDeclarationParser(     private val parserSelector: Map<TokenType, Parser>) : Parser {
+class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
     override fun parse(
         tokens: List<Token>,
         currentIndex: Int,
