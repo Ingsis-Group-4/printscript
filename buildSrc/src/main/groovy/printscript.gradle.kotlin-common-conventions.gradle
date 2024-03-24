@@ -40,6 +40,14 @@ tasks.register("ktlintFormat", JavaExec) {
     args "-F", "src/**/*.kt", "**.kts", "!**/build/**"
 }
 
+tasks.register('copyGitHooks', Copy) {
+    from 'scripts/pre-commit-format'
+    into '.git/hooks'
+    eachFile { details ->
+        details.mode = 0755
+    }
+}
+
 test {
     useJUnitPlatform()
 }
