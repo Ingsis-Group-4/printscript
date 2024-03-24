@@ -5,11 +5,7 @@ import ast.PrintLnNode
 import org.example.parser.result.FailureResult
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
-import org.example.parser.utils.at
-import org.example.parser.utils.getSyntaxSubtree
-import org.example.parser.utils.isEndOfStatement
-import org.example.parser.utils.isTokenValid
-import org.example.parser.utils.nextIndex
+import org.example.parser.utils.*
 import token.Token
 import token.TokenType
 
