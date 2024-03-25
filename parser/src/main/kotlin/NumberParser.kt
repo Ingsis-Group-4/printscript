@@ -23,7 +23,14 @@ class NumberParser: Parser {
     ): ParserResult {
         val number = at(tokens, currentIndex)
         if (number.type == TokenType.NUMBER) {
-            return SuccessResult(LiteralNode(number.value.toDouble()), currentIndex)
+            return SuccessResult(
+                LiteralNode(
+                    number.value.toDouble(),
+                    start = number.start,
+                    end = number.end
+                ),
+                currentIndex
+            )
         }
         return FailureResult("Expected a number", currentIndex)
     }

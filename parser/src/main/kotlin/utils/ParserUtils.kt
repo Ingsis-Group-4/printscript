@@ -6,6 +6,7 @@ import org.example.parser.Parser
 import org.example.parser.result.FailureResult
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
+import position.Position
 import token.Token
 import token.TokenType
 
@@ -95,39 +96,6 @@ fun isEndOfStatement(token: Token): Boolean {
  */
 fun isTokenValid(tokens: List<Token>, tokenIndex: Int, expectedType: TokenType): Boolean {
     return at(tokens, tokenIndex).type == expectedType
-}
-
-/**
- * Parses the syntax subtree for an assignment statement.
- * @param tokens List of tokens.
- * @param currentIndex Current index in the list of tokens.
- * @param identifierNode Identifier node representing the variable being assigned.
- * @param buildParserResult Function to build the parser result.
- * @param parserSelector Map of token types to parser instances.
- * @return The parser result representing the syntax subtree for the assignment statement.
- */
-fun parseAssignationSyntax(
-    tokens: List<Token>,
-    currentIndex: Int,
-    identifierNode: IdentifierNode,
-    buildParserResult: (IdentifierNode, ExpressionNode, Int) -> ParserResult,
-    parserSelector: Map<TokenType, Parser>
-): ParserResult {
-    // Retrieve the syntax subtree parsed by the appropriate parser based on the type of the given token
-    return when (val syntaxSubtreeResult = getSyntaxSubtree(tokens, currentIndex, parserSelector)) {
-        is SuccessResult -> {
-            // Calculate the index of the semicolon following the syntax subtree
-            val semicolonIndex = nextIndex(syntaxSubtreeResult.lastValidatedIndex)
-            // Check if the semicolon is present at the expected position
-            if (!isEndOfStatement(tokens, semicolonIndex)) {
-                return FailureResult("Expected a semicolon at position $semicolonIndex", semicolonIndex)
-            }
-            // Build the parser result using the provided function
-            buildParserResult(identifierNode, syntaxSubtreeResult.value as ExpressionNode, semicolonIndex)
-        }
-
-        is FailureResult -> syntaxSubtreeResult
-    }
 }
 
 /**

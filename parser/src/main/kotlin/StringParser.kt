@@ -23,7 +23,14 @@ class StringParser: Parser {
     ): ParserResult {
         val string = at(tokens, currentIndex)
         if (string.type == TokenType.STRING) {
-            return SuccessResult(LiteralNode(string.value), currentIndex)
+            return SuccessResult(
+                LiteralNode(
+                    string.value,
+                    start = string.start,
+                    end = string.end
+                ),
+                currentIndex
+            )
         }
         return FailureResult("Expected a string", currentIndex)
     }

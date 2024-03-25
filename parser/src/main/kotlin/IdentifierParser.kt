@@ -23,7 +23,14 @@ class IdentifierParser: Parser {
     ): ParserResult {
         val identifier = at(tokens, currentIndex)
         if (identifier.type == TokenType.IDENTIFIER) {
-            return SuccessResult(IdentifierNode(identifier.value), currentIndex)
+            return SuccessResult(
+                IdentifierNode(
+                    identifier.value,
+                    start = identifier.start,
+                    end = identifier.end
+                ),
+                currentIndex
+            )
         }
         return FailureResult("Expected a identifier", currentIndex)
     }

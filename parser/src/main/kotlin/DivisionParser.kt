@@ -23,6 +23,14 @@ class DivisionParser(private val parserSelector: Map<TokenType, Parser>) : Parse
         rightOperand: SuccessResult,
         currentIndex: Int
     ): ParserResult {
-        return SuccessResult(DivisionNode(leftOperand.value as ExpressionNode, rightOperand.value as ExpressionNode), currentIndex)
+        return SuccessResult(
+            DivisionNode(
+                leftOperand.value as ExpressionNode,
+                rightOperand.value as ExpressionNode,
+                start = leftOperand.value.getStart(),
+                end = rightOperand.value.getEnd()
+            ),
+            currentIndex
+        )
     }
 }

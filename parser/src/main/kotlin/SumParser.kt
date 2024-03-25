@@ -22,6 +22,14 @@ class SumParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
         rightOperand: SuccessResult,
         currentIndex: Int
     ): ParserResult {
-        return SuccessResult(SumNode(leftOperand.value as ExpressionNode, rightOperand.value as ExpressionNode), currentIndex)
+        return SuccessResult(
+            SumNode(
+                leftOperand.value as ExpressionNode,
+                rightOperand.value as ExpressionNode,
+                start = leftOperand.value.getStart(),
+                end = rightOperand.value.getEnd()
+            ),
+            currentIndex
+        )
     }
 }
