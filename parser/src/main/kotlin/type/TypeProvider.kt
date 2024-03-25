@@ -3,7 +3,6 @@ package org.example.parser.type
 import ast.VariableType
 import token.TokenType
 
-
 /**
  * Interface that defines a type provider for syntactic analysis.
  * A type provider is responsible for mapping variable types to specific token types.
@@ -23,7 +22,6 @@ interface TypeProvider {
  * You can add more cases as needed to handle additional token types.
  */
 object DefaultTypeProvider : TypeProvider {
-
     override fun getType(tokenType: TokenType): VariableType? {
         return when (tokenType) {
             TokenType.NUMBERTYPE -> VariableType.NUMBER

@@ -1,6 +1,10 @@
 package org.example.interpreter
 
-import ast.*
+import ast.DivisionNode
+import ast.OperationNode
+import ast.ProductNode
+import ast.SubtractionNode
+import ast.SumNode
 
 class OperationInterpreter(private val node: OperationNode, private val environment: Environment) : Interpreter {
     override fun interpret(): Value {

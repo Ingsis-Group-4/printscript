@@ -9,7 +9,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LiteralInterpreterTest {
-
     @Test
     fun testNumberLiteral() {
         val literal = LiteralNode(5.0)
@@ -27,7 +26,6 @@ class LiteralInterpreterTest {
         val interpreter = LiteralInterpreter(literal, Environment())
 
         val result = interpreter.interpret()
-
 
         assert(result is StringValue)
         assertEquals("hello", (result as StringValue).value)

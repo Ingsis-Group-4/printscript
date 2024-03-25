@@ -6,5 +6,4 @@ class IdentifierInterpreter(private val node: IdentifierNode, private val enviro
     override fun interpret(): Value {
         return environment.getVariable(node.variableName)
     }
-
 }

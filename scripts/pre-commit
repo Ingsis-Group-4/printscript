@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo '-----------------🚀Launching pre-commit hook-----------------'
+
+./gradlew ktlintFormat --daemon
+
+if [ $? -ne 0 ]; then
+  echo '❌ ktlintFormat failed! Please fix the style errors.'
+  exit 1
+fi
+
+echo '✅ ktlintFormat passed! Your code style is on point.'
+exit 0

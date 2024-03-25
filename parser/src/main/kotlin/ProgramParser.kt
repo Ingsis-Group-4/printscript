@@ -2,17 +2,19 @@ package org.example.parser
 
 import ast.ProgramNode
 import ast.StatementNode
+import org.example.parser.result.FailureResult
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
-import org.example.parser.result.FailureResult
 import org.example.parser.utils.at
 import org.example.parser.utils.getSyntaxSubtree
 import token.Token
 import token.TokenType
 
-
 class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
-    override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
+    override fun parse(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): ParserResult {
         val statementTokens = divideIntoStatements(tokens)
         return parseStatements(statementTokens, currentIndex)
     }
@@ -33,9 +35,12 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         return statements
     }
 
-    private fun isEndOfStatement(token: Token) = token.type == TokenType.SEMICOLON //TODO
+    private fun isEndOfStatement(token: Token) = token.type == TokenType.SEMICOLON // TODO
 
-    private fun parseStatements(statementTokens: List<List<Token>>, currentIndex: Int): ParserResult {
+    private fun parseStatements(
+        statementTokens: List<List<Token>>,
+        currentIndex: Int,
+    ): ParserResult {
         val asts = mutableListOf<StatementNode>()
         var lastIndexedValue = currentIndex
 
@@ -53,7 +58,10 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         return buildParserResult(asts, lastIndexedValue)
     }
 
-    private fun parseStatement(statement: List<Token>, currentIndex: Int): ParserResult {
+    private fun parseStatement(
+        statement: List<Token>,
+        currentIndex: Int,
+    ): ParserResult {
         val token = at(statement, currentIndex)
         return when (val result = getSyntaxSubtree(token, statement, currentIndex, parserSelector)) {
             is SuccessResult -> {
@@ -67,8 +75,10 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         }
     }
 
-    private fun buildParserResult(asts: List<StatementNode>, lastIndexedValue: Int): ParserResult {
+    private fun buildParserResult(
+        asts: List<StatementNode>,
+        lastIndexedValue: Int,
+    ): ParserResult {
         return SuccessResult(ProgramNode(asts), lastIndexedValue)
     }
 }
-

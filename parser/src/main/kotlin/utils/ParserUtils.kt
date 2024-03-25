@@ -15,7 +15,10 @@ import token.TokenType
  * @param index Index of the current token.
  * @return The token at the next index after `index`.
  */
-fun next(tokens: List<Token>, index: Int): Token {
+fun next(
+    tokens: List<Token>,
+    index: Int,
+): Token {
     return tokens[index + 1]
 }
 
@@ -25,7 +28,10 @@ fun next(tokens: List<Token>, index: Int): Token {
  * @param index Index of the token to retrieve.
  * @return The token at the specified index.
  */
-fun at(tokens: List<Token>, index: Int): Token {
+fun at(
+    tokens: List<Token>,
+    index: Int,
+): Token {
     return tokens[index]
 }
 
@@ -41,7 +47,7 @@ fun getSyntaxSubtree(
     token: Token,
     tokens: List<Token>,
     currentIndex: Int,
-    parserSelector: Map<TokenType, Parser>
+    parserSelector: Map<TokenType, Parser>,
 ): ParserResult {
     return parserSelector[token.type]?.parse(tokens, currentIndex)!! // TODO no asumir que existe
 }
@@ -52,7 +58,10 @@ fun getSyntaxSubtree(
  * @param step Number of positions to advance from the current index. Default is `1`.
  * @return The index that follows the current index by `step` positions.
  */
-fun nextIndex(currentIndex: Int, step: Int = 1): Int {
+fun nextIndex(
+    currentIndex: Int,
+    step: Int = 1,
+): Int {
     return currentIndex + step
 }
 
@@ -62,7 +71,10 @@ fun nextIndex(currentIndex: Int, step: Int = 1): Int {
  * @param currentIndex Index of the token to check.
  * @return `true` if the token at `currentIndex` is a semicolon, indicating the end of a statement; otherwise, `false`.
  */
-fun isEndOfStatement(tokens: List<Token>, currentIndex: Int): Boolean {
+fun isEndOfStatement(
+    tokens: List<Token>,
+    currentIndex: Int,
+): Boolean {
     return at(tokens, currentIndex).type == TokenType.SEMICOLON
 }
 
@@ -73,7 +85,11 @@ fun isEndOfStatement(tokens: List<Token>, currentIndex: Int): Boolean {
  * @param expectedType Expected type of the token.
  * @return `true` if the token at `tokenIndex` has the expected type; otherwise, `false`.
  */
-fun isTokenValid(tokens: List<Token>, tokenIndex: Int, expectedType: TokenType): Boolean {
+fun isTokenValid(
+    tokens: List<Token>,
+    tokenIndex: Int,
+    expectedType: TokenType,
+): Boolean {
     return at(tokens, tokenIndex).type == expectedType
 }
 
@@ -82,7 +98,7 @@ fun parseAssignationSyntax(
     currentIndex: Int,
     identifierNode: IdentifierNode,
     buildParserResult: (IdentifierNode, ExpressionNode, Int) -> ParserResult,
-    parserSelector: Map<TokenType, Parser>
+    parserSelector: Map<TokenType, Parser>,
 ): ParserResult {
     val syntaxSubtreeResult = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
     return when (syntaxSubtreeResult) {

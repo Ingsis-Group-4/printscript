@@ -14,5 +14,8 @@ interface Parser {
      * @param currentIndex The index from which to start parsing in the list of tokens.
      * @return A ParserResult representing the outcome of parsing.
      */
-    fun parse(tokens: List<Token>, currentIndex: Int): ParserResult
+    fun parse(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): ParserResult
 }

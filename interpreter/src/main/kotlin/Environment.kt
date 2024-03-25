@@ -2,18 +2,24 @@ package org.example.interpreter
 
 import ast.VariableType
 
-
 class Environment {
     private val variables = HashMap<String, EnvironmentElement>()
 
-    fun createVariable(name: String, value: Value, type: VariableType?) {
+    fun createVariable(
+        name: String,
+        value: Value,
+        type: VariableType?,
+    ) {
         if (variables.containsKey(name)) {
             throw Exception("Variable $name already exists")
         }
         variables[name] = EnvironmentElement(value, type!!)
     }
 
-    fun updateVariable(name: String, value: Value) {
+    fun updateVariable(
+        name: String,
+        value: Value,
+    ) {
         if (!variables.containsKey(name)) {
             throw Exception("Variable $name does not exist")
         }

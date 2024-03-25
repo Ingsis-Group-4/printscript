@@ -21,15 +21,14 @@ interface OperandValidator {
  * This implementation validates tokens based on their types: IDENTIFIER, NUMBER, and STRING are considered valid operands.
  */
 object DefaultOperandValidator : OperandValidator {
-
     override fun isValid(token: Token): Boolean {
         return when (token.type) {
             TokenType.IDENTIFIER,
             TokenType.NUMBER,
-            TokenType.STRING -> true
+            TokenType.STRING,
+            -> true
 
             else -> false
         }
     }
 }
-

@@ -1,12 +1,21 @@
 package interpreter
 
-import ast.*
-import org.example.interpreter.*
+import ast.AssignationNode
+import ast.IdentifierNode
+import ast.LiteralNode
+import ast.SumNode
+import ast.VariableDeclarationNode
+import ast.VariableType
+import org.example.interpreter.Environment
+import org.example.interpreter.NullValue
+import org.example.interpreter.NumberValue
+import org.example.interpreter.StringValue
+import org.example.interpreter.VariableStatementInterpreter
+import org.example.interpreter.VoidValue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class VariableStatementInterpreterTest {
-
     @Test
     fun testVariableAssignationWithLiteral() {
         val input = AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a"))
@@ -23,7 +32,7 @@ class VariableStatementInterpreterTest {
     }
 
     @Test
-    fun testVariableReAssignationWithLiteral(){
+    fun testVariableReAssignationWithLiteral() {
         val input = AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a"))
         val environment = Environment()
         environment.createVariable("x", StringValue("b"), VariableType.STRING)
@@ -38,7 +47,7 @@ class VariableStatementInterpreterTest {
     }
 
     @Test
-    fun testVariableDeclarationWithoutValue(){
+    fun testVariableDeclarationWithoutValue() {
         val input = VariableDeclarationNode(IdentifierNode("x", VariableType.STRING))
         val environment = Environment()
 
@@ -51,7 +60,7 @@ class VariableStatementInterpreterTest {
     }
 
     @Test
-    fun testVariableDeclarationWithValue(){
+    fun testVariableDeclarationWithValue() {
         val input = VariableDeclarationNode(IdentifierNode("x", VariableType.NUMBER), LiteralNode(10.0))
         val environment = Environment()
 
@@ -65,7 +74,7 @@ class VariableStatementInterpreterTest {
     }
 
     @Test
-    fun testVariableDeclarationWithSum(){
+    fun testVariableDeclarationWithSum() {
         val input = VariableDeclarationNode(IdentifierNode("x", VariableType.NUMBER), SumNode(LiteralNode(10.0), LiteralNode(20.0)))
         val environment = Environment()
 

@@ -14,5 +14,4 @@ class FunctionStatementInterpreter(private val node: FunctionStatementNode, priv
         }
         return VoidValue()
     }
-
 }
