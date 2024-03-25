@@ -81,7 +81,8 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         parserSelector: Map<TokenType, Parser>,
         letPosition: Position
     ): ParserResult {
-        val syntaxSubtreeResult = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
+        val syntaxSubtreeResult = getSyntaxSubtree(tokens, currentIndex, parserSelector)
+
         return when (syntaxSubtreeResult) {
             is SuccessResult -> {
                 val semicolonIndex = nextIndex(syntaxSubtreeResult.lastValidatedIndex)

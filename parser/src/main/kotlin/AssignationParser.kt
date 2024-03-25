@@ -51,7 +51,7 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
         identifierNode: IdentifierNode,
         parserSelector: Map<TokenType, Parser>
     ): ParserResult {
-        val expressionSubtree = getSyntaxSubtree(at(tokens, currentIndex), tokens, currentIndex, parserSelector)
+        val expressionSubtree = getSyntaxSubtree(tokens, currentIndex, parserSelector)
 
         return when (expressionSubtree) {
             is SuccessResult -> {
