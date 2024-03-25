@@ -20,8 +20,7 @@ class PrintLnParser(private val parserSelector: Map<TokenType, Parser>) : Parser
             )
         }
         val expressionIndex = nextIndex(openParenthesisIndex)
-        val nextToken = at(tokens, expressionIndex)
-        val syntaxSubtree = getSyntaxSubtree(nextToken, tokens, expressionIndex, parserSelector)
+        val syntaxSubtree = getSyntaxSubtree(tokens, expressionIndex, parserSelector)
         return parsePrintLnSyntax(tokens, syntaxSubtree)
 
 

@@ -7,6 +7,7 @@ import org.example.parser.result.SuccessResult
 import org.example.parser.result.FailureResult
 import org.example.parser.utils.at
 import org.example.parser.utils.getSyntaxSubtree
+import org.example.parser.utils.isEndOfStatement
 import token.Token
 import token.TokenType
 
@@ -33,8 +34,6 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         return statements
     }
 
-    private fun isEndOfStatement(token: Token) = token.type == TokenType.SEMICOLON //TODO
-
     private fun parseStatements(statementTokens: List<List<Token>>, currentIndex: Int): ParserResult {
         val asts = mutableListOf<StatementNode>()
         var lastIndexedValue = currentIndex
@@ -54,8 +53,7 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
     }
 
     private fun parseStatement(statement: List<Token>, currentIndex: Int): ParserResult {
-        val token = at(statement, currentIndex)
-        return when (val result = getSyntaxSubtree(token, statement, currentIndex, parserSelector)) {
+        return when (val result = getSyntaxSubtree(statement, currentIndex, parserSelector)) {
             is SuccessResult -> {
                 when (result.value) {
                     is StatementNode -> result
