@@ -19,16 +19,15 @@ class StaticCodeAnalyzer(
      * @return Report with the results of the analysis
      * */
     fun analyze(ast: AST): Report {
-        val ruleResults = mutableListOf<RuleResult>()
+        val failures = mutableListOf<FailurePayload>()
 
         for (rule in rules) {
             when (val ruleResult = rule.check(ast)) {
                 RuleSuccess -> {}
-                is RuleFailures -> ruleResults.addAll(ruleResult.failures)
-                is RuleFailure -> ruleResults.add(ruleResult)
+                is RuleFailures -> failures.addAll(ruleResult.failures)
             }
         }
 
-        return Report(ruleResults)
+        return Report(failures)
     }
 }

@@ -6,6 +6,6 @@ sealed interface RuleResult
 
 object RuleSuccess : RuleResult
 
-class RuleFailures(val failures: List<RuleFailure>) : RuleResult
+class RuleFailures(val failures: List<FailurePayload>) : RuleResult
 
-class RuleFailure(val message: String, val position: Position) : RuleResult
+class FailurePayload(val message: String, val position: Position)

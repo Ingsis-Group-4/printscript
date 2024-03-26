@@ -1,25 +1,18 @@
 package org.example
 
-import org.example.rule.RuleFailure
-import org.example.rule.RuleFailures
-import org.example.rule.RuleResult
-import org.example.rule.RuleSuccess
+import org.example.rule.*
 import position.Position
 
 class Report(
-    val ruleResults: List<RuleResult>
+    val ruleFailures: List<FailurePayload>
 ){
     fun print(){
-        if (ruleResults.isEmpty()){
+        if (ruleFailures.isEmpty()){
             println("Static code analysis successful!")
             return
         }
-        for (ruleResult in ruleResults) {
-            when(ruleResult){
-                is RuleSuccess -> {}
-                is RuleFailure -> printRuleFailure(ruleResult)
-                is RuleFailures -> printFailures(ruleResult)
-            }
+        for (failure in ruleFailures) {
+            printFailure(failure)
         }
     }
 
@@ -27,11 +20,7 @@ class Report(
         return "(${position.line}, column ${position.column})"
     }
 
-    private fun printFailures(failuresResult: RuleFailures){
-        failuresResult.failures.forEach(::printRuleFailure)
-    }
-
-    private fun printRuleFailure(failure: RuleFailure){
+    private fun printFailure(failure: FailurePayload){
         println("Rule failed at ${positionToString(failure.position)}: ${failure.message}")
     }
 }

@@ -26,12 +26,11 @@ class VariableNamingRule(
      * - If any statement fails the rule, RuleFailures with each failure is returned
      * */
     private fun checkProgramNode(ast: ProgramNode): RuleResult{
-        val failures = mutableListOf<RuleFailure>()
+        val failures = mutableListOf<FailurePayload>()
 
         for (statement in ast.statements){
             when(val statementCheckResult = checkStatementNode(statement)){
                 is RuleSuccess -> {}
-                is RuleFailure -> {failures.add(statementCheckResult)}
                 is RuleFailures -> {failures.addAll(statementCheckResult.failures)}
             }
         }
@@ -61,6 +60,13 @@ class VariableNamingRule(
         val variableName = ast.identifier.variableName
 
         return if (variableName.matches(regex.toRegex())) RuleSuccess
-        else RuleFailure("Variable '${variableName}' does not follow naming rule", ast.identifier.getStart())
+        else RuleFailures(
+            listOf(
+                FailurePayload(
+                    "Variable '${variableName}' does not follow naming rule",
+                    ast.identifier.getStart()
+                )
+            )
+        )
     }
 }

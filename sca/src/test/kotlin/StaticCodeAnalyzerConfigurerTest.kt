@@ -4,7 +4,7 @@ import ast.VariableDeclarationNode
 import org.example.provider.StaticCodeAnalyzerConfigurer
 import org.example.provider.PrintLnArgumentNonExpressionRuleConfigurer
 import org.example.provider.VariableNamingRuleConfigurer
-import org.example.rule.RuleFailure
+import org.example.rule.FailurePayload
 import position.Position
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -30,8 +30,7 @@ class StaticCodeAnalyzerConfigurerTest {
             )
         )
 
-        assertEquals(1, result.ruleResults.size)
-        assertIs<RuleFailure>(result.ruleResults[0])
-        assertEquals("Variable 'B' does not follow naming rule", (result.ruleResults[0] as RuleFailure).message)
+        assertEquals(1, result.ruleFailures.size)
+        assertEquals("Variable 'B' does not follow naming rule", (result.ruleFailures[0].message))
     }
 }

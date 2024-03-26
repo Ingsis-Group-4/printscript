@@ -21,12 +21,11 @@ class PrintLnArgumentRule: Rule {
      * - If any statement fails the rule, RuleFailures with each failure is returned
      * */
     private fun checkProgramNode(ast: ProgramNode): RuleResult{
-        val failures = mutableListOf<RuleFailure>()
+        val failures = mutableListOf<FailurePayload>()
 
         for (statement in ast.statements){
             when(val statementCheckResult = checkStatementNode(statement)){
                 is RuleSuccess -> {}
-                is RuleFailure -> {failures.add(statementCheckResult)}
                 is RuleFailures -> {failures.addAll(statementCheckResult.failures)}
             }
         }
@@ -59,7 +58,14 @@ class PrintLnArgumentRule: Rule {
         return when(val expression = ast.expression) {
             is LiteralNode<*> -> RuleSuccess
             is IdentifierNode -> RuleSuccess
-            else -> RuleFailure("PrintLn argument does not follow argument rule", expression.getStart())
+            else -> RuleFailures(
+                listOf(
+                    FailurePayload(
+                        "PrintLn argument does not follow argument rule",
+                        expression.getStart()
+                    )
+                )
+            )
         }
     }
 }

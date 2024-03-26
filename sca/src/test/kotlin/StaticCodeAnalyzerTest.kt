@@ -26,7 +26,7 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 18)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(0, result.size )
     }
@@ -45,11 +45,10 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 18)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(1, result.size )
         val failure = result[0]
-        assertIs<RuleFailure>(failure)
         assertEquals(failure.position, Position(1, 5))
     }
 
@@ -67,7 +66,7 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 20)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(0, result.size )
     }
@@ -86,11 +85,10 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 19)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(1, result.size )
         val failure = result[0]
-        assertIs<RuleFailure>(failure)
         assertEquals(failure.position, Position(1, 5))
     }
 
@@ -107,7 +105,7 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 10)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(0, result.size )
     }
@@ -125,7 +123,7 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 10)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(0, result.size )
     }
@@ -150,11 +148,10 @@ class StaticCodeAnalyzerTest {
             end = Position(1, 12)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(1, result.size )
         val failure = result[0]
-        assertIs<RuleFailure>(failure)
         assertEquals(failure.position, Position(1, 9))
     }
 
@@ -193,16 +190,14 @@ class StaticCodeAnalyzerTest {
             end = Position(2, 8)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(2, result.size )
         val failure1 = result[0]
         val failure2 = result[1]
 
-        assertIs<RuleFailure>(failure1)
         assertEquals(Position(1, 5), failure1.position)
 
-        assertIs<RuleFailure>(failure2)
         assertEquals(Position(2, 7), failure2.position)
     }
 
@@ -241,12 +236,11 @@ class StaticCodeAnalyzerTest {
             end = Position(2, 8)
         )
 
-        val result = sca.analyze(input).ruleResults
+        val result = sca.analyze(input).ruleFailures
 
         assertEquals(1, result.size )
         val failure = result[0]
 
-        assertIs<RuleFailure>(failure)
         assertEquals(Position(2, 7), failure.position)
     }
 }
