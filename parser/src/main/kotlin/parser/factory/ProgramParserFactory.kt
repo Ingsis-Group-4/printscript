@@ -1,11 +1,11 @@
-package org.example.parser.factory
+package parser.factory
 
-import org.example.parser.AssignationParser
-import org.example.parser.ExpressionParser
-import org.example.parser.Parser
-import org.example.parser.PrintLnParser
-import org.example.parser.ProgramParser
-import org.example.parser.VariableDeclarationParser
+import parser.AssignationParser
+import parser.ExpressionParser
+import parser.Parser
+import parser.PrintLnParser
+import parser.ProgramParser
+import parser.VariableDeclarationParser
 import token.TokenType
 
 /**

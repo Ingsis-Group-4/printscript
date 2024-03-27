@@ -1,16 +1,16 @@
-package org.example.parser
+package parser
 
 import ast.ExpressionNode
 import ast.IdentifierNode
 import ast.VariableDeclarationNode
-import org.example.parser.result.FailureResult
-import org.example.parser.result.ParserResult
-import org.example.parser.result.SuccessResult
-import org.example.parser.type.DefaultTypeProvider
-import org.example.parser.utils.at
-import org.example.parser.utils.isTokenValid
-import org.example.parser.utils.nextIndex
-import org.example.parser.utils.parseAssignationSyntax
+import parser.result.FailureResult
+import parser.result.ParserResult
+import parser.result.SuccessResult
+import parser.type.DefaultTypeProvider
+import parser.utils.at
+import parser.utils.isTokenValid
+import parser.utils.nextIndex
+import parser.utils.parseAssignationSyntax
 import token.Token
 import token.TokenType
 

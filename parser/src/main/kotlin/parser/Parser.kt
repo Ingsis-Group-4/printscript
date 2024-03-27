@@ -1,6 +1,6 @@
-package org.example.parser
+package parser
 
-import org.example.parser.result.ParserResult
+import parser.result.ParserResult
 import token.Token
 
 /**

@@ -1,4 +1,4 @@
-package org.example.parser.expression
+package parser.expression
 
 import token.Token
 import token.TokenType

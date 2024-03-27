@@ -1,4 +1,4 @@
-package org.example.interpreter
+package interpreter
 
 interface Interpreter {
     fun interpret(): Value

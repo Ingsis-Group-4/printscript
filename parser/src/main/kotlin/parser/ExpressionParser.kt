@@ -1,11 +1,11 @@
-package org.example.parser
+package parser
 
 import ast.LiteralNode
-import org.example.parser.expression.DefaultOperandValidator
-import org.example.parser.result.FailureResult
-import org.example.parser.result.ParserResult
-import org.example.parser.result.SuccessResult
-import org.example.parser.utils.at
+import parser.expression.DefaultOperandValidator
+import parser.result.FailureResult
+import parser.result.ParserResult
+import parser.result.SuccessResult
+import parser.utils.at
 import token.Token
 import token.TokenType
 

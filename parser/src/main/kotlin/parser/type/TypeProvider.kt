@@ -1,4 +1,4 @@
-package org.example.parser.type
+package parser.type
 
 import ast.VariableType
 import token.TokenType

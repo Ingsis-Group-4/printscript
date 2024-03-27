@@ -1,12 +1,12 @@
-package org.example.parser
+package parser
 
 import ast.ProgramNode
 import ast.StatementNode
-import org.example.parser.result.FailureResult
-import org.example.parser.result.ParserResult
-import org.example.parser.result.SuccessResult
-import org.example.parser.utils.at
-import org.example.parser.utils.getSyntaxSubtree
+import parser.result.FailureResult
+import parser.result.ParserResult
+import parser.result.SuccessResult
+import parser.utils.at
+import parser.utils.getSyntaxSubtree
 import token.Token
 import token.TokenType
 

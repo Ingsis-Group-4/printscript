@@ -1,4 +1,4 @@
-package org.example.lexer
+package lexer
 
 import token.TokenMatcher
 import token.TokenType

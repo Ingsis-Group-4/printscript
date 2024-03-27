@@ -2,9 +2,6 @@ package interpreter
 
 import ast.IdentifierNode
 import ast.VariableType
-import org.example.interpreter.Environment
-import org.example.interpreter.IdentifierInterpreter
-import org.example.interpreter.StringValue
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals

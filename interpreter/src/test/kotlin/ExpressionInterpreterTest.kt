@@ -7,10 +7,6 @@ import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
 import ast.VariableType
-import org.example.interpreter.Environment
-import org.example.interpreter.ExpressionInterpreter
-import org.example.interpreter.NumberValue
-import org.example.interpreter.StringValue
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package org.example.interpreter
+package interpreter
 
 interface Value
 

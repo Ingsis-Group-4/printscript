@@ -1,4 +1,4 @@
-package org.example.parser.result
+package parser.result
 
 import ast.AST
 

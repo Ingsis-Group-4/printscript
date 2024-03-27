@@ -1,11 +1,11 @@
-package org.example.parser.utils
+package parser.utils
 
 import ast.ExpressionNode
 import ast.IdentifierNode
-import org.example.parser.Parser
-import org.example.parser.result.FailureResult
-import org.example.parser.result.ParserResult
-import org.example.parser.result.SuccessResult
+import parser.Parser
+import parser.result.FailureResult
+import parser.result.ParserResult
+import parser.result.SuccessResult
 import token.Token
 import token.TokenType
 
