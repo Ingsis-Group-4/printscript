@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IdentifierInterpreter {
+class IdentifierInterpreterTest {
     @Test
     fun testIdentifierInterpreter() {
         val input = IdentifierNode("x", VariableType.STRING)
