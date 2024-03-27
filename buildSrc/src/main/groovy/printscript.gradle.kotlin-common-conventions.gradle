@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
+    id 'jacoco'
 }
 
 repositories {
@@ -41,7 +42,7 @@ tasks.register("ktlintFormat", JavaExec) {
 }
 
 task installGitHooks(type: Copy) {
-    from new File(rootProject.rootDir, 'scripts/pre-commit')
+    from new File(rootProject.rootDir, 'hooks/pre-commit')
     into { new File(rootProject.rootDir, '.git/hooks') }
 }
 

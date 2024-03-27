@@ -9,5 +9,17 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+if [[ -n $(git status --porcelain) ]]; then
+  # Add the formatted files to the commit
+  git add .
+
+  # Check if git add succeeded
+  if [ $? -ne 0 ]; then
+    echo '❌ Failed to add files to the commit.'
+    exit 1
+  fi
+fi
+
 echo '✅ ktlintFormat passed! Your code style is on point.'
+
 exit 0
