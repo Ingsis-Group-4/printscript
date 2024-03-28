@@ -1,0 +1,10 @@
+plugins {
+    id 'printscript.gradle.kotlin-application-conventions'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':interpreter')
+    implementation project(':lexer')
+    implementation project(':parser')
+}
