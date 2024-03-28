@@ -5,8 +5,8 @@ import ast.StatementNode
 import org.example.parser.result.ParserResult
 import org.example.parser.result.SuccessResult
 import org.example.parser.result.FailureResult
-import org.example.parser.utils.at
 import org.example.parser.utils.getSyntaxSubtree
+import org.example.parser.utils.isEndOfStatement
 import token.Token
 import token.TokenType
 
@@ -33,29 +33,26 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         return statements
     }
 
-    private fun isEndOfStatement(token: Token) = token.type == TokenType.SEMICOLON //TODO
-
     private fun parseStatements(statementTokens: List<List<Token>>, currentIndex: Int): ParserResult {
-        val asts = mutableListOf<StatementNode>()
+        val statementNodes = mutableListOf<StatementNode>()
         var lastIndexedValue = currentIndex
 
         for (statement in statementTokens) {
             when (val result = parseStatement(statement, currentIndex)) {
                 is SuccessResult -> {
                     lastIndexedValue = result.lastValidatedIndex
-                    asts.add(result.value as StatementNode)
+                    statementNodes.add(result.value as StatementNode)
                 }
 
                 is FailureResult -> return result
             }
         }
 
-        return buildParserResult(asts, lastIndexedValue)
+        return buildParserResult(statementNodes, lastIndexedValue)
     }
 
     private fun parseStatement(statement: List<Token>, currentIndex: Int): ParserResult {
-        val token = at(statement, currentIndex)
-        return when (val result = getSyntaxSubtree(token, statement, currentIndex, parserSelector)) {
+        return when (val result = getSyntaxSubtree(statement, currentIndex, parserSelector)) {
             is SuccessResult -> {
                 when (result.value) {
                     is StatementNode -> result
@@ -68,7 +65,10 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
     }
 
     private fun buildParserResult(asts: List<StatementNode>, lastIndexedValue: Int): ParserResult {
-        return SuccessResult(ProgramNode(asts), lastIndexedValue)
+        val startPosition = asts.first().getStart();
+        val endPosition = asts.last().getEnd();
+
+        return SuccessResult(ProgramNode(asts, startPosition, endPosition), lastIndexedValue)
     }
 }
 

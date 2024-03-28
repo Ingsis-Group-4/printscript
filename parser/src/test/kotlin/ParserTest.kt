@@ -6,8 +6,6 @@ import org.example.parser.result.SuccessResult
 import position.Position
 import token.Token
 import token.TokenType
-import kotlin.test.Ignore
-
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -308,7 +306,7 @@ class ParserTest {
 
         val result = parser.parse(input, 0)
 
-        assertIs<SuccessResult>(result);
+        assertIs<SuccessResult>(result)
         assertIs<LiteralNode<Double>>(result.value)
         assertEquals(1.0, (result.value as LiteralNode<*>).value)
     }
@@ -327,12 +325,11 @@ class ParserTest {
 
         val result = parser.parse(input, 0)
 
-        assertIs<SuccessResult>(result);
+        assertIs<SuccessResult>(result)
         assertIs<LiteralNode<String>>(result.value)
         assertEquals("Hello, World!", (result.value as LiteralNode<*>).value)
     }
 
-    @Ignore // TODO: Implement the identifier node in the expression parser
     @Test
     fun testExpressionParserWithIdentifier() {
         val parser = ExpressionParserFactory.create()
@@ -347,8 +344,168 @@ class ParserTest {
 
         val result = parser.parse(input, 0)
 
-        assertIs<SuccessResult>(result);
+        assertIs<SuccessResult>(result)
         assertIs<IdentifierNode>(result.value)
         assertEquals("a", (result.value as IdentifierNode).variableName)
+    }
+
+    @Test
+     fun testExpressionParserWithSum() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+            Token(
+                TokenType.SUM,
+                Position(1, 2),
+                Position(1, 2),
+                "+"
+            ),
+            Token(
+                TokenType.NUMBER,
+                Position(1, 3),
+                Position(1, 3),
+                "2"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<SumNode>(result.value)
+        assertIs<LiteralNode<Double>>((result.value as SumNode).left)
+        assertIs<LiteralNode<Double>>((result.value as SumNode).right)
+    }
+
+    @Test
+    fun testExpressionParserWithSubtraction() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+            Token(
+                TokenType.SUBTRACTION,
+                Position(1, 2),
+                Position(1, 2),
+                "-"
+            ),
+            Token(
+                TokenType.NUMBER,
+                Position(1, 3),
+                Position(1, 3),
+                "2"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<SubtractionNode>(result.value)
+        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).left)
+        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).right)
+    }
+
+    @Test
+    fun testExpressionParserWithMultiplication() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+            Token(
+                TokenType.MULTIPLICATION,
+                Position(1, 2),
+                Position(1, 2),
+                "*"
+            ),
+            Token(
+                TokenType.NUMBER,
+                Position(1, 3),
+                Position(1, 3),
+                "2"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<ProductNode>(result.value)
+        assertIs<LiteralNode<Double>>((result.value as ProductNode).left)
+        assertIs<LiteralNode<Double>>((result.value as ProductNode).right)
+    }
+
+    @Test
+    fun testExpressionParserWithDivision() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+            Token(
+                TokenType.DIVISION,
+                Position(1, 2),
+                Position(1, 2),
+                "/"
+            ),
+            Token(
+                TokenType.NUMBER,
+                Position(1, 3),
+                Position(1, 3),
+                "2"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<DivisionNode>(result.value)
+        assertIs<LiteralNode<Double>>((result.value as DivisionNode).left)
+        assertIs<LiteralNode<Double>>((result.value as DivisionNode).right)
+    }
+
+    @Test
+    fun testExpressionParserWithSumBetweenNumberAndIdentifier() {
+        val parser = ExpressionParserFactory.create()
+        val input = listOf(
+            Token(
+                TokenType.NUMBER,
+                Position(1, 1),
+                Position(1, 1),
+                "1"
+            ),
+            Token(
+                TokenType.SUM,
+                Position(1, 2),
+                Position(1, 2),
+                "+"
+            ),
+            Token(
+                TokenType.IDENTIFIER,
+                Position(1, 3),
+                Position(1, 3),
+                "a"
+            ),
+        )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<SumNode>(result.value)
+        assertIs<LiteralNode<Double>>((result.value as SumNode).left)
+        assertIs<IdentifierNode>((result.value as SumNode).right)
     }
 }
