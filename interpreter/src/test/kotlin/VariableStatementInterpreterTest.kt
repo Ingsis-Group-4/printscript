@@ -7,12 +7,19 @@ import ast.SumNode
 import ast.VariableDeclarationNode
 import ast.VariableType
 import org.junit.jupiter.api.Test
+import position.Position
 import kotlin.test.assertEquals
 
 class VariableStatementInterpreterTest {
     @Test
     fun testVariableAssignationWithLiteral() {
-        val input = AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a"))
+        val input =
+            AssignationNode(
+                IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
+                LiteralNode("a", Position(1, 1), Position(1, 2)),
+                Position(1, 1),
+                Position(1, 2),
+            )
         val environment = Environment()
         environment.createVariable("x", VoidValue(), VariableType.STRING)
 
@@ -27,7 +34,13 @@ class VariableStatementInterpreterTest {
 
     @Test
     fun testVariableReAssignationWithLiteral() {
-        val input = AssignationNode(IdentifierNode("x", VariableType.STRING), LiteralNode("a"))
+        val input =
+            AssignationNode(
+                IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
+                LiteralNode("a", Position(1, 1), Position(1, 2)),
+                Position(1, 1),
+                Position(1, 2),
+            )
         val environment = Environment()
         environment.createVariable("x", StringValue("b"), VariableType.STRING)
 
@@ -42,7 +55,13 @@ class VariableStatementInterpreterTest {
 
     @Test
     fun testVariableDeclarationWithoutValue() {
-        val input = VariableDeclarationNode(IdentifierNode("x", VariableType.STRING))
+        val input =
+            VariableDeclarationNode(
+                IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
+                null,
+                Position(1, 1),
+                Position(1, 2),
+            )
         val environment = Environment()
 
         val interpreter = VariableStatementInterpreter(input, environment)
@@ -55,7 +74,13 @@ class VariableStatementInterpreterTest {
 
     @Test
     fun testVariableDeclarationWithValue() {
-        val input = VariableDeclarationNode(IdentifierNode("x", VariableType.NUMBER), LiteralNode(10.0))
+        val input =
+            VariableDeclarationNode(
+                IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
+                LiteralNode(10.0, Position(1, 1), Position(1, 2)),
+                Position(1, 1),
+                Position(1, 2),
+            )
         val environment = Environment()
 
         val interpreter = VariableStatementInterpreter(input, environment)
@@ -69,7 +94,18 @@ class VariableStatementInterpreterTest {
 
     @Test
     fun testVariableDeclarationWithSum() {
-        val input = VariableDeclarationNode(IdentifierNode("x", VariableType.NUMBER), SumNode(LiteralNode(10.0), LiteralNode(20.0)))
+        val input =
+            VariableDeclarationNode(
+                IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
+                SumNode(
+                    LiteralNode(10.0, Position(1, 1), Position(1, 2)),
+                    LiteralNode(20.0, Position(1, 1), Position(1, 2)),
+                    Position(1, 1),
+                    Position(1, 1),
+                ),
+                Position(1, 1),
+                Position(1, 2),
+            )
         val environment = Environment()
 
         val interpreter = VariableStatementInterpreter(input, environment)

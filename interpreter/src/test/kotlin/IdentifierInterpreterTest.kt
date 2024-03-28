@@ -3,13 +3,14 @@ package interpreter
 import ast.IdentifierNode
 import ast.VariableType
 import org.junit.jupiter.api.assertThrows
+import position.Position
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IdentifierInterpreter {
+class IdentifierInterpreterTest {
     @Test
     fun testIdentifierInterpreter() {
-        val input = IdentifierNode("x", VariableType.STRING)
+        val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
         val environment = Environment()
         environment.createVariable("x", StringValue("a"), VariableType.STRING)
@@ -24,7 +25,7 @@ class IdentifierInterpreter {
 
     @Test
     fun testIdentifierInterpreterWithNonExistingVariable() {
-        val input = IdentifierNode("x", VariableType.STRING)
+        val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
         val interpreter = IdentifierInterpreter(input, Environment())
 

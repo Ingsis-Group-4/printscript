@@ -1,13 +1,14 @@
 package interpreter
 
 import ast.LiteralNode
+import position.Position
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LiteralInterpreterTest {
     @Test
     fun testNumberLiteral() {
-        val literal = LiteralNode(5.0)
+        val literal = LiteralNode(5.0, Position(1, 1), Position(1, 2))
         val interpreter = LiteralInterpreter(literal, Environment())
 
         val result = interpreter.interpret()
@@ -18,7 +19,7 @@ class LiteralInterpreterTest {
 
     @Test
     fun testStringLiteral() {
-        val literal = LiteralNode("hello")
+        val literal = LiteralNode("hello", Position(1, 1), Position(1, 2))
         val interpreter = LiteralInterpreter(literal, Environment())
 
         val result = interpreter.interpret()
