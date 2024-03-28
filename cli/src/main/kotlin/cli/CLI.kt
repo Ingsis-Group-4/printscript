@@ -1,7 +1,12 @@
-package org.example.cli.functions
+package cli
+
+import cli.argument.ArgumentParser
+import cli.argument.DefaultArgumentParser
+import org.example.cli.functions.CLIFunction
 
 class CLI(
     private val functions: Map<String, CLIFunction>,
+    private val argumentParser: ArgumentParser = DefaultArgumentParser(),
 ) {
     fun run(args: List<String>) {
         if (args.isEmpty()) {
@@ -14,7 +19,11 @@ class CLI(
                 TODO("Error case not yet implemented")
             }
 
-        function.run(getNextArguments(args))
+        val arguments = getNextArguments(args)
+
+        val parsedArguments = argumentParser.parse(arguments)
+
+        function.run(parsedArguments)
     }
 
     private fun getNextArguments(args: List<String>): List<String> {
