@@ -1,2 +1,2 @@
 rootProject.name = 'printscript'
-include('common','interpreter','lexer','parser','code-coverage-report')
+include('common','interpreter','lexer','parser','code-coverage-report','sca')
