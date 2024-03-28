@@ -1,8 +1,22 @@
 package parser
 
-import ast.*
-import org.example.parser.factory.*
-import org.example.parser.result.SuccessResult
+import ast.AssignationNode
+import ast.DivisionNode
+import ast.IdentifierNode
+import ast.LiteralNode
+import ast.PrintLnNode
+import ast.ProductNode
+import ast.ProgramNode
+import ast.StatementNode
+import ast.SubtractionNode
+import ast.SumNode
+import ast.VariableDeclarationNode
+import parser.factory.AssignationParserFactory
+import parser.factory.ExpressionParserFactory
+import parser.factory.PrintLnParserFactory
+import parser.factory.ProgramParserFactory
+import parser.factory.VariableDeclarationParserFactory
+import parser.result.SuccessResult
 import position.Position
 import token.Token
 import token.TokenType
@@ -14,32 +28,33 @@ class ParserTest {
     @Test
     fun testAssignationWithOneStatement() {
         val parser = ProgramParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 1),
-                Position(1, 1),
-                "a"
-            ),
-            Token(
-                TokenType.ASSIGNATION,
-                Position(1, 2),
-                Position(1, 2),
-                "="
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "1"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 4),
-                Position(1, 4),
-                ";"
+        val input =
+            listOf(
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "a",
+                ),
+                Token(
+                    TokenType.ASSIGNATION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "=",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "1",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 4),
+                    Position(1, 4),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -50,57 +65,58 @@ class ParserTest {
 
     @Test
     fun testProgramParserWithTwoStatements() {
-    val parser = ProgramParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 1),
-                Position(1, 1),
-                "a"
-            ),
-            Token(
-                TokenType.ASSIGNATION,
-                Position(1, 2),
-                Position(1, 2),
-                "="
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "1"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 4),
-                Position(1, 4),
-                ";"
-            ),
-            Token(
-                TokenType.IDENTIFIER,
-                Position(2, 1),
-                Position(2, 1),
-                "b"
-            ),
-            Token(
-                TokenType.ASSIGNATION,
-                Position(2, 2),
-                Position(2, 2),
-                "="
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(2, 3),
-                Position(2, 3),
-                "2"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(2, 4),
-                Position(2, 4),
-                ";"
+        val parser = ProgramParserFactory.create()
+        val input =
+            listOf(
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "a",
+                ),
+                Token(
+                    TokenType.ASSIGNATION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "=",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "1",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 4),
+                    Position(1, 4),
+                    ";",
+                ),
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(2, 1),
+                    Position(2, 1),
+                    "b",
+                ),
+                Token(
+                    TokenType.ASSIGNATION,
+                    Position(2, 2),
+                    Position(2, 2),
+                    "=",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(2, 3),
+                    Position(2, 3),
+                    "2",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(2, 4),
+                    Position(2, 4),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -114,32 +130,33 @@ class ParserTest {
     @Test
     fun testVariableAssignationParser() {
         val parser = AssignationParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 1),
-                Position(1, 1),
-                "a"
-            ),
-            Token(
-                TokenType.ASSIGNATION,
-                Position(1, 2),
-                Position(1, 2),
-                "="
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "1"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 4),
-                Position(1, 4),
-                ";"
+        val input =
+            listOf(
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "a",
+                ),
+                Token(
+                    TokenType.ASSIGNATION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "=",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "1",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 4),
+                    Position(1, 4),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -150,40 +167,41 @@ class ParserTest {
     }
 
     @Test
-    fun  testVariableDeclarationParserWithoutAssignation() {
+    fun testVariableDeclarationParserWithoutAssignation() {
         val parser = VariableDeclarationParserFactory.create()
-        val input = listOf( // let a: Number;
-            Token(
-                TokenType.LET,
-                Position(1, 1),
-                Position(1, 1),
-                "let"
-            ),
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 5),
-                Position(1, 5),
-                "a"
-            ),
-            Token(
-                TokenType.COLON,
-                Position(1, 6),
-                Position(1, 6),
-                ":"
-            ),
-            Token(
-                TokenType.NUMBERTYPE,
-                Position(1, 7),
-                Position(1, 7),
-                "Number"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 8),
-                Position(1, 8),
-                ";"
+        val input =
+            listOf( // let a: Number;
+                Token(
+                    TokenType.LET,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "let",
+                ),
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 5),
+                    Position(1, 5),
+                    "a",
+                ),
+                Token(
+                    TokenType.COLON,
+                    Position(1, 6),
+                    Position(1, 6),
+                    ":",
+                ),
+                Token(
+                    TokenType.NUMBERTYPE,
+                    Position(1, 7),
+                    Position(1, 7),
+                    "Number",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 8),
+                    Position(1, 8),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -195,50 +213,51 @@ class ParserTest {
     @Test
     fun testVariableDeclarationParserWithAssignation() {
         val parser = VariableDeclarationParserFactory.create()
-        val input = listOf( // let a: Number = 1;
-            Token(
-                TokenType.LET,
-                Position(1, 1),
-                Position(1, 1),
-                "let"
-            ),
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 5),
-                Position(1, 5),
-                "a"
-            ),
-            Token(
-                TokenType.COLON,
-                Position(1, 6),
-                Position(1, 6),
-                ":"
-            ),
-            Token(
-                TokenType.NUMBERTYPE,
-                Position(1, 7),
-                Position(1, 7),
-                "number"
-            ),
-            Token(
-                TokenType.ASSIGNATION,
-                Position(1, 9),
-                Position(1, 9),
-                "="
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 11),
-                Position(1, 11),
-                "1"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 12),
-                Position(1, 12),
-                ";"
+        val input =
+            listOf( // let a: Number = 1;
+                Token(
+                    TokenType.LET,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "let",
+                ),
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 5),
+                    Position(1, 5),
+                    "a",
+                ),
+                Token(
+                    TokenType.COLON,
+                    Position(1, 6),
+                    Position(1, 6),
+                    ":",
+                ),
+                Token(
+                    TokenType.NUMBERTYPE,
+                    Position(1, 7),
+                    Position(1, 7),
+                    "number",
+                ),
+                Token(
+                    TokenType.ASSIGNATION,
+                    Position(1, 9),
+                    Position(1, 9),
+                    "=",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 11),
+                    Position(1, 11),
+                    "1",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 12),
+                    Position(1, 12),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -251,38 +270,39 @@ class ParserTest {
     @Test
     fun testPrintLnParser() {
         val parser = PrintLnParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.PRINTLN,
-                Position(1, 1),
-                Position(1, 1),
-                "println"
-            ),
-            Token(
-                TokenType.OPENPARENTHESIS,
-                Position(1, 8),
-                Position(1, 8),
-                "("
-            ),
-            Token(
-                TokenType.STRING,
-                Position(1, 9),
-                Position(1, 9),
-                "Hello, World!"
-            ),
-            Token(
-                TokenType.CLOSEPARENTHESIS,
-                Position(1, 21),
-                Position(1, 21),
-                ")"
-            ),
-            Token(
-                TokenType.SEMICOLON,
-                Position(1, 22),
-                Position(1, 22),
-                ";"
+        val input =
+            listOf(
+                Token(
+                    TokenType.PRINTLN,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "println",
+                ),
+                Token(
+                    TokenType.OPENPARENTHESIS,
+                    Position(1, 8),
+                    Position(1, 8),
+                    "(",
+                ),
+                Token(
+                    TokenType.STRING,
+                    Position(1, 9),
+                    Position(1, 9),
+                    "Hello, World!",
+                ),
+                Token(
+                    TokenType.CLOSEPARENTHESIS,
+                    Position(1, 21),
+                    Position(1, 21),
+                    ")",
+                ),
+                Token(
+                    TokenType.SEMICOLON,
+                    Position(1, 22),
+                    Position(1, 22),
+                    ";",
+                ),
             )
-        )
 
         val result = parser.parse(input, 0)
 
@@ -295,14 +315,15 @@ class ParserTest {
     @Test
     fun testExpressionParserWithNumberLiteral() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -314,14 +335,15 @@ class ParserTest {
     @Test
     fun testExpressionParserWithStringLiteral() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.STRING,
-                Position(1, 1),
-                Position(1, 1),
-                "Hello, World!"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.STRING,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "Hello, World!",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -333,14 +355,15 @@ class ParserTest {
     @Test
     fun testExpressionParserWithIdentifier() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 1),
-                Position(1, 1),
-                "a"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "a",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -350,28 +373,29 @@ class ParserTest {
     }
 
     @Test
-     fun testExpressionParserWithSum() {
+    fun testExpressionParserWithSum() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-            Token(
-                TokenType.SUM,
-                Position(1, 2),
-                Position(1, 2),
-                "+"
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "2"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+                Token(
+                    TokenType.SUM,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "+",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "2",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -384,26 +408,27 @@ class ParserTest {
     @Test
     fun testExpressionParserWithSubtraction() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-            Token(
-                TokenType.SUBTRACTION,
-                Position(1, 2),
-                Position(1, 2),
-                "-"
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "2"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+                Token(
+                    TokenType.SUBTRACTION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "-",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "2",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -416,26 +441,27 @@ class ParserTest {
     @Test
     fun testExpressionParserWithMultiplication() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-            Token(
-                TokenType.MULTIPLICATION,
-                Position(1, 2),
-                Position(1, 2),
-                "*"
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "2"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+                Token(
+                    TokenType.MULTIPLICATION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "*",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "2",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -448,26 +474,27 @@ class ParserTest {
     @Test
     fun testExpressionParserWithDivision() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-            Token(
-                TokenType.DIVISION,
-                Position(1, 2),
-                Position(1, 2),
-                "/"
-            ),
-            Token(
-                TokenType.NUMBER,
-                Position(1, 3),
-                Position(1, 3),
-                "2"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+                Token(
+                    TokenType.DIVISION,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "/",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "2",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 
@@ -480,26 +507,27 @@ class ParserTest {
     @Test
     fun testExpressionParserWithSumBetweenNumberAndIdentifier() {
         val parser = ExpressionParserFactory.create()
-        val input = listOf(
-            Token(
-                TokenType.NUMBER,
-                Position(1, 1),
-                Position(1, 1),
-                "1"
-            ),
-            Token(
-                TokenType.SUM,
-                Position(1, 2),
-                Position(1, 2),
-                "+"
-            ),
-            Token(
-                TokenType.IDENTIFIER,
-                Position(1, 3),
-                Position(1, 3),
-                "a"
-            ),
-        )
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+                Token(
+                    TokenType.SUM,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "+",
+                ),
+                Token(
+                    TokenType.IDENTIFIER,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "a",
+                ),
+            )
 
         val result = parser.parse(input, 0)
 

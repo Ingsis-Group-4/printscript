@@ -2,9 +2,6 @@ package interpreter
 
 import ast.LiteralNode
 import ast.PrintLnNode
-import org.example.interpreter.Environment
-import org.example.interpreter.FunctionStatementInterpreter
-import org.example.interpreter.VoidValue
 import kotlin.test.Test
 
 class FunctionStatementInterpreterTest {

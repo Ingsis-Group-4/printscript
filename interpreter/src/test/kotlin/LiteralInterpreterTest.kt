@@ -1,10 +1,6 @@
 package interpreter
 
 import ast.LiteralNode
-import org.example.interpreter.Environment
-import org.example.interpreter.LiteralInterpreter
-import org.example.interpreter.NumberValue
-import org.example.interpreter.StringValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

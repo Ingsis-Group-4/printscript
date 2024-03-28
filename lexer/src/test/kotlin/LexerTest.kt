@@ -1,7 +1,5 @@
 package lexer
 
-import org.example.lexer.Lexer
-import org.example.lexer.getTokenMap
 import position.Position
 import token.Token
 import token.TokenType

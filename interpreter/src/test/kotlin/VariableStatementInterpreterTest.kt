@@ -6,12 +6,6 @@ import ast.LiteralNode
 import ast.SumNode
 import ast.VariableDeclarationNode
 import ast.VariableType
-import org.example.interpreter.Environment
-import org.example.interpreter.NullValue
-import org.example.interpreter.NumberValue
-import org.example.interpreter.StringValue
-import org.example.interpreter.VariableStatementInterpreter
-import org.example.interpreter.VoidValue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

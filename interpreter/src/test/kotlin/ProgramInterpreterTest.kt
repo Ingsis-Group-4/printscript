@@ -7,8 +7,6 @@ import ast.PrintLnNode
 import ast.ProgramNode
 import ast.VariableDeclarationNode
 import ast.VariableType
-import org.example.interpreter.ProgramInterpreter
-import org.example.interpreter.VoidValue
 import kotlin.test.Test
 
 class ProgramInterpreterTest {
