@@ -19,5 +19,4 @@ class TokenMatcher {
     fun getMatcher(input: String): Matcher {
         return pattern.matcher(input)
     }
-
 }
