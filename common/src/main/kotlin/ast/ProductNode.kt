@@ -5,6 +5,7 @@ import position.Position
 class ProductNode(
     val left: ExpressionNode,
     val right: ExpressionNode,
+    val operatorNode: ProductOperatorNode,
     private val start: Position,
     private val end: Position,
 ) : OperationNode {

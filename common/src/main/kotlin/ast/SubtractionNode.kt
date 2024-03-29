@@ -5,6 +5,7 @@ import position.Position
 class SubtractionNode(
     val left: ExpressionNode,
     val right: ExpressionNode,
+    val operatorNode: SubtractionOperatorNode,
     private val start: Position,
     private val end: Position,
 ) : OperationNode {
