@@ -2,14 +2,18 @@ package interpreter
 
 import ast.FunctionStatementNode
 import ast.PrintLnNode
+import logger.Logger
 
-class FunctionStatementInterpreter(private val node: FunctionStatementNode, private val environment: Environment) :
-    Interpreter {
+class FunctionStatementInterpreter(
+    private val node: FunctionStatementNode,
+    private val environment: Environment,
+    private val logger: Logger,
+) : Interpreter {
     override fun interpret(): Value {
         when (node) {
             is PrintLnNode -> {
                 val value = ExpressionInterpreter(node.expression, environment).interpret()
-                println(value)
+                logger.log(value.toString())
             }
         }
         return VoidValue()
