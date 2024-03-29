@@ -10,13 +10,13 @@ class CLI(
 ) {
     fun run(args: List<String>) {
         if (args.isEmpty()) {
-            TODO("Error case not yet implemented")
+            throw IllegalArgumentException("No command provided")
         }
 
         val command = args[0]
         val function =
             functions.getOrElse(command) {
-                TODO("Error case not yet implemented")
+                throw IllegalArgumentException("Command $command not found")
             }
 
         val arguments = getNextArguments(args)

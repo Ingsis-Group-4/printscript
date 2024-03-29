@@ -31,6 +31,6 @@ private fun getFilePath(args: Map<String, String>): String {
     return if (args.containsKey("-f")) {
         args["-f"]!!
     } else {
-        throw IllegalArgumentException("No file path provided")
+        throw IllegalArgumentException("No program file path provided")
     }
 }
