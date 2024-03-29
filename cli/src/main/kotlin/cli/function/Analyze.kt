@@ -1,19 +1,21 @@
 package cli.function
 
 import cli.util.generateAST
-import org.example.StaticCodeAnalyzer
-import org.example.cli.functions.CLIFunction
-import org.example.factory.StaticCodeAnalyzerConfigurerFactory
-import org.example.lexer.Lexer
-import org.example.lexer.getTokenMap
-import org.example.parser.Parser
-import org.example.parser.factory.ProgramParserFactory
-import org.example.provider.StaticCodeAnalyzerConfigurer
+import lexer.Lexer
+import lexer.getTokenMap
+import logger.ConsoleLogger
+import logger.Logger
+import parser.Parser
+import parser.factory.ProgramParserFactory
+import sca.StaticCodeAnalyzer
+import sca.factory.StaticCodeAnalyzerConfigurerFactory
+import sca.provider.StaticCodeAnalyzerConfigurer
 
 class Analyze(
     private val lexer: Lexer = Lexer(getTokenMap()),
     private val parser: Parser = ProgramParserFactory.create(),
-    private val analyezrConfigurer: StaticCodeAnalyzerConfigurer = StaticCodeAnalyzerConfigurerFactory().create(),
+    private val analyzerConfigurer: StaticCodeAnalyzerConfigurer = StaticCodeAnalyzerConfigurerFactory().create(),
+    private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
         val ast = generateAST(lexer, parser, args)
@@ -21,13 +23,14 @@ class Analyze(
         val sca = getSca(args)
 
         val report = sca.analyze(ast)
-        report.print()
+
+        report.getReportMessages().forEach { logger.log(it) }
     }
 
     private fun getSca(args: Map<String, String>): StaticCodeAnalyzer {
         val configFile = getConfigFile(args)
 
-        return analyezrConfigurer.createStaticCodeAnalyzer(configFile)
+        return analyzerConfigurer.createStaticCodeAnalyzer(configFile)
     }
 
     private fun getConfigFile(args: Map<String, String>): String {

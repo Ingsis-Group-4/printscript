@@ -1,4 +1,4 @@
-package org.example.cli.functions
+package cli.function
 
 interface CLIFunction {
     fun run(args: Map<String, String>)

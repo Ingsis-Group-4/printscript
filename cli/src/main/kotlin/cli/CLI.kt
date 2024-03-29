@@ -2,7 +2,7 @@ package cli
 
 import cli.argument.ArgumentParser
 import cli.argument.DefaultArgumentParser
-import org.example.cli.functions.CLIFunction
+import cli.function.CLIFunction
 
 class CLI(
     private val functions: Map<String, CLIFunction>,

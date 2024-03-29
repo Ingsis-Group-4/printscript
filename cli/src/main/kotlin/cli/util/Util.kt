@@ -1,10 +1,10 @@
 package cli.util
 
 import ast.AST
-import org.example.lexer.Lexer
-import org.example.parser.Parser
-import org.example.parser.result.FailureResult
-import org.example.parser.result.SuccessResult
+import lexer.Lexer
+import parser.Parser
+import parser.result.FailureResult
+import parser.result.SuccessResult
 import java.io.File
 
 fun generateAST(
@@ -19,7 +19,7 @@ fun generateAST(
 
     when (val parserResult = parser.parse(tokens, 0)) {
         is SuccessResult -> {
-            return parserResult.value as AST
+            return parserResult.value
         }
         is FailureResult -> {
             throw IllegalArgumentException("Error: ${parserResult.message}")
