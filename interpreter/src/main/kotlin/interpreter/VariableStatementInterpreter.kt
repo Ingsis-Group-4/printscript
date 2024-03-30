@@ -17,10 +17,18 @@ class VariableStatementInterpreter(private val node: VariableStatementNode, priv
             is VariableDeclarationNode -> {
                 if (node.expression != null) {
                     val value = ExpressionInterpreter(node.expression!!, environment).interpret()
-                    environment.createVariable(node.identifier.variableName, value, node.identifier.variableType)
+                    environment.createVariable(
+                        node.identifier.variableName,
+                        value,
+                        node.identifier.variableType?.variableType,
+                    )
                     return VoidValue()
                 } else {
-                    environment.createVariable(node.identifier.variableName, NullValue(), node.identifier.variableType)
+                    environment.createVariable(
+                        node.identifier.variableName,
+                        NullValue(),
+                        node.identifier.variableType?.variableType,
+                    )
                     return VoidValue()
                 }
             }
