@@ -20,14 +20,14 @@ class VariableStatementInterpreter(private val node: VariableStatementNode, priv
                     environment.createVariable(
                         node.identifier.variableName,
                         value,
-                        node.identifier.variableType?.variableType,
+                        node.identifier.variableType,
                     )
                     return VoidValue()
                 } else {
                     environment.createVariable(
                         node.identifier.variableName,
                         NullValue(),
-                        node.identifier.variableType?.variableType,
+                        node.identifier.variableType,
                     )
                     return VoidValue()
                 }

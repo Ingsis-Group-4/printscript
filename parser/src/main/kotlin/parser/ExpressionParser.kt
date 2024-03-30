@@ -1,57 +1,201 @@
 package parser
 
-import parser.expression.OperandValidator
-import parser.expression.OperatorValidator
-import parser.result.FailureResult
+import ast.AST
+import ast.DivisionNode
+import ast.ExpressionNode
+import ast.IdentifierNode
+import ast.LiteralNode
+import ast.OperatorNode
+import ast.OperatorType
+import ast.ProductNode
+import ast.SubtractionNode
+import ast.SumNode
 import parser.result.ParserResult
+import parser.result.SuccessResult
 import parser.utils.at
-import parser.utils.getSyntaxSubtree
+import parser.utils.isOutOfBounds
 import parser.utils.nextIndex
 import token.Token
 import token.TokenType
 
-// TODO el expression podria tener dos diccionarios, uno de operands y otro de operators
-class ExpressionParser(private val operatorSelector: Map<TokenType, Parser>, private val operandSelector: Map<TokenType, Parser>) :
-    Parser {
+class ExpressionParser : Parser {
     override fun parse(
         tokens: List<Token>,
         currentIndex: Int,
     ): ParserResult {
-        if (isOperand(tokens, currentIndex)) {
-            val operand = at(tokens, currentIndex)
-            return buildSuccessResult(tokens, operand, currentIndex)
-        }
-        return FailureResult("Invalid operand at position ${at(tokens, currentIndex).start}", currentIndex)
+        return parsePrimaryExpression(tokens, currentIndex)
     }
 
-    private fun isOperand(
+    private fun parsePrimaryExpression(
         tokens: List<Token>,
         currentIndex: Int,
+    ): SuccessResult {
+        val leftResult = parseTerm(tokens, currentIndex)
+        var left = leftResult.value
+
+        var lastIndex = leftResult.lastValidatedIndex
+        var currentOperatorIndex = nextIndex(lastIndex)
+
+        while (!isOutOfBounds(tokens, currentOperatorIndex) && isPrimaryOperator(tokens, currentOperatorIndex)) {
+            val operator = at(tokens, currentOperatorIndex)
+            val rightResult = parseTerm(tokens, nextIndex(currentOperatorIndex))
+
+            left = buildOperationNode(left, rightResult.value, operator)
+            lastIndex = rightResult.lastValidatedIndex
+            currentOperatorIndex = nextIndex(lastIndex)
+        }
+
+        return SuccessResult(
+            left,
+            lastIndex,
+        )
+    }
+
+    private fun parseTerm(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): SuccessResult {
+        val leftResult = parserFactor(tokens, currentIndex)
+        var left = leftResult.value
+        var lastIndex = leftResult.lastValidatedIndex
+
+        var currentOperatorIndex = nextIndex(lastIndex)
+
+        while (!isOutOfBounds(tokens, currentOperatorIndex) && isTermOperator(tokens, currentOperatorIndex)) {
+            val operator = at(tokens, currentOperatorIndex)
+            val rightResult = parserFactor(tokens, nextIndex(currentOperatorIndex))
+
+            left = buildOperationNode(left, rightResult.value, operator)
+            lastIndex = rightResult.lastValidatedIndex
+            currentOperatorIndex = nextIndex(lastIndex)
+        }
+
+        return SuccessResult(
+            left,
+            lastIndex,
+        )
+    }
+
+    private fun parserFactor(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): SuccessResult {
+        val currentToken = at(tokens, currentIndex)
+
+        return when (currentToken.type) {
+            TokenType.IDENTIFIER -> {
+                SuccessResult(
+                    IdentifierNode(
+                        currentToken.value,
+                        start = currentToken.start,
+                        end = currentToken.end,
+                    ),
+                    currentIndex,
+                )
+            }
+
+            TokenType.NUMBER -> {
+                SuccessResult(
+                    LiteralNode(
+                        currentToken.value.toDouble(),
+                        start = currentToken.start,
+                        end = currentToken.end,
+                    ),
+                    currentIndex,
+                )
+            }
+
+            TokenType.STRING -> {
+                SuccessResult(
+                    LiteralNode(
+                        currentToken.value,
+                        start = currentToken.start,
+                        end = currentToken.end,
+                    ),
+                    currentIndex,
+                )
+            }
+
+            TokenType.OPENPARENTHESIS -> {
+                val expressionResult = parsePrimaryExpression(tokens, nextIndex(currentIndex))
+                val expression = expressionResult.value
+
+                val rightParen = at(tokens, nextIndex(expressionResult.lastValidatedIndex))
+                if (rightParen.type != TokenType.CLOSEPARENTHESIS) {
+                    throw Exception("Expected a right parenthesis")
+                }
+
+                SuccessResult(
+                    expression,
+                    nextIndex(expressionResult.lastValidatedIndex),
+                )
+            }
+
+            else -> throw Exception("Unexpected token: ${currentToken.value}")
+        }
+    }
+
+    private fun isPrimaryOperator(
+        tokens: List<Token>,
+        operatorIndex: Int,
     ): Boolean {
-        val token = at(tokens, currentIndex)
-        return OperandValidator.isValid(token)
+        return when (at(tokens, operatorIndex).type) {
+            TokenType.SUM,
+            TokenType.SUBTRACTION,
+            -> true
+
+            else -> false
+        }
     }
 
-    private fun isOperator(
+    private fun isTermOperator(
         tokens: List<Token>,
-        currentIndex: Int,
+        operatorIndex: Int,
     ): Boolean {
-        if (currentIndex >= tokens.size) {
-            return false
+        return when (at(tokens, operatorIndex).type) {
+            TokenType.MULTIPLICATION,
+            TokenType.DIVISION,
+            -> true
+
+            else -> false
         }
-        val token = at(tokens, currentIndex)
-        return OperatorValidator.isValid(token)
     }
 
-    private fun buildSuccessResult(
-        tokens: List<Token>,
-        operand: Token,
-        currentIndex: Int,
-    ): ParserResult {
-        val operatorIndex = nextIndex(currentIndex)
-        if (isOperator(tokens, nextIndex(currentIndex))) {
-            return getSyntaxSubtree(tokens, operatorIndex, operatorSelector)
+    private fun buildOperationNode(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST {
+        when (operator.type) {
+            TokenType.SUM -> return SumNode(
+                left as ExpressionNode,
+                right as ExpressionNode,
+                OperatorNode(operator.start, operator.end, OperatorType.SUM),
+                left.getStart(),
+                right.getEnd(),
+            )
+            TokenType.SUBTRACTION -> return SubtractionNode(
+                left as ExpressionNode,
+                right as ExpressionNode,
+                OperatorNode(operator.start, operator.end, OperatorType.SUB),
+                left.getStart(),
+                right.getEnd(),
+            )
+            TokenType.MULTIPLICATION -> return ProductNode(
+                left as ExpressionNode,
+                right as ExpressionNode,
+                OperatorNode(operator.start, operator.end, OperatorType.MUL),
+                left.getStart(),
+                right.getEnd(),
+            )
+            TokenType.DIVISION -> return DivisionNode(
+                left as ExpressionNode,
+                right as ExpressionNode,
+                OperatorNode(operator.start, operator.end, OperatorType.DIV),
+                left.getStart(),
+                right.getEnd(),
+            )
+            else -> throw Exception("Unexpected operator: ${operator.value}")
         }
-        return getSyntaxSubtree(tokens, currentIndex, operandSelector)
     }
 }

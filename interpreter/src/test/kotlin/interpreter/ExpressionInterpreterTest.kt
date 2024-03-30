@@ -3,6 +3,8 @@ package interpreter
 import ast.DivisionNode
 import ast.IdentifierNode
 import ast.LiteralNode
+import ast.OperatorNode
+import ast.OperatorType
 import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
@@ -45,6 +47,7 @@ class ExpressionInterpreterTest {
             SumNode(
                 LiteralNode(10.0, Position(1, 1), Position(1, 1)),
                 LiteralNode(20.0, Position(1, 1), Position(2, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUM),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -62,6 +65,7 @@ class ExpressionInterpreterTest {
             SumNode(
                 IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
                 IdentifierNode("y", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUM),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -84,6 +88,7 @@ class ExpressionInterpreterTest {
             SumNode(
                 LiteralNode("Hello", Position(1, 1), Position(1, 2)),
                 LiteralNode("World", Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUM),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -101,6 +106,7 @@ class ExpressionInterpreterTest {
             SubtractionNode(
                 LiteralNode(10.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUB),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -118,6 +124,7 @@ class ExpressionInterpreterTest {
             DivisionNode(
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.DIV),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -135,6 +142,7 @@ class ExpressionInterpreterTest {
             ProductNode(
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.MUL),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -153,6 +161,7 @@ class ExpressionInterpreterTest {
             SumNode(
                 LiteralNode("Hello", Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUM),
                 Position(1, 1),
                 Position(1, 2),
             )

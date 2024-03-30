@@ -4,7 +4,7 @@ import position.Position
 
 class IdentifierNode(
     val variableName: String,
-    val variableType: VariableTypeNode? = null,
+    val variableType: VariableType? = null,
     private val start: Position,
     private val end: Position,
 ) : ExpressionNode {
