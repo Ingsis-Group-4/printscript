@@ -2,28 +2,15 @@
 
 echo '-----------------🚀Launching pre-commit hook-----------------'
 
-MODIFIED_FILES=$(./gradlew ktlintFormat --daemon --dry-run | grep "modified:" | awk '{print $2}')
-ADDED_FILES=$(./gradlew ktlintFormat --daemon --dry-run | grep "added:" | awk '{print $2}')
-FILES_TO_COMMIT="$MODIFIED_FILES $ADDED_FILES"
-
-
-./gradlew ktlintFormat --daemon
+./gradlew build --daemon
 
 if [ $? -ne 0 ]; then
-  echo '❌ ktlintFormat failed! Please fix the style errors.'
+  echo '❌ Build failed. Please fix the issues before committing.'
   exit 1
 fi
 
-echo '✅ ktlintFormat passed! Your code style is on point.'
+echo '✅ Build passed! Your code style is on point.'
 
-if [[ -n "$FILES_TO_COMMIT" ]]; then
-  echo "📝 Adding files to commit: $FILES_TO_COMMIT"
-  git add $FILES_TO_COMMIT
-
-  if [ $? -ne 0 ]; then
-    echo '❌ Failed to add files to the commit.'
-    exit 1
-  fi
-fi
+echo '-----------------🚀Finished pre-commit hook-----------------'
 
 exit 0

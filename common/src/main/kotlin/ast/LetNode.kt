@@ -2,13 +2,10 @@ package ast
 
 import position.Position
 
-class SubtractionNode(
-    val left: ExpressionNode,
-    val right: ExpressionNode,
-    val operatorNode: OperatorNode,
+class LetNode(
     private val start: Position,
     private val end: Position,
-) : OperationNode {
+) : KeywordNode {
     override fun getStart(): Position = start
 
     override fun getEnd(): Position = end
