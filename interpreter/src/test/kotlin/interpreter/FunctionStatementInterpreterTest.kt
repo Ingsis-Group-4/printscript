@@ -1,6 +1,8 @@
 package interpreter
 
 import ast.LiteralNode
+import ast.OperatorNode
+import ast.OperatorType
 import ast.PrintLnNode
 import ast.SumNode
 import position.Position
@@ -65,6 +67,7 @@ class FunctionStatementInterpreterTest {
                 SumNode(
                     LiteralNode(2.0, Position(1, 1), Position(1, 1)),
                     LiteralNode(3.0, Position(1, 1), Position(1, 1)),
+                    OperatorNode(Position(1, 1), Position(1, 1), OperatorType.SUM),
                     Position(1, 1),
                     Position(1, 1),
                 ),
