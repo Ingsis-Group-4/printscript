@@ -10,11 +10,14 @@ class DefaultArgumentParser : ArgumentParser {
 
             if (isValidFlag(currentArgument)) {
                 if (isFlagWithArgument(currentArgument)) {
-                    parsedArguments[currentArgument] = args[index + 1]
+                    if (flagHasNoArgument(args, index)) {
+                        throw IllegalArgumentException("Flag $currentArgument requires an argument")
+                    }
+                    addFlagWithArgument(args, parsedArguments, index)
                     index += 2
                     continue
                 } else {
-                    parsedArguments[currentArgument] = ""
+                    addFlagWithoutArgument(parsedArguments, currentArgument)
                     index++
                     continue
                 }
@@ -23,6 +26,30 @@ class DefaultArgumentParser : ArgumentParser {
         }
 
         return parsedArguments
+    }
+
+    private fun addFlagWithArgument(
+        args: List<String>,
+        parsedArguments: MutableMap<String, String>,
+        index: Int,
+    ) {
+        val flag = args[index]
+        val argument = args[index + 1]
+        parsedArguments[flag] = argument
+    }
+
+    private fun addFlagWithoutArgument(
+        parsedArguments: MutableMap<String, String>,
+        currentArgument: String,
+    ) {
+        parsedArguments[currentArgument] = ""
+    }
+
+    private fun flagHasNoArgument(
+        args: List<String>,
+        index: Int,
+    ): Boolean {
+        return index + 1 >= args.size
     }
 
     private fun isValidFlag(flag: String): Boolean {
