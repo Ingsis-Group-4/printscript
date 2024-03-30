@@ -1,11 +1,10 @@
 package formatter.rule
 
 import ast.AssignationNode
+import ast.EqualsNode
 import ast.FunctionStatementNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
-import ast.EqualsNode
-
 import position.Position
 
 class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
@@ -32,10 +31,9 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                         return createNewAssignationNode(statementNode, newEqualSignNode)
                     }
                 } else {
-                    if (endPosition.column == equalSignPosition.column - 2)
-                        {
-                            return statementNode
-                        } else {
+                    if (endPosition.column == equalSignPosition.column - 2) {
+                        return statementNode
+                    } else {
                         val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                         val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
                         return createNewAssignationNode(statementNode, newEqualSignNode)
@@ -43,10 +41,9 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                 }
             }
             is VariableDeclarationNode -> {
-                if (statementNode.equalsNode == null)
-                    {
-                        return statementNode
-                    } else {
+                if (statementNode.equalsNode == null) {
+                    return statementNode
+                } else {
                     val equalSignPosition = statementNode.equalsNode!!.getStart()
                     val endPosition = getEndPositionVariableDeclarationNode(statementNode)
                     if (!hasSpace) {
@@ -68,10 +65,9 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                             return newVariableDeclarationNode
                         }
                     } else {
-                        if (endPosition.column == equalSignPosition.column - 2)
-                            {
-                                return statementNode
-                            } else {
+                        if (endPosition.column == equalSignPosition.column - 2) {
+                            return statementNode
+                        } else {
                             val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                             val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
                             val newVariableDeclarationNode =
@@ -121,7 +117,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
         }
     }
 
-    private fun getEndPositionVariableDeclarationNode(statementNode: VariableDeclarationNode): Position  {
+    private fun getEndPositionVariableDeclarationNode(statementNode: VariableDeclarationNode): Position {
         return if (statementNode.identifier.variableType != null) {
             statementNode.identifier.variableType!!.getEnd()
         } else {

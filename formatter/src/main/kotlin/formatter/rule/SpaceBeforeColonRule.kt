@@ -1,9 +1,8 @@
 package formatter.rule
 
-
+import ast.ColonNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
-import ast.ColonNode
 import position.Position
 
 class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {

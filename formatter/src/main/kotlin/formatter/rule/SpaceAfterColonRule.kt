@@ -1,10 +1,10 @@
 package formatter.rule
 
+import ast.AssignationNode
+import ast.FunctionStatementNode
+import ast.IdentifierNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
-import ast.FunctionStatementNode
-import ast.AssignationNode
-import ast.IdentifierNode
 import ast.VariableTypeNode
 import position.Position
 
