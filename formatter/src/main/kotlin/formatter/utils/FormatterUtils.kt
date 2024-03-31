@@ -3,6 +3,7 @@ package formatter.utils
 import ast.AssignationNode
 import ast.ColonNode
 import ast.DivisionNode
+import ast.EqualsNode
 import ast.ExpressionNode
 import ast.IdentifierNode
 import ast.KeywordNode
@@ -11,7 +12,6 @@ import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
 import ast.VariableDeclarationNode
-import ast.EqualsNode
 import position.Position
 
 fun createNewExpressionNode(
