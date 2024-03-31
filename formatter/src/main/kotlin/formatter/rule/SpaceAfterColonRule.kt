@@ -1,7 +1,5 @@
 package formatter.rule
 
-import ast.AssignationNode
-import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
@@ -9,37 +7,36 @@ import ast.VariableTypeNode
 import position.Position
 
 class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
-    override fun apply(statementNode: StatementNode): StatementNode {
+    override fun apply(
+        statementNode: StatementNode,
+        index: Int,
+        statements: List<StatementNode>,
+    ): StatementNode {
         when (statementNode) {
-            is FunctionStatementNode -> {
-                return statementNode
-            }
-
-            is AssignationNode -> {
-                return statementNode
-            }
-
             is VariableDeclarationNode -> {
                 if (statementNode.identifier.variableType == null) {
                     return statementNode
                 }
                 val colonPosition = statementNode.colonNode.getEnd()
                 val typePosition = statementNode.identifier.variableType?.getStart()
-                if (typePosition == null) {
-                    return statementNode
+                return if (typePosition == null) {
+                    statementNode
                 } else if (!hasSpace) {
-                    return if (colonPosition.column == typePosition.column - 1) {
+                    if (colonPosition.column == typePosition.column - 1) {
                         statementNode
                     } else {
                         applyNoSpaceRule(typePosition, colonPosition, statementNode)
                     }
                 } else {
                     if (colonPosition.column == typePosition.column - 2) {
-                        return statementNode
+                        statementNode
                     } else {
-                        return applySpaceRule(typePosition, colonPosition, statementNode)
+                        applySpaceRule(typePosition, colonPosition, statementNode)
                     }
                 }
+            }
+            else -> {
+                return statementNode
             }
         }
     }
@@ -54,7 +51,15 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
             Position(typePosition.line, colonPosition.column + getTypeNameLength(statementNode) + 1)
         val newTypeNode = createNewTypeNode(statementNode, newTypeStartPosition, newTypeEndPosition)
         val newIdentifierNode = createNewIdentifierNode(statementNode, newTypeNode)
-        return createNewVariableDeclarationNode(newIdentifierNode, statementNode)
+        return formatter.utils.createNewVariableDeclarationNode(
+            newIdentifierNode,
+            statementNode.expression,
+            statementNode.keywordNode,
+            statementNode.colonNode,
+            statementNode.equalsNode,
+            statementNode.getStart(),
+            statementNode.getEnd(),
+        )
     }
 
     private fun applyNoSpaceRule(
@@ -67,30 +72,21 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
             Position(typePosition.line, colonPosition.column + getTypeNameLength(statementNode))
         val newTypeNode = createNewTypeNode(statementNode, newTypeStartPosition, newTypeEndPosition)
         val newIdentifierNode = createNewIdentifierNode(statementNode, newTypeNode)
-        return createNewVariableDeclarationNode(newIdentifierNode, statementNode)
+        return formatter.utils.createNewVariableDeclarationNode(
+            newIdentifierNode,
+            statementNode.expression,
+            statementNode.keywordNode,
+            statementNode.colonNode,
+            statementNode.equalsNode,
+            statementNode.getStart(),
+            statementNode.getEnd(),
+        )
     }
 
     private fun getTypeNameLength(statementNode: VariableDeclarationNode): Int {
         val typeName = statementNode.identifier.variableType.toString()
         val typeLength = typeName.length
         return typeLength
-    }
-
-    private fun createNewVariableDeclarationNode(
-        newIdentifierNode: IdentifierNode,
-        statementNode: VariableDeclarationNode,
-    ): VariableDeclarationNode {
-        val newVariableDeclarationNode =
-            VariableDeclarationNode(
-                newIdentifierNode,
-                statementNode.expression,
-                statementNode.keywordNode,
-                statementNode.colonNode,
-                statementNode.equalsNode,
-                statementNode.getStart(),
-                statementNode.getEnd(),
-            )
-        return newVariableDeclarationNode
     }
 
     private fun createNewIdentifierNode(

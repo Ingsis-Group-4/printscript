@@ -5,10 +5,16 @@ import ast.EqualsNode
 import ast.FunctionStatementNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
+import formatter.utils.createNewAssignationNode
+import formatter.utils.createNewVariableDeclarationNode
 import position.Position
 
 class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
-    override fun apply(statementNode: StatementNode): StatementNode {
+    override fun apply(
+        statementNode: StatementNode,
+        index: Int,
+        statements: List<StatementNode>,
+    ): StatementNode {
         // maybe I'll have to divide it into two inner cases
         // it all depends on whether the identifier node has the variable type or not
         // because if it does the "token" that goes before the equal sign is the type
@@ -28,7 +34,13 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                     } else {
                         val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 1)
                         val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                        return createNewAssignationNode(statementNode, newEqualSignNode)
+                        return createNewAssignationNode(
+                            statementNode.identifier,
+                            statementNode.expression,
+                            newEqualSignNode,
+                            statementNode.getStart(),
+                            statementNode.getEnd(),
+                        )
                     }
                 } else {
                     if (endPosition.column == equalSignPosition.column - 2) {
@@ -36,7 +48,13 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                     } else {
                         val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                         val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                        return createNewAssignationNode(statementNode, newEqualSignNode)
+                        return createNewAssignationNode(
+                            statementNode.identifier,
+                            statementNode.expression,
+                            newEqualSignNode,
+                            statementNode.getStart(),
+                            statementNode.getEnd(),
+                        )
                     }
                 }
             }
@@ -52,17 +70,15 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                         } else {
                             val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 1)
                             val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                            val newVariableDeclarationNode =
-                                VariableDeclarationNode(
-                                    statementNode.identifier,
-                                    statementNode.expression,
-                                    statementNode.keywordNode,
-                                    statementNode.colonNode,
-                                    newEqualSignNode,
-                                    statementNode.getStart(),
-                                    statementNode.getEnd(),
-                                )
-                            return newVariableDeclarationNode
+                            return createNewVariableDeclarationNode(
+                                statementNode.identifier,
+                                statementNode.expression,
+                                statementNode.keywordNode,
+                                statementNode.colonNode,
+                                newEqualSignNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
                         }
                     } else {
                         if (endPosition.column == equalSignPosition.column - 2) {
@@ -70,37 +86,20 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                         } else {
                             val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                             val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                            val newVariableDeclarationNode =
-                                VariableDeclarationNode(
-                                    statementNode.identifier,
-                                    statementNode.expression,
-                                    statementNode.keywordNode,
-                                    statementNode.colonNode,
-                                    newEqualSignNode,
-                                    statementNode.getStart(),
-                                    statementNode.getEnd(),
-                                )
-                            return newVariableDeclarationNode
+                            return createNewVariableDeclarationNode(
+                                statementNode.identifier,
+                                statementNode.expression,
+                                statementNode.keywordNode,
+                                statementNode.colonNode,
+                                newEqualSignNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
                         }
                     }
                 }
             }
         }
-    }
-
-    private fun createNewAssignationNode(
-        statementNode: AssignationNode,
-        newEqualSignNode: EqualsNode,
-    ): AssignationNode {
-        val newAssignationNode =
-            AssignationNode(
-                statementNode.identifier,
-                statementNode.expression,
-                newEqualSignNode,
-                statementNode.getStart(),
-                statementNode.getEnd(),
-            )
-        return newAssignationNode
     }
 
     private fun createNewEqualsNode(newEqualSignPosition: Position): EqualsNode {

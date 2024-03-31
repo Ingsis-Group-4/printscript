@@ -6,7 +6,11 @@ import ast.VariableDeclarationNode
 import position.Position
 
 class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
-    override fun apply(statementNode: StatementNode): StatementNode {
+    override fun apply(
+        statementNode: StatementNode,
+        index: Int,
+        statements: List<StatementNode>,
+    ): StatementNode {
         when (statementNode) {
             is VariableDeclarationNode -> {
                 val colonPosition = statementNode.colonNode.getStart()
@@ -17,7 +21,6 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
                     applySpaceRule(colonPosition, identifierFinalPosition, statementNode)
                 }
             }
-
             else -> return statementNode
         }
     }
@@ -32,7 +35,15 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
         } else {
             val newColonPosition = Position(colonPosition.line, identifierFinalPosition.column + 2)
             val newColonNode = createColonNode(newColonPosition, newColonPosition)
-            return createNewVariableDeclarationNode(newColonNode, statementNode)
+            return formatter.utils.createNewVariableDeclarationNode(
+                statementNode.identifier,
+                statementNode.expression,
+                statementNode.keywordNode,
+                newColonNode,
+                statementNode.equalsNode,
+                statementNode.getStart(),
+                statementNode.getEnd(),
+            )
         }
     }
 
@@ -54,23 +65,16 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
         } else {
             val newColonPosition = Position(colonPosition.line, identifierFinalPosition.column + 1)
             val newColonNode = createColonNode(newColonPosition, newColonPosition)
-            createNewVariableDeclarationNode(newColonNode, statementNode)
+            return formatter.utils.createNewVariableDeclarationNode(
+                statementNode.identifier,
+                statementNode.expression,
+                statementNode.keywordNode,
+                newColonNode,
+                statementNode.equalsNode,
+                statementNode.getStart(),
+                statementNode.getEnd(),
+            )
         }
-    }
-
-    private fun createNewVariableDeclarationNode(
-        newColonNode: ColonNode,
-        statementNode: VariableDeclarationNode,
-    ): VariableDeclarationNode {
-        return VariableDeclarationNode(
-            statementNode.identifier,
-            statementNode.expression,
-            statementNode.keywordNode,
-            newColonNode,
-            statementNode.equalsNode,
-            statementNode.getStart(),
-            statementNode.getEnd(),
-        )
     }
 }
 // dahbda : String
