@@ -15,12 +15,6 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
         index: Int,
         statements: List<StatementNode>,
     ): StatementNode {
-        // maybe I'll have to divide it into two inner cases
-        // it all depends on whether the identifier node has the variable type or not
-        // because if it does the "token" that goes before the equal sign is the type
-        // on the other hand if there is no variable type declared, the variable name is the token before the equal sign
-        // that's in the case of the assignation node
-        // in the case of the variable declaration node, I'll have to check first if there even is an assignation node in the first place, and then it's the same thinking as before
         when (statementNode) {
             is FunctionStatementNode -> {
                 return statementNode
@@ -75,6 +69,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression,
                                 statementNode.keywordNode,
                                 statementNode.colonNode,
+                                statementNode.typeNode,
                                 newEqualSignNode,
                                 statementNode.getStart(),
                                 statementNode.getEnd(),
@@ -91,6 +86,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression,
                                 statementNode.keywordNode,
                                 statementNode.colonNode,
+                                statementNode.typeNode,
                                 newEqualSignNode,
                                 statementNode.getStart(),
                                 statementNode.getEnd(),
@@ -107,22 +103,13 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
         return newEqualSignNode
     }
 
-    // function that checks if there is a variable type node or not, and returns each endPosition accordingly
+    // now the identifier node does not have a variable type node, so the end position is the end of the identifier
     private fun getEndPositionAssignationNode(statementNode: AssignationNode): Position {
-        return if (statementNode.identifier.variableType != null) {
-            statementNode.identifier.variableType!!.getEnd()
-        } else {
-            statementNode.identifier.getEnd()
-        }
+        return statementNode.identifier.getEnd()
     }
 
+    // now the variable type node is inside the variable declaration node
     private fun getEndPositionVariableDeclarationNode(statementNode: VariableDeclarationNode): Position {
-        return if (statementNode.identifier.variableType != null) {
-            statementNode.identifier.variableType!!.getEnd()
-        } else {
-            statementNode.identifier.getEnd()
-        }
+        return statementNode.typeNode.getEnd()
     }
 }
-// jdbjvb : String =
-// 123456789012345678

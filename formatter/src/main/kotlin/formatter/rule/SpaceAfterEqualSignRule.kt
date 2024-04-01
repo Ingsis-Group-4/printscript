@@ -4,8 +4,8 @@ import ast.AssignationNode
 import ast.FunctionStatementNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
+import formatter.utils.changeExpressionNodePositions
 import formatter.utils.createNewAssignationNode
-import formatter.utils.createNewExpressionNode
 import formatter.utils.createNewVariableDeclarationNode
 import position.Position
 
@@ -36,7 +36,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression.getEnd().column - (differenceBetweenPositions - 1),
                             )
                         val newExpressionNode =
-                            createNewExpressionNode(
+                            changeExpressionNodePositions(
                                 statementNode.expression,
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
@@ -62,7 +62,11 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression.getEnd().column - (differenceBetweenPositions - 2),
                             )
                         val newExpressionNode =
-                            createNewExpressionNode(statementNode.expression, newExpressionNodeStartPosition, newExpressionNodeEndPosition)
+                            changeExpressionNodePositions(
+                                statementNode.expression,
+                                newExpressionNodeStartPosition,
+                                newExpressionNodeEndPosition,
+                            )
                         return createNewAssignationNode(
                             statementNode.identifier,
                             newExpressionNode,
@@ -92,7 +96,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression!!.getEnd().column - (differenceBetweenPositions - 1),
                             )
                         val newExpressionNode =
-                            createNewExpressionNode(
+                            changeExpressionNodePositions(
                                 statementNode.expression!!,
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
@@ -102,6 +106,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                             newExpressionNode,
                             statementNode.keywordNode,
                             statementNode.colonNode,
+                            statementNode.typeNode,
                             statementNode.equalsNode,
                             statementNode.getStart(),
                             statementNode.getEnd(),
@@ -120,7 +125,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 statementNode.expression!!.getEnd().column - (differenceBetweenPositions - 2),
                             )
                         val newExpressionNode =
-                            createNewExpressionNode(
+                            changeExpressionNodePositions(
                                 statementNode.expression!!,
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
@@ -130,6 +135,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                             newExpressionNode,
                             statementNode.keywordNode,
                             statementNode.colonNode,
+                            statementNode.typeNode,
                             statementNode.equalsNode,
                             statementNode.getStart(),
                             statementNode.getEnd(),

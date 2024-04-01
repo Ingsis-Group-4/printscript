@@ -1,6 +1,5 @@
 package formatter.rule
 
-import ast.IdentifierNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
 import ast.VariableTypeNode
@@ -18,10 +17,8 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
                     return statementNode
                 }
                 val colonPosition = statementNode.colonNode.getEnd()
-                val typePosition = statementNode.identifier.variableType?.getStart()
-                return if (typePosition == null) {
-                    statementNode
-                } else if (!hasSpace) {
+                val typePosition = statementNode.typeNode.getStart()
+                return if (!hasSpace) {
                     if (colonPosition.column == typePosition.column - 1) {
                         statementNode
                     } else {
@@ -50,12 +47,12 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
         val newTypeEndPosition =
             Position(typePosition.line, colonPosition.column + getTypeNameLength(statementNode) + 1)
         val newTypeNode = createNewTypeNode(statementNode, newTypeStartPosition, newTypeEndPosition)
-        val newIdentifierNode = createNewIdentifierNode(statementNode, newTypeNode)
         return formatter.utils.createNewVariableDeclarationNode(
-            newIdentifierNode,
+            statementNode.identifier,
             statementNode.expression,
             statementNode.keywordNode,
             statementNode.colonNode,
+            newTypeNode,
             statementNode.equalsNode,
             statementNode.getStart(),
             statementNode.getEnd(),
@@ -71,12 +68,12 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
         val newTypeEndPosition =
             Position(typePosition.line, colonPosition.column + getTypeNameLength(statementNode))
         val newTypeNode = createNewTypeNode(statementNode, newTypeStartPosition, newTypeEndPosition)
-        val newIdentifierNode = createNewIdentifierNode(statementNode, newTypeNode)
         return formatter.utils.createNewVariableDeclarationNode(
-            newIdentifierNode,
+            statementNode.identifier,
             statementNode.expression,
             statementNode.keywordNode,
             statementNode.colonNode,
+            newTypeNode,
             statementNode.equalsNode,
             statementNode.getStart(),
             statementNode.getEnd(),
@@ -89,20 +86,6 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
         return typeLength
     }
 
-    private fun createNewIdentifierNode(
-        statementNode: VariableDeclarationNode,
-        newTypeNode: VariableTypeNode,
-    ): IdentifierNode {
-        val newIdentifierNode =
-            IdentifierNode(
-                statementNode.identifier.variableName,
-                newTypeNode,
-                statementNode.identifier.getStart(),
-                statementNode.identifier.getEnd(),
-            )
-        return newIdentifierNode
-    }
-
     private fun createNewTypeNode(
         statementNode: VariableDeclarationNode,
         newTypeStartPosition: Position,
@@ -110,7 +93,7 @@ class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
     ): VariableTypeNode {
         val newTypeNode =
             VariableTypeNode(
-                statementNode.identifier.variableType!!.variableType,
+                statementNode.typeNode.variableType,
                 newTypeStartPosition,
                 newTypeEndPosition,
             )
