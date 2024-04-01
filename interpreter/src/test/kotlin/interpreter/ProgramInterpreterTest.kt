@@ -12,6 +12,7 @@ import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import position.Position
+import util.CollectorLogger
 import kotlin.test.Test
 
 class ProgramInterpreterTest {
@@ -39,11 +40,24 @@ class ProgramInterpreterTest {
                 PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
             )
 
-        val interpreter = ProgramInterpreter(ProgramNode(input, Position(1, 1), Position(1, 1)))
+        val collectorLogger = CollectorLogger()
 
-        val result = interpreter.interpret()
+        val interpreter =
+            ProgramInterpreter(
+                ProgramNode(
+                    input,
+                    Position(1, 1),
+                    Position(1, 1),
+                ),
+                collectorLogger,
+            )
 
-        assert(result is VoidValue)
+        interpreter.interpret()
+
+        val logs = collectorLogger.getLogs()
+
+        assert(logs.size == 1)
+        assert(logs[0] == "a")
     }
 
     @Test
@@ -74,12 +88,24 @@ class ProgramInterpreterTest {
                     Position(1, 1),
                     Position(1, 1),
                 ),
+                PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
             )
 
-        val interpreter = ProgramInterpreter(ProgramNode(input, Position(1, 1), Position(1, 1)))
+        val collectorLogger = CollectorLogger()
 
-        val result = interpreter.interpret()
+        val interpreter =
+            ProgramInterpreter(
+                ProgramNode(
+                    input,
+                    Position(1, 1),
+                    Position(1, 1),
+                ),
+                collectorLogger,
+            )
 
-        assert(result is VoidValue)
+        interpreter.interpret()
+
+        assert(collectorLogger.getLogs().size == 1)
+        assert(collectorLogger.getLogs()[0] == "b")
     }
 }

@@ -1,0 +1,2 @@
+let aNumber: Number = 5;
+println(1 + 1);
