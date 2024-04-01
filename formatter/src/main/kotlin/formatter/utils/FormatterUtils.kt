@@ -211,7 +211,7 @@ fun changeExpressionNodeLine(
 fun changeExpressionNodeColumn(
     expressionNode: ExpressionNode,
     spacesToMoveColumn: Int,
-): ExpressionNode  {
+): ExpressionNode {
     val newStartPosition = Position(expressionNode.getStart().line, expressionNode.getStart().column - spacesToMoveColumn)
     val newEndPosition = Position(expressionNode.getEnd().line, expressionNode.getEnd().column - spacesToMoveColumn)
     when (expressionNode) {

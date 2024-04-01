@@ -1,13 +1,13 @@
 package formatter.rule
 
-import ast.StatementNode
-import ast.AssignationNode
-import ast.VariableDeclarationNode
-import ast.PrintLnNode
 import ast.AST
+import ast.AssignationNode
+import ast.ColonNode
 import ast.EqualsNode
 import ast.IdentifierNode
-import ast.ColonNode
+import ast.PrintLnNode
+import ast.StatementNode
+import ast.VariableDeclarationNode
 import ast.VariableTypeNode
 import formatter.utils.changeExpressionNodeColumn
 import formatter.utils.createNewVariableDeclarationNode
@@ -79,49 +79,44 @@ class WhitespaceBetweenTokensRule(private val hasSpace: Boolean) : Rule {
                 )
         }
         var colonNode = node.colonNode
-        if (shouldReduceSpacesBetweenNodes(identifierNode, colonNode))
-            {
-                val spacesToMove = spacesToMove(identifierNode, colonNode)
-                val newColonNodeStartPosition = Position(colonNode.getStart().line, colonNode.getStart().column - spacesToMove)
-                val newColonNodeEndPosition = Position(colonNode.getEnd().line, colonNode.getEnd().column - spacesToMove)
-                colonNode = ColonNode(newColonNodeStartPosition, newColonNodeEndPosition)
-            }
+        if (shouldReduceSpacesBetweenNodes(identifierNode, colonNode)) {
+            val spacesToMove = spacesToMove(identifierNode, colonNode)
+            val newColonNodeStartPosition = Position(colonNode.getStart().line, colonNode.getStart().column - spacesToMove)
+            val newColonNodeEndPosition = Position(colonNode.getEnd().line, colonNode.getEnd().column - spacesToMove)
+            colonNode = ColonNode(newColonNodeStartPosition, newColonNodeEndPosition)
+        }
         var typeNode = node.typeNode
-        if (shouldReduceSpacesBetweenNodes(colonNode, typeNode))
-            {
-                val spacesToMove = spacesToMove(colonNode, typeNode)
-                val newTypeNodeStartPosition = Position(typeNode.getStart().line, typeNode.getStart().column - spacesToMove)
-                val newTypeNodeEndPosition = Position(typeNode.getEnd().line, typeNode.getEnd().column - spacesToMove)
-                typeNode = VariableTypeNode(typeNode.variableType, newTypeNodeStartPosition, newTypeNodeEndPosition)
+        if (shouldReduceSpacesBetweenNodes(colonNode, typeNode)) {
+            val spacesToMove = spacesToMove(colonNode, typeNode)
+            val newTypeNodeStartPosition = Position(typeNode.getStart().line, typeNode.getStart().column - spacesToMove)
+            val newTypeNodeEndPosition = Position(typeNode.getEnd().line, typeNode.getEnd().column - spacesToMove)
+            typeNode = VariableTypeNode(typeNode.variableType, newTypeNodeStartPosition, newTypeNodeEndPosition)
+        }
+        if (node.equalsNode != null && node.expression != null) {
+            var equalsNode = node.equalsNode
+            var expressionNode = handleExpressionNodeWhitespaces(node.expression!!)
+            if (shouldReduceSpacesBetweenNodes(typeNode, equalsNode!!)) {
+                val spacesToMove = spacesToMove(typeNode, equalsNode)
+                val newEqualsNodeStartPosition = Position(equalsNode.getStart().line, equalsNode.getStart().column - spacesToMove)
+                val newEqualsNodeEndPosition = Position(equalsNode.getEnd().line, equalsNode.getEnd().column - spacesToMove)
+                equalsNode = EqualsNode(newEqualsNodeStartPosition, newEqualsNodeEndPosition)
             }
-        if (node.equalsNode != null && node.expression != null)
-            {
-                var equalsNode = node.equalsNode
-                var expressionNode = handleExpressionNodeWhitespaces(node.expression!!)
-                if (shouldReduceSpacesBetweenNodes(typeNode, equalsNode!!))
-                    {
-                        val spacesToMove = spacesToMove(typeNode, equalsNode)
-                        val newEqualsNodeStartPosition = Position(equalsNode.getStart().line, equalsNode.getStart().column - spacesToMove)
-                        val newEqualsNodeEndPosition = Position(equalsNode.getEnd().line, equalsNode.getEnd().column - spacesToMove)
-                        equalsNode = EqualsNode(newEqualsNodeStartPosition, newEqualsNodeEndPosition)
-                    }
-                if (shouldReduceSpacesBetweenNodes(equalsNode, expressionNode))
-                    {
-                        val spacesToMove = spacesToMove(equalsNode, expressionNode)
-                        expressionNode = changeExpressionNodeColumn(expressionNode, spacesToMove)
-                    }
-                val newEndPosition = expressionNode.getEnd()
-                return createNewVariableDeclarationNode(
-                    identifierNode,
-                    expressionNode,
-                    keywordNode,
-                    colonNode,
-                    typeNode,
-                    equalsNode,
-                    node.getStart(),
-                    newEndPosition,
-                )
-            } else {
+            if (shouldReduceSpacesBetweenNodes(equalsNode, expressionNode)) {
+                val spacesToMove = spacesToMove(equalsNode, expressionNode)
+                expressionNode = changeExpressionNodeColumn(expressionNode, spacesToMove)
+            }
+            val newEndPosition = expressionNode.getEnd()
+            return createNewVariableDeclarationNode(
+                identifierNode,
+                expressionNode,
+                keywordNode,
+                colonNode,
+                typeNode,
+                equalsNode,
+                node.getStart(),
+                newEndPosition,
+            )
+        } else {
             val newEndPosition = typeNode.getEnd()
             return createNewVariableDeclarationNode(
                 identifierNode,
@@ -136,22 +131,20 @@ class WhitespaceBetweenTokensRule(private val hasSpace: Boolean) : Rule {
         }
     }
 
-    private fun handlePrintLnNodeWhitespaces(node: PrintLnNode): PrintLnNode  {
+    private fun handlePrintLnNodeWhitespaces(node: PrintLnNode): PrintLnNode {
         var expressionNode = handleExpressionNodeWhitespaces(node.expression)
         val openParenthesisColumn = node.getStart().column + 7
         val closeParenthesisColumn = node.getEnd().column - 1
         val expressionNodeStart = expressionNode.getStart().column
         val expressionNodeEnd = expressionNode.getEnd().column
         var newEndPosition = node.getEnd()
-        if (expressionNodeStart - openParenthesisColumn > 2)
-            {
-                val spacesToMove = expressionNodeStart - (openParenthesisColumn + 2)
-                expressionNode = changeExpressionNodeColumn(expressionNode, spacesToMove)
-            }
-        if (closeParenthesisColumn - expressionNodeEnd > 2)
-            {
-                newEndPosition = Position(node.getEnd().line, expressionNodeEnd + 2)
-            }
+        if (expressionNodeStart - openParenthesisColumn > 2) {
+            val spacesToMove = expressionNodeStart - (openParenthesisColumn + 2)
+            expressionNode = changeExpressionNodeColumn(expressionNode, spacesToMove)
+        }
+        if (closeParenthesisColumn - expressionNodeEnd > 2) {
+            newEndPosition = Position(node.getEnd().line, expressionNodeEnd + 2)
+        }
         return PrintLnNode(expressionNode, node.getStart(), newEndPosition)
     }
 
@@ -167,7 +160,7 @@ class WhitespaceBetweenTokensRule(private val hasSpace: Boolean) : Rule {
     private fun spacesToMove(
         leftNode: AST,
         rightNode: AST,
-    ): Int  {
+    ): Int {
         return rightNode.getStart().column - (leftNode.getEnd().column + 2)
     }
 }
