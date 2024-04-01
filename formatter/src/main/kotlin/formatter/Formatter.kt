@@ -7,15 +7,13 @@ import formatter.rule.Rule
 
 class Formatter(private val node: ProgramNode, private val rules: List<Rule>) {
     fun format(): AST {
-        val formattedStatements = mutableListOf<StatementNode>()
-        var index = 0
+        var formattedStatements = mutableListOf<StatementNode>()
+        var currentIndex = 0
         for (statement in node.statements) {
-            var formattedStatement = statement
             for (rule in rules) {
-                formattedStatement = rule.apply(formattedStatement, index, node.statements)
+                formattedStatements = rule.apply(currentIndex, node.statements).toMutableList()
             }
-            formattedStatements.add(formattedStatement)
-            index += 1
+            currentIndex += 1
         }
         return ProgramNode(
             formattedStatements,

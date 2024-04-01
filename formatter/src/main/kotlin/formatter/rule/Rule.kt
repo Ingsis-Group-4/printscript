@@ -4,8 +4,7 @@ import ast.StatementNode
 
 interface Rule {
     fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentStatementIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode
+    ): List<StatementNode>
 }

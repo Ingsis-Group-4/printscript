@@ -11,86 +11,101 @@ import position.Position
 
 class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentStatementIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
-        when (statementNode) {
+    ): List<StatementNode> {
+        when (val statementNode = statements[currentStatementIndex]) {
             is FunctionStatementNode -> {
-                return statementNode
+                return statements
             }
             is AssignationNode -> {
                 val equalSignPosition = statementNode.equalsNode.getStart()
                 val endPosition = getEndPositionAssignationNode(statementNode)
                 if (!hasSpace) {
                     if (endPosition.column == equalSignPosition.column - 1) {
-                        return statementNode
+                        return statements
                     } else {
                         val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 1)
                         val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                        return createNewAssignationNode(
-                            statementNode.identifier,
-                            statementNode.expression,
-                            newEqualSignNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newAssignationNode =
+                            createNewAssignationNode(
+                                statementNode.identifier,
+                                statementNode.expression,
+                                newEqualSignNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newAssignationNode
+                        return auxStatementList
                     }
                 } else {
                     if (endPosition.column == equalSignPosition.column - 2) {
-                        return statementNode
+                        return statements
                     } else {
                         val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                         val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                        return createNewAssignationNode(
-                            statementNode.identifier,
-                            statementNode.expression,
-                            newEqualSignNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newAssignationNode =
+                            createNewAssignationNode(
+                                statementNode.identifier,
+                                statementNode.expression,
+                                newEqualSignNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newAssignationNode
+                        return auxStatementList
                     }
                 }
             }
             is VariableDeclarationNode -> {
                 if (statementNode.equalsNode == null) {
-                    return statementNode
+                    return statements
                 } else {
                     val equalSignPosition = statementNode.equalsNode!!.getStart()
                     val endPosition = getEndPositionVariableDeclarationNode(statementNode)
                     if (!hasSpace) {
                         if (endPosition.column == equalSignPosition.column - 1) {
-                            return statementNode
+                            return statements
                         } else {
                             val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 1)
                             val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                            return createNewVariableDeclarationNode(
-                                statementNode.identifier,
-                                statementNode.expression,
-                                statementNode.keywordNode,
-                                statementNode.colonNode,
-                                statementNode.typeNode,
-                                newEqualSignNode,
-                                statementNode.getStart(),
-                                statementNode.getEnd(),
-                            )
+                            val auxStatementList = statements.toMutableList()
+                            val newVariableDeclarationNode =
+                                createNewVariableDeclarationNode(
+                                    statementNode.identifier,
+                                    statementNode.expression,
+                                    statementNode.keywordNode,
+                                    statementNode.colonNode,
+                                    statementNode.typeNode,
+                                    newEqualSignNode,
+                                    statementNode.getStart(),
+                                    statementNode.getEnd(),
+                                )
+                            auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                            return auxStatementList
                         }
                     } else {
                         if (endPosition.column == equalSignPosition.column - 2) {
-                            return statementNode
+                            return statements
                         } else {
                             val newEqualSignPosition = Position(equalSignPosition.line, endPosition.column + 2)
                             val newEqualSignNode = createNewEqualsNode(newEqualSignPosition)
-                            return createNewVariableDeclarationNode(
-                                statementNode.identifier,
-                                statementNode.expression,
-                                statementNode.keywordNode,
-                                statementNode.colonNode,
-                                statementNode.typeNode,
-                                newEqualSignNode,
-                                statementNode.getStart(),
-                                statementNode.getEnd(),
-                            )
+                            val auxStatementList = statements.toMutableList()
+                            val newVariableDeclarationNode =
+                                createNewVariableDeclarationNode(
+                                    statementNode.identifier,
+                                    statementNode.expression,
+                                    statementNode.keywordNode,
+                                    statementNode.colonNode,
+                                    statementNode.typeNode,
+                                    newEqualSignNode,
+                                    statementNode.getStart(),
+                                    statementNode.getEnd(),
+                                )
+                            auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                            return auxStatementList
                         }
                     }
                 }

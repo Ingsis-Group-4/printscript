@@ -7,21 +7,26 @@ import position.Position
 
 class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentStatementIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
+    ): List<StatementNode> {
+        val statementNode = statements[currentStatementIndex]
         when (statementNode) {
             is VariableDeclarationNode -> {
                 val colonPosition = statementNode.colonNode.getStart()
                 val identifierFinalPosition = statementNode.identifier.getEnd()
+                val auxStatementList = statements.toMutableList()
                 return if (!hasSpace) {
-                    applyNoSpaceRule(colonPosition, identifierFinalPosition, statementNode)
+                    val newVariableDeclarationNode = applyNoSpaceRule(colonPosition, identifierFinalPosition, statementNode)
+                    auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                    auxStatementList
                 } else {
-                    applySpaceRule(colonPosition, identifierFinalPosition, statementNode)
+                    val newVariableDeclarationNode = applySpaceRule(colonPosition, identifierFinalPosition, statementNode)
+                    auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                    auxStatementList
                 }
             }
-            else -> return statementNode
+            else -> return statements
         }
     }
 

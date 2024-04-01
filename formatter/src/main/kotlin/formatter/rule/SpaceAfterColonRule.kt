@@ -7,33 +7,40 @@ import position.Position
 
 class SpaceAfterColonRule(private val hasSpace: Boolean) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
+    ): List<StatementNode> {
+        val statementNode = statements[currentIndex]
         when (statementNode) {
             is VariableDeclarationNode -> {
                 if (statementNode.identifier.variableType == null) {
-                    return statementNode
+                    return statements
                 }
                 val colonPosition = statementNode.colonNode.getEnd()
                 val typePosition = statementNode.typeNode.getStart()
                 return if (!hasSpace) {
                     if (colonPosition.column == typePosition.column - 1) {
-                        statementNode
+                        statements
                     } else {
-                        applyNoSpaceRule(typePosition, colonPosition, statementNode)
+                        val auxStatementList = statements.toMutableList()
+                        val newStatementNode = applyNoSpaceRule(typePosition, colonPosition, statementNode)
+                        auxStatementList[currentIndex] = newStatementNode
+                        auxStatementList
                     }
                 } else {
                     if (colonPosition.column == typePosition.column - 2) {
-                        statementNode
+                        statements
                     } else {
-                        applySpaceRule(typePosition, colonPosition, statementNode)
+                        val auxStatementList = statements.toMutableList()
+                        val newStatementNode = applySpaceRule(typePosition, colonPosition, statementNode)
+                        auxStatementList[currentIndex] = newStatementNode
+                        auxStatementList
                     }
                 }
             }
+
             else -> {
-                return statementNode
+                return statements
             }
         }
     }

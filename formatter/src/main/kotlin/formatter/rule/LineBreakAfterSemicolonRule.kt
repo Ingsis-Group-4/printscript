@@ -18,38 +18,59 @@ import position.Position
 
 class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
+    ): List<StatementNode> {
+        val statementNode = statements[currentIndex]
         if (!hasLineBreak) {
-            return statementNode
+            return statements
         }
         // I have to check if the statement is the first one
-        if (index == 0) {
-            return statementNode
+        if (currentIndex == 0) {
+            return statements
         }
         val statementNodeLine = statementNode.getEnd().line
-        val previousStatement = statements[index - 1]
+        val previousStatement = statements[currentIndex - 1]
         val previousStatementLine = previousStatement.getStart().line
         if (statementNodeLine > previousStatementLine) {
-            return statementNode
+            return statements
         }
-        val newLinePosition = statementNodeLine + 1
-        when (statementNode) {
-            is VariableDeclarationNode -> {
-                val newVariableDeclarationNode = changeVariableDeclarationNodeLine(statementNode, newLinePosition)
-                return newVariableDeclarationNode
-            }
-            is AssignationNode -> {
-                val newAssignationNode = changeAssignationNodeLine(statementNode, newLinePosition)
-                return newAssignationNode
-            }
-            is PrintLnNode -> {
-                val newPrintLnNode = changePrintLnNodeLine(statementNode, newLinePosition)
-                return newPrintLnNode
+        var auxStatementList = statements.toMutableList()
+        for (i in currentIndex until statements.size) {
+            val currentStatement = auxStatementList[i]
+            val newLinePosition = currentStatement.getEnd().line + 1
+            when (currentStatement) {
+                is VariableDeclarationNode -> {
+                    val newVariableDeclarationNode = changeVariableDeclarationNodeLine(currentStatement, newLinePosition)
+                    auxStatementList[i] = newVariableDeclarationNode
+                }
+                is AssignationNode -> {
+                    val newAssignationNode = changeAssignationNodeLine(currentStatement, newLinePosition)
+                    auxStatementList[i] = newAssignationNode
+                }
+                is PrintLnNode -> {
+                    val newPrintLnNode = changePrintLnNodeLine(currentStatement, newLinePosition)
+                    auxStatementList[i] = newPrintLnNode
+                }
             }
         }
+        return auxStatementList
+
+//        val newLinePosition = statementNodeLine + 1
+//        when (statementNode) {
+//            is VariableDeclarationNode -> {
+//                val newVariableDeclarationNode = changeVariableDeclarationNodeLine(statementNode, newLinePosition)
+//                return newVariableDeclarationNode
+//            }
+//            is AssignationNode -> {
+//                val newAssignationNode = changeAssignationNodeLine(statementNode, newLinePosition)
+//                return newAssignationNode
+//            }
+//            is PrintLnNode -> {
+//                val newPrintLnNode = changePrintLnNodeLine(statementNode, newLinePosition)
+//                return newPrintLnNode
+//            }
+//        }
     }
 
     private fun changeVariableDeclarationNodeLine(

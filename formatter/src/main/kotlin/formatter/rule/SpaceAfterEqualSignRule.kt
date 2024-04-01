@@ -11,13 +11,12 @@ import position.Position
 
 class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentStatementIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
-        when (statementNode) {
+    ): List<StatementNode> {
+        when (val statementNode = statements[currentStatementIndex]) {
             is FunctionStatementNode -> {
-                return statementNode
+                return statements
             }
             is AssignationNode -> {
                 val equalSignPosition = statementNode.equalsNode.getEnd()
@@ -25,7 +24,7 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
 
                 if (!hasSpace) {
                     if (equalSignPosition.column == expressionNodePosition.column - 1) {
-                        return statementNode
+                        return statements
                     } else {
                         val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
                         val newExpressionNodeStartPosition =
@@ -41,17 +40,21 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
                             )
-                        return createNewAssignationNode(
-                            statementNode.identifier,
-                            newExpressionNode,
-                            statementNode.equalsNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newAssignationNode =
+                            createNewAssignationNode(
+                                statementNode.identifier,
+                                newExpressionNode,
+                                statementNode.equalsNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newAssignationNode
+                        return auxStatementList
                     }
                 } else {
                     if (equalSignPosition.column == expressionNodePosition.column - 2) {
-                        return statementNode
+                        return statements
                     } else {
                         val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
                         val newExpressionNodeStartPosition =
@@ -67,25 +70,29 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
                             )
-                        return createNewAssignationNode(
-                            statementNode.identifier,
-                            newExpressionNode,
-                            statementNode.equalsNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newAssignationNode =
+                            createNewAssignationNode(
+                                statementNode.identifier,
+                                newExpressionNode,
+                                statementNode.equalsNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newAssignationNode
+                        return auxStatementList
                     }
                 }
             }
             is VariableDeclarationNode -> {
                 if (statementNode.equalsNode == null || statementNode.expression == null) {
-                    return statementNode
+                    return statements
                 }
                 val equalSignPosition = statementNode.equalsNode!!.getEnd()
                 val expressionNodePosition = statementNode.expression!!.getStart()
                 if (!hasSpace) {
                     if (equalSignPosition.column == expressionNodePosition.column - 1) {
-                        return statementNode
+                        return statements
                     } else {
                         val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
                         val newExpressionNodeStartPosition =
@@ -101,20 +108,24 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
                             )
-                        return createNewVariableDeclarationNode(
-                            statementNode.identifier,
-                            newExpressionNode,
-                            statementNode.keywordNode,
-                            statementNode.colonNode,
-                            statementNode.typeNode,
-                            statementNode.equalsNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newVariableDeclarationNode =
+                            createNewVariableDeclarationNode(
+                                statementNode.identifier,
+                                newExpressionNode,
+                                statementNode.keywordNode,
+                                statementNode.colonNode,
+                                statementNode.typeNode,
+                                statementNode.equalsNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                        return auxStatementList
                     }
                 } else {
                     if (equalSignPosition.column == expressionNodePosition.column - 2) {
-                        return statementNode
+                        return statements
                     } else {
                         val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
                         val newExpressionNodeStartPosition =
@@ -130,21 +141,23 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                                 newExpressionNodeStartPosition,
                                 newExpressionNodeEndPosition,
                             )
-                        return createNewVariableDeclarationNode(
-                            statementNode.identifier,
-                            newExpressionNode,
-                            statementNode.keywordNode,
-                            statementNode.colonNode,
-                            statementNode.typeNode,
-                            statementNode.equalsNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
+                        val auxStatementList = statements.toMutableList()
+                        val newVariableDeclarationNode =
+                            createNewVariableDeclarationNode(
+                                statementNode.identifier,
+                                newExpressionNode,
+                                statementNode.keywordNode,
+                                statementNode.colonNode,
+                                statementNode.typeNode,
+                                statementNode.equalsNode,
+                                statementNode.getStart(),
+                                statementNode.getEnd(),
+                            )
+                        auxStatementList[currentStatementIndex] = newVariableDeclarationNode
+                        return auxStatementList
                     }
                 }
             }
         }
     }
 }
-// jdbjvb : String =   "a"
-// 1234567890123456123456789

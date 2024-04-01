@@ -7,30 +7,32 @@ import position.Position
 
 class LineBreakBeforePrintLnRule(private val amountOfSpaces: Int) : Rule {
     override fun apply(
-        statementNode: StatementNode,
-        index: Int,
+        currentIndex: Int,
         statements: List<StatementNode>,
-    ): StatementNode {
-        if (index == 0) {
-            return statementNode
+    ): List<StatementNode> {
+        if (currentIndex == 0) {
+            return statements
         }
-        when (statementNode) {
+        when (val statementNode = statements[currentIndex]) {
             is PrintLnNode -> {
-                val previousStatement = statements[index - 1]
+                val previousStatement = statements[currentIndex - 1]
                 val previousStatementLine = previousStatement.getStart().line
                 val currentStatementLine = statementNode.getStart().line
                 val lineDifferenceBetweenStatements = currentStatementLine - previousStatementLine
                 if (isDifferenceAcceptable(lineDifferenceBetweenStatements)) {
-                    return statementNode
+                    return statements
                 } else {
+                    val auxStatementList = statements.toMutableList()
                     val newLinePosition = previousStatementLine + (amountOfSpaces + 1)
                     val newStartPosition = Position(newLinePosition, statementNode.getStart().column)
                     val newEndPosition = Position(newLinePosition, statementNode.getEnd().column)
                     val newExpressionNode = changeExpressionNodeLine(statementNode.expression, newLinePosition)
-                    return PrintLnNode(newExpressionNode, newStartPosition, newEndPosition)
+                    val newPrintLnNode = PrintLnNode(newExpressionNode, newStartPosition, newEndPosition)
+                    auxStatementList[currentIndex] = newPrintLnNode
+                    return auxStatementList
                 }
             }
-            else -> return statementNode
+            else -> return statements
         }
     }
 
