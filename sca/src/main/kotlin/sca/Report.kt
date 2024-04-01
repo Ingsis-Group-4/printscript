@@ -6,21 +6,25 @@ import sca.rule.FailurePayload
 class Report(
     val ruleFailures: List<FailurePayload>,
 ) {
-    fun print() {
+    fun getReportMessages(): List<String> {
         if (ruleFailures.isEmpty()) {
-            println("Static code analysis successful!")
-            return
+            return listOf("Static code analysis successful!")
         }
+
+        val messages = mutableListOf<String>()
+
         for (failure in ruleFailures) {
-            printFailure(failure)
+            messages.add(getFailureMessage(failure))
         }
+
+        return messages
     }
 
     private fun positionToString(position: Position): String {
-        return "(${position.line}, column ${position.column})"
+        return "(line ${position.line}, column ${position.column})"
     }
 
-    private fun printFailure(failure: FailurePayload) {
-        println("Rule failed at ${positionToString(failure.position)}: ${failure.message}")
+    private fun getFailureMessage(failure: FailurePayload): String {
+        return "Rule failed at ${positionToString(failure.position)}: ${failure.message}"
     }
 }

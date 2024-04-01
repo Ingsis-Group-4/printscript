@@ -1,6 +1,7 @@
 package parser
 
 import ast.AssignationNode
+import ast.EqualsNode
 import ast.ExpressionNode
 import ast.IdentifierNode
 import parser.result.FailureResult
@@ -53,7 +54,7 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
                 start = currentToken.start,
                 end = currentToken.end,
             ),
-            nextIndex(currentIndex, 2),
+            nextIndex(currentIndex, 1),
         )
     }
 
@@ -63,7 +64,10 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
         identifierNode: IdentifierNode,
         parserSelector: Map<TokenType, Parser>,
     ): ParserResult {
-        val expressionSubtree = getSyntaxSubtree(tokens, currentIndex, parserSelector)
+        val assignationToken = at(tokens, currentIndex)
+        val expressionIndex = nextIndex(currentIndex)
+
+        val expressionSubtree = getSyntaxSubtree(tokens, expressionIndex, parserSelector)
 
         return when (expressionSubtree) {
             is SuccessResult -> {
@@ -76,6 +80,7 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
                 buildParserResult(
                     identifierNode = identifierNode,
                     expressionNode = expressionSubtree.value as ExpressionNode,
+                    assignationTokenPosition = assignationToken.start,
                     lastValidatedIndex = semicolonIndex,
                     assignationEnd = at(tokens, semicolonIndex).end,
                 )
@@ -88,6 +93,7 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
     private fun buildParserResult(
         identifierNode: IdentifierNode,
         expressionNode: ExpressionNode,
+        assignationTokenPosition: Position,
         lastValidatedIndex: Int,
         assignationEnd: Position,
     ): ParserResult {
@@ -95,6 +101,7 @@ class AssignationParser(private val parserSelector: Map<TokenType, Parser>) : Pa
             AssignationNode(
                 identifierNode,
                 expressionNode,
+                equalsNode = EqualsNode(assignationTokenPosition, assignationTokenPosition),
                 start = identifierNode.getStart(),
                 end = assignationEnd,
             )

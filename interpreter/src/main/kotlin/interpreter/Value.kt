@@ -1,11 +1,29 @@
 package interpreter
 
-interface Value
+interface Value {
+    override fun toString(): String
+}
 
-class NumberValue(val value: Double) : Value
+class NumberValue(val value: Double) : Value {
+    override fun toString(): String {
+        return value.toString()
+    }
+}
 
-class StringValue(val value: String) : Value
+class StringValue(val value: String) : Value {
+    override fun toString(): String {
+        return value
+    }
+}
 
-class NullValue : Value
+class NullValue : Value {
+    override fun toString(): String {
+        return "null"
+    }
+}
 
-class VoidValue : Value
+class VoidValue : Value {
+    override fun toString(): String {
+        return ""
+    }
+}
