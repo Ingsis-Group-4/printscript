@@ -20,10 +20,9 @@ class LineBreakBeforePrintLnRule(private val amountOfSpaces: Int) : Rule {
                 val previousStatementLine = previousStatement.getStart().line
                 val currentStatementLine = statementNode.getStart().line
                 val lineDifferenceBetweenStatements = currentStatementLine - previousStatementLine
-                if (isDifferenceAcceptable(lineDifferenceBetweenStatements))
-                    {
-                        return statementNode
-                    } else {
+                if (isDifferenceAcceptable(lineDifferenceBetweenStatements)) {
+                    return statementNode
+                } else {
                     val newLinePosition = previousStatementLine + (amountOfSpaces + 1)
                     val newStartPosition = Position(newLinePosition, statementNode.getStart().column)
                     val newEndPosition = Position(newLinePosition, statementNode.getEnd().column)

@@ -22,22 +22,19 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
         index: Int,
         statements: List<StatementNode>,
     ): StatementNode {
-        if (!hasLineBreak)
-            {
-                return statementNode
-            }
+        if (!hasLineBreak) {
+            return statementNode
+        }
         // I have to check if the statement is the first one
-        if (index == 0)
-            {
-                return statementNode
-            }
+        if (index == 0) {
+            return statementNode
+        }
         val statementNodeLine = statementNode.getEnd().line
         val previousStatement = statements[index - 1]
         val previousStatementLine = previousStatement.getStart().line
-        if (statementNodeLine > previousStatementLine)
-            {
-                return statementNode
-            }
+        if (statementNodeLine > previousStatementLine) {
+            return statementNode
+        }
         val newLinePosition = statementNodeLine + 1
         when (statementNode) {
             is VariableDeclarationNode -> {
@@ -58,22 +55,20 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeVariableDeclarationNodeLine(
         variableDeclarationNode: VariableDeclarationNode,
         newLine: Int,
-    ): VariableDeclarationNode  {
+    ): VariableDeclarationNode {
         val newStartPosition = Position(newLine, variableDeclarationNode.getStart().column)
         val newEndPosition = Position(newLine, variableDeclarationNode.getEnd().column)
         val newColonNode = changeColonNodeLine(variableDeclarationNode.colonNode, newLine)
         val newLetNode = changeLetNodeLine(variableDeclarationNode.keywordNode, newLine)
         val newVariableTypeNode = changeVariableTypeNodeLine(variableDeclarationNode.typeNode, newLine)
         var newEqualsNode: EqualsNode? = null
-        if (variableDeclarationNode.equalsNode != null)
-            {
-                newEqualsNode = changeEqualsNodeLine(variableDeclarationNode.equalsNode!!, newLine)
-            }
+        if (variableDeclarationNode.equalsNode != null) {
+            newEqualsNode = changeEqualsNodeLine(variableDeclarationNode.equalsNode!!, newLine)
+        }
         var newExpressionNode: ExpressionNode? = null
-        if (variableDeclarationNode.expression != null)
-            {
-                newExpressionNode = changeExpressionNodeLine(variableDeclarationNode.expression!!, newLine)
-            }
+        if (variableDeclarationNode.expression != null) {
+            newExpressionNode = changeExpressionNodeLine(variableDeclarationNode.expression!!, newLine)
+        }
         val newIdentifierNode = changeIdentifierNodeLine(variableDeclarationNode.identifier, newLine)
         return createNewVariableDeclarationNode(
             newIdentifierNode,
@@ -90,7 +85,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeColonNodeLine(
         colonNode: ColonNode,
         newLine: Int,
-    ): ColonNode  {
+    ): ColonNode {
         val newStartPosition = Position(newLine, colonNode.getStart().column)
         val newEndPosition = Position(newLine, colonNode.getEnd().column)
         return ColonNode(newStartPosition, newEndPosition)
@@ -99,7 +94,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeEqualsNodeLine(
         equalsNode: EqualsNode,
         newLine: Int,
-    ): EqualsNode  {
+    ): EqualsNode {
         val newStartPosition = Position(newLine, equalsNode.getStart().column)
         val newEndPosition = Position(newLine, equalsNode.getEnd().column)
         return EqualsNode(newStartPosition, newEndPosition)
@@ -108,7 +103,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeLetNodeLine(
         keywordNode: KeywordNode,
         newLine: Int,
-    ): KeywordNode  {
+    ): KeywordNode {
         val newStartPosition = Position(newLine, keywordNode.getStart().column)
         val newEndPosition = Position(newLine, keywordNode.getEnd().column)
         return LetNode(newStartPosition, newEndPosition)
@@ -117,7 +112,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeIdentifierNodeLine(
         identifierNode: IdentifierNode,
         newLine: Int,
-    ): IdentifierNode  {
+    ): IdentifierNode {
         val newStartPosition = Position(newLine, identifierNode.getStart().column)
         val newEndPosition = Position(newLine, identifierNode.getEnd().column)
         return IdentifierNode(identifierNode.variableName, identifierNode.variableType, newStartPosition, newEndPosition)
@@ -126,7 +121,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeAssignationNodeLine(
         assignationNode: AssignationNode,
         newLine: Int,
-    ): AssignationNode  {
+    ): AssignationNode {
         val newStartPosition = Position(newLine, assignationNode.getStart().column)
         val newEndPosition = Position(newLine, assignationNode.getEnd().column)
         val newIdentifierNode = changeIdentifierNodeLine(assignationNode.identifier, newLine)
@@ -138,7 +133,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changePrintLnNodeLine(
         printLnNode: PrintLnNode,
         newLine: Int,
-    ): PrintLnNode  {
+    ): PrintLnNode {
         val newStartPosition = Position(newLine, printLnNode.getStart().column)
         val newEndPosition = Position(newLine, printLnNode.getEnd().column)
         val newExpressionNode = changeExpressionNodeLine(printLnNode.expression, newLine)
@@ -148,7 +143,7 @@ class LineBreakAfterSemicolonRule(private val hasLineBreak: Boolean) : Rule {
     private fun changeVariableTypeNodeLine(
         variableTypeNode: VariableTypeNode,
         newLine: Int,
-    ): VariableTypeNode  {
+    ): VariableTypeNode {
         val newStartPosition = Position(newLine, variableTypeNode.getStart().column)
         val newEndPosition = Position(newLine, variableTypeNode.getEnd().column)
         return VariableTypeNode(variableTypeNode.variableType, newStartPosition, newEndPosition)

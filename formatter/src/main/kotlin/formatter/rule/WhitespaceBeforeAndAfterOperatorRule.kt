@@ -31,19 +31,18 @@ class WhitespaceBeforeAndAfterOperatorRule(private val hasSpace: Boolean) : Rule
         }
         return when (statementNode) {
             is VariableDeclarationNode -> {
-                if (statementNode.expression != null)
-                    {
-                        createNewVariableDeclarationNode(
-                            statementNode.identifier,
-                            handleExpressionNode(statementNode.expression!!),
-                            statementNode.keywordNode,
-                            statementNode.colonNode,
-                            statementNode.typeNode,
-                            statementNode.equalsNode,
-                            statementNode.getStart(),
-                            statementNode.getEnd(),
-                        )
-                    } else {
+                if (statementNode.expression != null) {
+                    createNewVariableDeclarationNode(
+                        statementNode.identifier,
+                        handleExpressionNode(statementNode.expression!!),
+                        statementNode.keywordNode,
+                        statementNode.colonNode,
+                        statementNode.typeNode,
+                        statementNode.equalsNode,
+                        statementNode.getStart(),
+                        statementNode.getEnd(),
+                    )
+                } else {
                     statementNode
                 }
             }
@@ -120,7 +119,7 @@ class WhitespaceBeforeAndAfterOperatorRule(private val hasSpace: Boolean) : Rule
         return leftNodeHasSpace && rightNodeHasSpace
     }
 
-    private fun handleSubtractionNode(statementNode: SubtractionNode): ExpressionNode  {
+    private fun handleSubtractionNode(statementNode: SubtractionNode): ExpressionNode {
         val leftNode = handleExpressionNode(statementNode.left)
         val rightNode = handleExpressionNode(statementNode.right)
         val operatorNode = statementNode.operatorNode
@@ -142,7 +141,7 @@ class WhitespaceBeforeAndAfterOperatorRule(private val hasSpace: Boolean) : Rule
         }
     }
 
-    private fun handleProductNode(statementNode: ProductNode): ExpressionNode  {
+    private fun handleProductNode(statementNode: ProductNode): ExpressionNode {
         val leftNode = handleExpressionNode(statementNode.left)
         val rightNode = handleExpressionNode(statementNode.right)
         val operatorNode = statementNode.operatorNode
@@ -164,7 +163,7 @@ class WhitespaceBeforeAndAfterOperatorRule(private val hasSpace: Boolean) : Rule
         }
     }
 
-    private fun handleDivisionNode(statementNode: DivisionNode): ExpressionNode  {
+    private fun handleDivisionNode(statementNode: DivisionNode): ExpressionNode {
         val leftNode = handleExpressionNode(statementNode.left)
         val rightNode = handleExpressionNode(statementNode.right)
         val operatorNode = statementNode.operatorNode
