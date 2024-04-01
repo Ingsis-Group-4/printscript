@@ -4,6 +4,7 @@ import parser.Parser
 import parser.result.FailureResult
 import parser.result.ParserResult
 import parser.result.SuccessResult
+import position.Position
 import token.Token
 import token.TokenType
 
@@ -31,6 +32,13 @@ fun at(
     index: Int,
 ): Token {
     return tokens[index]
+}
+
+fun isOutOfBounds(
+    tokens: List<Token>,
+    index: Int,
+): Boolean {
+    return index >= tokens.size
 }
 
 /**
@@ -133,7 +141,7 @@ fun parseOperation(
     tokens: List<Token>,
     currentIndex: Int,
     isRightOperator: (List<Token>, Int) -> Boolean,
-    buildParserResult: (SuccessResult, SuccessResult, Int) -> ParserResult,
+    buildParserResult: (SuccessResult, SuccessResult, Position, Int) -> ParserResult,
     parserSelector: Map<TokenType, Parser>,
 ): ParserResult {
     if (!isRightOperator(tokens, currentIndex)) {
@@ -144,7 +152,7 @@ fun parseOperation(
     val rightOperandIndex = nextIndex(currentIndex)
     val rightOperand = getSyntaxSubtree(tokens, rightOperandIndex, parserSelector)
     if (leftOperand is SuccessResult && rightOperand is SuccessResult) {
-        return buildParserResult(leftOperand, rightOperand, rightOperand.lastValidatedIndex)
+        return buildParserResult(leftOperand, rightOperand, at(tokens, currentIndex).start, rightOperand.lastValidatedIndex)
     }
     return FailureResult("Invalid operation at position ${at(tokens, currentIndex).start}", currentIndex)
 }

@@ -7,6 +7,7 @@ class VariableDeclarationNode(
     val expression: ExpressionNode? = null,
     val keywordNode: KeywordNode,
     val colonNode: ColonNode,
+    val typeNode: VariableTypeNode,
     val equalsNode: EqualsNode?,
     private val start: Position,
     private val end: Position,

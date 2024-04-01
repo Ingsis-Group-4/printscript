@@ -1,9 +1,16 @@
+import ast.ColonNode
+import ast.EqualsNode
 import ast.IdentifierNode
+import ast.LetNode
 import ast.LiteralNode
+import ast.OperatorNode
+import ast.OperatorType
 import ast.PrintLnNode
 import ast.ProgramNode
 import ast.SumNode
 import ast.VariableDeclarationNode
+import ast.VariableType
+import ast.VariableTypeNode
 import org.junit.jupiter.api.Test
 import position.Position
 import sca.StaticCodeAnalyzer
@@ -27,6 +34,10 @@ class StaticCodeAnalyzerTest {
             VariableDeclarationNode(
                 identifier = IdentifierNode("a", start = Position(1, 5), end = Position(1, 5)),
                 expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
+                LetNode(start = Position(1, 1), end = Position(1, 3)),
+                ColonNode(start = Position(1, 7), end = Position(1, 15)),
+                VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 15)),
+                EqualsNode(start = Position(1, 17), end = Position(1, 17)),
                 start = Position(1, 1),
                 end = Position(1, 18),
             )
@@ -48,6 +59,10 @@ class StaticCodeAnalyzerTest {
             VariableDeclarationNode(
                 identifier = IdentifierNode("A", start = Position(1, 5), end = Position(1, 5)),
                 expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
+                LetNode(start = Position(1, 1), end = Position(1, 3)),
+                ColonNode(start = Position(1, 7), end = Position(1, 15)),
+                VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 15)),
+                EqualsNode(start = Position(1, 17), end = Position(1, 17)),
                 start = Position(1, 1),
                 end = Position(1, 18),
             )
@@ -71,6 +86,10 @@ class StaticCodeAnalyzerTest {
             VariableDeclarationNode(
                 identifier = IdentifierNode("a_b", start = Position(1, 5), end = Position(1, 7)),
                 expression = LiteralNode(1, start = Position(1, 19), end = Position(1, 19)),
+                LetNode(start = Position(1, 1), end = Position(1, 3)),
+                ColonNode(start = Position(1, 7), end = Position(1, 17)),
+                VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 17)),
+                EqualsNode(start = Position(1, 19), end = Position(1, 19)),
                 start = Position(1, 1),
                 end = Position(1, 20),
             )
@@ -92,6 +111,10 @@ class StaticCodeAnalyzerTest {
             VariableDeclarationNode(
                 identifier = IdentifierNode("aB", start = Position(1, 5), end = Position(1, 6)),
                 expression = LiteralNode(1, start = Position(1, 18), end = Position(1, 18)),
+                LetNode(start = Position(1, 1), end = Position(1, 3)),
+                ColonNode(start = Position(1, 7), end = Position(1, 17)),
+                VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 17)),
+                EqualsNode(start = Position(1, 18), end = Position(1, 18)),
                 start = Position(1, 1),
                 end = Position(1, 19),
             )
@@ -157,6 +180,7 @@ class StaticCodeAnalyzerTest {
                     SumNode(
                         left = LiteralNode(1, start = Position(1, 9), end = Position(1, 9)),
                         right = LiteralNode(1, start = Position(1, 11), end = Position(1, 11)),
+                        OperatorNode(Position(1, 10), Position(1, 10), OperatorType.SUM),
                         start = Position(1, 9),
                         end = Position(1, 11),
                     ),
@@ -190,6 +214,10 @@ class StaticCodeAnalyzerTest {
                         VariableDeclarationNode(
                             identifier = IdentifierNode("B", start = Position(1, 5), end = Position(1, 5)),
                             expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
+                            LetNode(start = Position(1, 1), end = Position(1, 3)),
+                            ColonNode(start = Position(1, 7), end = Position(1, 15)),
+                            VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 15)),
+                            EqualsNode(start = Position(1, 17), end = Position(1, 17)),
                             start = Position(1, 1),
                             end = Position(1, 19),
                         ),
@@ -198,6 +226,7 @@ class StaticCodeAnalyzerTest {
                                 SumNode(
                                     left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
                                     right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
+                                    OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
                                     start = Position(2, 7),
                                     end = Position(2, 9),
                                 ),
@@ -239,6 +268,10 @@ class StaticCodeAnalyzerTest {
                         VariableDeclarationNode(
                             identifier = IdentifierNode("a", start = Position(1, 5), end = Position(1, 5)),
                             expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
+                            LetNode(start = Position(1, 1), end = Position(1, 3)),
+                            ColonNode(start = Position(1, 7), end = Position(1, 15)),
+                            VariableTypeNode(VariableType.NUMBER, start = Position(1, 9), end = Position(1, 15)),
+                            EqualsNode(start = Position(1, 17), end = Position(1, 17)),
                             start = Position(1, 1),
                             end = Position(1, 18),
                         ),
@@ -247,6 +280,7 @@ class StaticCodeAnalyzerTest {
                                 SumNode(
                                     left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
                                     right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
+                                    OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
                                     start = Position(2, 7),
                                     end = Position(2, 9),
                                 ),
