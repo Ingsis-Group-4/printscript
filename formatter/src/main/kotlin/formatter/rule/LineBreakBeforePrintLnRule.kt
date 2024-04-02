@@ -7,15 +7,15 @@ import position.Position
 
 class LineBreakBeforePrintLnRule(private val amountOfSpaces: Int) : Rule {
     override fun apply(
-        currentIndex: Int,
+        currentStatementIndex: Int,
         statements: List<StatementNode>,
     ): List<StatementNode> {
-        if (currentIndex == 0) {
+        if (currentStatementIndex == 0) {
             return statements
         }
-        when (val statementNode = statements[currentIndex]) {
+        when (val statementNode = statements[currentStatementIndex]) {
             is PrintLnNode -> {
-                val previousStatement = statements[currentIndex - 1]
+                val previousStatement = statements[currentStatementIndex - 1]
                 val previousStatementLine = previousStatement.getStart().line
                 val currentStatementLine = statementNode.getStart().line
                 val lineDifferenceBetweenStatements = currentStatementLine - previousStatementLine
@@ -28,7 +28,7 @@ class LineBreakBeforePrintLnRule(private val amountOfSpaces: Int) : Rule {
                     val newEndPosition = Position(newLinePosition, statementNode.getEnd().column)
                     val newExpressionNode = changeExpressionNodeLine(statementNode.expression, newLinePosition)
                     val newPrintLnNode = PrintLnNode(newExpressionNode, newStartPosition, newEndPosition)
-                    auxStatementList[currentIndex] = newPrintLnNode
+                    auxStatementList[currentStatementIndex] = newPrintLnNode
                     return auxStatementList
                 }
             }
