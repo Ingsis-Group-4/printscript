@@ -20,7 +20,7 @@ import kotlin.test.assertIs
 
 class SpaceAfterColonRuleTest {
     @Test
-    fun testRuleWithNoSpaceAndShouldNotChangeNodes()  {
+    fun testRuleWithNoSpaceAndShouldNotChangeNodes() {
         // example:let a:Number = 10
         //         12345678901234567
         // should not change node
@@ -60,7 +60,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithNoSpaceButShouldMoveNodeOneSpace()  {
+    fun testRuleWithNoSpaceButShouldMoveNodeOneSpace() {
         // example:let a: Number = 10
         //         123456789012345678
         // should move type node one space to the left
@@ -99,7 +99,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithNoSpaceButShouldMoveNodeMoreThanOneSpace()  {
+    fun testRuleWithNoSpaceButShouldMoveNodeMoreThanOneSpace() {
         // example:let a:   Number = 10
         //         12345678901234567890
         // should move type node 3 spaces to the left
@@ -138,7 +138,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithSpaceAndShouldNotChangeNodes()  {
+    fun testRuleWithSpaceAndShouldNotChangeNodes() {
         // example
         // let a: Number = 10
         // 1234567890123456789
@@ -179,7 +179,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithSpaceAndShouldMoveSomeNodesOneSpace()  {
+    fun testRuleWithSpaceAndShouldMoveSomeNodesOneSpace() {
         // example:let a:Number = 10
         //         12345678901234567
         // should move type node and all nodes after type node one space to the right
@@ -222,7 +222,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithSpaceAndShouldMoveSomeNodesAndExpressionNodeOneSpace()  {
+    fun testRuleWithSpaceAndShouldMoveSomeNodesAndExpressionNodeOneSpace() {
         // example:let a: Number = 2 + 3
         //         12345678901234567890
         // should move type node and all nodes after type node one space to the right
@@ -302,7 +302,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleWithSpaceAndShouldMoveMoreThanOneSpace()  {
+    fun testRuleWithSpaceAndShouldMoveMoreThanOneSpace() {
         // example:let a:   Number = 2 + 3
         //         123456789012345678901234
         // should move type node and all nodes after type node one space to the right
@@ -370,7 +370,7 @@ class SpaceAfterColonRuleTest {
     }
 
     @Test
-    fun testRuleForAssignationNode()  {
+    fun testRuleForAssignationNode() {
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 3), Position(1, 3))
         val expressionNode = LiteralNode(10.0, Position(1, 5), Position(1, 6))
