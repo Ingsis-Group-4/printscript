@@ -5,8 +5,8 @@ import ast.ProgramNode
 import ast.StatementNode
 import formatter.rule.Rule
 
-class Formatter(private val node: ProgramNode, private val rules: List<Rule>) {
-    fun format(): AST {
+class Formatter(private val rules: List<Rule>) {
+    fun format(node: ProgramNode): AST {
         var formattedStatements = mutableListOf<StatementNode>()
         var currentIndex = 0
         for (statement in node.statements) {

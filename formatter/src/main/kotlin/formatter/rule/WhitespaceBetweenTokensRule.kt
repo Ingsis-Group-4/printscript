@@ -57,7 +57,7 @@ class WhitespaceBetweenTokensRule(private val hasSpace: Boolean) : Rule {
         }
         if (shouldReduceSpacesBetweenNodes(newEqualsNode, newExpressionNode)) {
             val spacesToMoveExpressionNode = spacesToMove(newEqualsNode, newExpressionNode)
-            newExpressionNode = changeExpressionNodeColumn(newExpressionNode, spacesToMoveExpressionNode)
+            newExpressionNode = changeExpressionNodeColumn(newExpressionNode, -spacesToMoveExpressionNode)
         }
         return AssignationNode(identifierNode, newExpressionNode, newEqualsNode, node.getStart(), node.getEnd())
     }
@@ -140,7 +140,7 @@ class WhitespaceBetweenTokensRule(private val hasSpace: Boolean) : Rule {
         var newEndPosition = node.getEnd()
         if (expressionNodeStart - openParenthesisColumn > 2) {
             val spacesToMove = expressionNodeStart - (openParenthesisColumn + 2)
-            expressionNode = changeExpressionNodeColumn(expressionNode, spacesToMove)
+            expressionNode = changeExpressionNodeColumn(expressionNode, -spacesToMove)
         }
         if (closeParenthesisColumn - expressionNodeEnd > 2) {
             newEndPosition = Position(node.getEnd().line, expressionNodeEnd + 2)

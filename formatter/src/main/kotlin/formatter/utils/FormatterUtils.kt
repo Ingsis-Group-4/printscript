@@ -212,8 +212,8 @@ fun changeExpressionNodeColumn(
     expressionNode: ExpressionNode,
     spacesToMoveColumn: Int,
 ): ExpressionNode {
-    val newStartPosition = Position(expressionNode.getStart().line, expressionNode.getStart().column - spacesToMoveColumn)
-    val newEndPosition = Position(expressionNode.getEnd().line, expressionNode.getEnd().column - spacesToMoveColumn)
+    val newStartPosition = Position(expressionNode.getStart().line, expressionNode.getStart().column + spacesToMoveColumn)
+    val newEndPosition = Position(expressionNode.getEnd().line, expressionNode.getEnd().column + spacesToMoveColumn)
     when (expressionNode) {
         is LiteralNode<*> -> {
             return LiteralNode(expressionNode.value, newStartPosition, newEndPosition)
@@ -222,9 +222,9 @@ fun changeExpressionNodeColumn(
             val newLeftNode = changeExpressionNodeColumn(expressionNode.left, spacesToMoveColumn)
             val newRightNode = changeExpressionNodeColumn(expressionNode.right, spacesToMoveColumn)
             val newOperatorNodeStart =
-                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column + spacesToMoveColumn)
             val newOperatorNodeEnd =
-                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column + spacesToMoveColumn)
             val newOperatorNode =
                 OperatorNode(newOperatorNodeStart, newOperatorNodeEnd, expressionNode.operatorNode.getType())
             return SumNode(newLeftNode, newRightNode, newOperatorNode, newStartPosition, newEndPosition)
@@ -233,9 +233,9 @@ fun changeExpressionNodeColumn(
             val newLeftNode = changeExpressionNodeColumn(expressionNode.left, spacesToMoveColumn)
             val newRightNode = changeExpressionNodeColumn(expressionNode.right, spacesToMoveColumn)
             val newOperatorNodeStart =
-                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column + spacesToMoveColumn)
             val newOperatorNodeEnd =
-                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column + spacesToMoveColumn)
             val newOperatorNode =
                 OperatorNode(newOperatorNodeStart, newOperatorNodeEnd, expressionNode.operatorNode.getType())
             return SubtractionNode(newLeftNode, newRightNode, newOperatorNode, newStartPosition, newEndPosition)
@@ -244,9 +244,9 @@ fun changeExpressionNodeColumn(
             val newLeftNode = changeExpressionNodeColumn(expressionNode.left, spacesToMoveColumn)
             val newRightNode = changeExpressionNodeColumn(expressionNode.right, spacesToMoveColumn)
             val newOperatorNodeStart =
-                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column + spacesToMoveColumn)
             val newOperatorNodeEnd =
-                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column + spacesToMoveColumn)
             val newOperatorNode =
                 OperatorNode(newOperatorNodeStart, newOperatorNodeEnd, expressionNode.operatorNode.getType())
             return ProductNode(newLeftNode, newRightNode, newOperatorNode, newStartPosition, newEndPosition)
@@ -255,9 +255,9 @@ fun changeExpressionNodeColumn(
             val newLeftNode = changeExpressionNodeColumn(expressionNode.left, spacesToMoveColumn)
             val newRightNode = changeExpressionNodeColumn(expressionNode.right, spacesToMoveColumn)
             val newOperatorNodeStart =
-                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getStart().line, expressionNode.operatorNode.getStart().column + spacesToMoveColumn)
             val newOperatorNodeEnd =
-                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column - spacesToMoveColumn)
+                Position(expressionNode.operatorNode.getEnd().line, expressionNode.operatorNode.getEnd().column + spacesToMoveColumn)
             val newOperatorNode =
                 OperatorNode(newOperatorNodeStart, newOperatorNodeEnd, expressionNode.operatorNode.getType())
             return DivisionNode(newLeftNode, newRightNode, newOperatorNode, newStartPosition, newEndPosition)

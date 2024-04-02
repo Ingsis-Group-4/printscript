@@ -1,8 +1,10 @@
 package formatter.rule
 
 import ast.ColonNode
+import ast.EqualsNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
+import ast.VariableTypeNode
 import position.Position
 
 class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
@@ -37,7 +39,7 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
     ): StatementNode {
         if (colonPosition.column == identifierFinalPosition.column + 2) {
             return statementNode
-        } else {
+        } else if (colonPosition.column > identifierFinalPosition.column + 2) {
             val newColonPosition = Position(colonPosition.line, identifierFinalPosition.column + 2)
             val newColonNode = createColonNode(newColonPosition, newColonPosition)
             return formatter.utils.createNewVariableDeclarationNode(
@@ -50,6 +52,8 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
                 statementNode.getStart(),
                 statementNode.getEnd(),
             )
+        } else {
+            return moveEveryNodeAfterColonNode(statementNode, identifierFinalPosition)
         }
     }
 
@@ -82,6 +86,45 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
                 statementNode.getEnd(),
             )
         }
+    }
+
+    private fun moveEveryNodeAfterColonNode(
+        node: VariableDeclarationNode,
+        identifierFinalPosition: Position,
+    ): VariableDeclarationNode  {
+        val newColonPosition = Position(node.colonNode.getStart().line, identifierFinalPosition.column + 2)
+        val newColonNode = createColonNode(newColonPosition, newColonPosition)
+        val newTypeNodeStartPosition = Position(node.typeNode.getStart().line, node.typeNode.getStart().column + 1)
+        val newTypeNodeEndPosition = Position(node.typeNode.getEnd().line, node.typeNode.getEnd().column + 1)
+        val newTypeNode = VariableTypeNode(node.typeNode.variableType, newTypeNodeStartPosition, newTypeNodeEndPosition)
+        if (node.equalsNode == null || node.expression == null)
+            {
+                return formatter.utils.createNewVariableDeclarationNode(
+                    node.identifier,
+                    node.expression,
+                    node.keywordNode,
+                    newColonNode,
+                    newTypeNode,
+                    node.equalsNode,
+                    node.getStart(),
+                    newTypeNodeEndPosition,
+                )
+            }
+        val newEqualsNodeStartPosition = Position(node.equalsNode!!.getStart().line, node.equalsNode!!.getStart().column + 1)
+        val newEqualsNodeEndPosition = Position(node.equalsNode!!.getEnd().line, node.equalsNode!!.getEnd().column + 1)
+        val newEqualsNode = EqualsNode(newEqualsNodeStartPosition, newEqualsNodeEndPosition)
+        val newExpressionNode = formatter.utils.changeExpressionNodeColumn(node.expression!!, 1)
+        val newEndPosition = newExpressionNode.getEnd()
+        return formatter.utils.createNewVariableDeclarationNode(
+            node.identifier,
+            newExpressionNode,
+            node.keywordNode,
+            newColonNode,
+            newTypeNode,
+            newEqualsNode,
+            node.getStart(),
+            newEndPosition,
+        )
     }
 }
 // dahbda : String
