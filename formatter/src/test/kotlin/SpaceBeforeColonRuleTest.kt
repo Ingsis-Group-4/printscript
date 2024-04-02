@@ -1,13 +1,13 @@
-import ast.LetNode
-import ast.IdentifierNode
-import ast.VariableType
-import ast.ColonNode
-import ast.VariableTypeNode
-import ast.EqualsNode
-import ast.LiteralNode
-import ast.VariableDeclarationNode
-import ast.ProgramNode
 import ast.AssignationNode
+import ast.ColonNode
+import ast.EqualsNode
+import ast.IdentifierNode
+import ast.LetNode
+import ast.LiteralNode
+import ast.ProgramNode
+import ast.VariableDeclarationNode
+import ast.VariableType
+import ast.VariableTypeNode
 import formatter.Formatter
 import formatter.rule.SpaceBeforeColonRule
 import position.Position
@@ -292,7 +292,7 @@ class SpaceBeforeColonRuleTest {
     }
 
     @Test
-    fun testRuleForAssignationNode()  {
+    fun testRuleForAssignationNode() {
         // example: a = 10
         //         12345678
         // should not change node

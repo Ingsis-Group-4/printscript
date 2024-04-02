@@ -91,25 +91,24 @@ class SpaceBeforeColonRule(private val hasSpace: Boolean) : Rule {
     private fun moveEveryNodeAfterColonNode(
         node: VariableDeclarationNode,
         identifierFinalPosition: Position,
-    ): VariableDeclarationNode  {
+    ): VariableDeclarationNode {
         val newColonPosition = Position(node.colonNode.getStart().line, identifierFinalPosition.column + 2)
         val newColonNode = createColonNode(newColonPosition, newColonPosition)
         val newTypeNodeStartPosition = Position(node.typeNode.getStart().line, node.typeNode.getStart().column + 1)
         val newTypeNodeEndPosition = Position(node.typeNode.getEnd().line, node.typeNode.getEnd().column + 1)
         val newTypeNode = VariableTypeNode(node.typeNode.variableType, newTypeNodeStartPosition, newTypeNodeEndPosition)
-        if (node.equalsNode == null || node.expression == null)
-            {
-                return formatter.utils.createNewVariableDeclarationNode(
-                    node.identifier,
-                    node.expression,
-                    node.keywordNode,
-                    newColonNode,
-                    newTypeNode,
-                    node.equalsNode,
-                    node.getStart(),
-                    newTypeNodeEndPosition,
-                )
-            }
+        if (node.equalsNode == null || node.expression == null) {
+            return formatter.utils.createNewVariableDeclarationNode(
+                node.identifier,
+                node.expression,
+                node.keywordNode,
+                newColonNode,
+                newTypeNode,
+                node.equalsNode,
+                node.getStart(),
+                newTypeNodeEndPosition,
+            )
+        }
         val newEqualsNodeStartPosition = Position(node.equalsNode!!.getStart().line, node.equalsNode!!.getStart().column + 1)
         val newEqualsNodeEndPosition = Position(node.equalsNode!!.getEnd().line, node.equalsNode!!.getEnd().column + 1)
         val newEqualsNode = EqualsNode(newEqualsNodeStartPosition, newEqualsNodeEndPosition)
