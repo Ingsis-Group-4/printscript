@@ -1,10 +1,10 @@
 import ast.AssignationNode
+import ast.EqualsNode
 import ast.IdentifierNode
 import ast.LiteralNode
 import ast.PrintLnNode
 import ast.StatementNode
 import ast.VariableType
-import ast.EqualsNode
 import formatter.rule.LineBreakBeforePrintLnRule
 import position.Position
 import kotlin.test.Test
