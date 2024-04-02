@@ -114,8 +114,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
                                         statementNode.getStart(),
                                         statementNode.getEnd(),
                                     )
-                            }
-                            else{
+                            } else {
                                 newVariableDeclarationNode = moveNodesAfterEqualSignNodeVariableDeclarationNode(statementNode, endPosition)
                             }
                             auxStatementList[currentStatementIndex] = newVariableDeclarationNode
@@ -144,7 +143,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
 
     private fun moveNodesAfterEqualSignNodeAssignationNode(
         node: AssignationNode,
-        endPosition: Position
+        endPosition: Position,
     ): AssignationNode {
         val newEqualSignNodePosition = Position(node.equalsNode.getStart().line, endPosition.column + 2)
         val newEqualSignNode = EqualsNode(newEqualSignNodePosition, newEqualSignNodePosition)
@@ -154,13 +153,13 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
             newExpressionNode,
             newEqualSignNode,
             node.getStart(),
-            newExpressionNode.getEnd()
+            newExpressionNode.getEnd(),
         )
     }
 
     private fun moveNodesAfterEqualSignNodeVariableDeclarationNode(
         node: VariableDeclarationNode,
-        endPosition: Position
+        endPosition: Position,
     ): VariableDeclarationNode {
         val newEqualSignNodePosition = Position(node.equalsNode!!.getStart().line, endPosition.column + 2)
         val newEqualSignNode = EqualsNode(newEqualSignNodePosition, newEqualSignNodePosition)
@@ -173,7 +172,7 @@ class SpaceBeforeEqualSignRule(private val hasSpace: Boolean) : Rule {
             node.typeNode,
             newEqualSignNode,
             node.getStart(),
-            newExpressionNode.getEnd()
+            newExpressionNode.getEnd(),
         )
     }
 }

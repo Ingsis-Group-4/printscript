@@ -1,15 +1,14 @@
 import ast.AssignationNode
+import ast.ColonNode
 import ast.EqualsNode
 import ast.IdentifierNode
+import ast.LetNode
 import ast.LiteralNode
 import ast.ProgramNode
 import ast.VariableDeclarationNode
 import ast.VariableType
-import ast.LetNode
-import ast.ColonNode
 import ast.VariableTypeNode
 import formatter.Formatter
-import formatter.rule.SpaceBeforeColonRule
 import formatter.rule.SpaceBeforeEqualSignRule
 import position.Position
 import kotlin.test.Test
@@ -17,7 +16,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class SpaceBeforeEqualSignRuleTest {
-
     @Test
     fun testNoSpaceAndShouldNotMoveNodes() {
         // example: let a:Number=10
@@ -59,10 +57,11 @@ class SpaceBeforeEqualSignRuleTest {
             }
         }
     }
+
     @Test
-    fun testNoSpaceAndShouldMoveNode(){
-        //let a:Number =10
-        //1234567890123456
+    fun testNoSpaceAndShouldMoveNode()  {
+        // let a:Number =10
+        // 1234567890123456
         val keywordNode = LetNode(Position(1, 1), Position(1, 3))
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 5), Position(1, 5))
         val colonNode = ColonNode(Position(1, 6), Position(1, 6))
@@ -84,7 +83,7 @@ class SpaceBeforeEqualSignRuleTest {
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 16))
         val rule = SpaceBeforeEqualSignRule(false)
         val formatter = Formatter(listOf(rule))
-        val newEqualsNodePosition = Position(1,13)
+        val newEqualsNodePosition = Position(1, 13)
         val result = formatter.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
@@ -92,17 +91,16 @@ class SpaceBeforeEqualSignRuleTest {
                 assert(statementResult.colonNode == colonNode)
                 assert(statementResult.identifier == identifierNode)
                 assert(statementResult.typeNode == typeNode)
-                statementResult.equalsNode?.let { assertEquals(newEqualsNodePosition, it.getStart() ) }
-                statementResult.equalsNode?.let { assertEquals(newEqualsNodePosition, it.getEnd() ) }
+                statementResult.equalsNode?.let { assertEquals(newEqualsNodePosition, it.getStart()) }
+                statementResult.equalsNode?.let { assertEquals(newEqualsNodePosition, it.getEnd()) }
                 assert(statementResult.keywordNode == keywordNode)
                 assert(statementResult.expression == expressionNode)
             }
         }
-
-
     }
+
     @Test
-    fun testSpaceAndShouldMoveNodes(){
+    fun testSpaceAndShouldMoveNodes()  {
         // example: let a:Number=10
         //          12345678901234567
         // should not change node
@@ -127,7 +125,7 @@ class SpaceBeforeEqualSignRuleTest {
         val rule = SpaceBeforeEqualSignRule(true)
         val formatter = Formatter(listOf(rule))
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 15))
-        val newEqualsNodePosition = Position(1,14)
+        val newEqualsNodePosition = Position(1, 14)
         val newExpressionNode = LiteralNode(10.0, Position(1, 15), Position(1, 16))
         val result = formatter.format(programNode)
         assert(result is ProgramNode)
@@ -140,10 +138,10 @@ class SpaceBeforeEqualSignRuleTest {
         (result.statements[0] as VariableDeclarationNode).equalsNode?.let { assertEquals(it.getEnd(), newEqualsNodePosition) }
         (result.statements[0] as VariableDeclarationNode).expression?.let { assertEquals(it.getStart(), newExpressionNode.getStart()) }
         (result.statements[0] as VariableDeclarationNode).expression?.let { assertEquals(it.getEnd(), newExpressionNode.getEnd()) }
-
     }
+
     @Test
-    fun testSpaceAndShouldNotMoveAnyNode(){
+    fun testSpaceAndShouldNotMoveAnyNode()  {
         // example: let a:Number =10
         //          12345678901234567
         // should not change node
@@ -183,8 +181,9 @@ class SpaceBeforeEqualSignRuleTest {
             }
         }
     }
+
     @Test
-    fun testSpaceAndShouldMoveMoreThanOneSpace(){
+    fun testSpaceAndShouldMoveMoreThanOneSpace()  {
         // example: let a:Number    =10
         //          1234567890123456789
         // should not change node
@@ -209,7 +208,7 @@ class SpaceBeforeEqualSignRuleTest {
         val rule = SpaceBeforeEqualSignRule(true)
         val formatter = Formatter(listOf(rule))
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 19))
-        val newEqualsNodePosition = Position(1,14)
+        val newEqualsNodePosition = Position(1, 14)
         val result = formatter.format(programNode)
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
@@ -220,23 +219,24 @@ class SpaceBeforeEqualSignRuleTest {
         (result.statements[0] as VariableDeclarationNode).equalsNode?.let { assertEquals(it.getStart(), newEqualsNodePosition) }
         (result.statements[0] as VariableDeclarationNode).equalsNode?.let { assertEquals(it.getEnd(), newEqualsNodePosition) }
         assertEquals((result.statements[0] as VariableDeclarationNode).expression, expressionNode)
-
     }
+
     @Test
-    fun testNoSpaceAssignationNode(){
+    fun testNoSpaceAssignationNode()  {
         // example: a=10
         //          12345
         // should not change node
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 2), Position(1, 2))
         val expressionNode = LiteralNode(10.0, Position(1, 3), Position(1, 4))
-        val assignationNode = AssignationNode(
-            identifierNode,
-            expressionNode,
-            equalsNode,
-            Position(1, 1),
-            Position(1, 4),
-        )
+        val assignationNode =
+            AssignationNode(
+                identifierNode,
+                expressionNode,
+                equalsNode,
+                Position(1, 1),
+                Position(1, 4),
+            )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 4))
         val rule = SpaceBeforeEqualSignRule(false)
@@ -251,25 +251,27 @@ class SpaceBeforeEqualSignRuleTest {
             }
         }
     }
+
     @Test
-    fun testNoSpaceAndShouldMoveAssignationNode(){
+    fun testNoSpaceAndShouldMoveAssignationNode()  {
         // example: a =10
         //          12345
         // should not change node
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 3), Position(1, 3))
         val expressionNode = LiteralNode(10.0, Position(1, 4), Position(1, 5))
-        val assignationNode = AssignationNode(
-            identifierNode,
-            expressionNode,
-            equalsNode,
-            Position(1, 1),
-            Position(1, 4),
-        )
+        val assignationNode =
+            AssignationNode(
+                identifierNode,
+                expressionNode,
+                equalsNode,
+                Position(1, 1),
+                Position(1, 4),
+            )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 5))
         val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(false)))
-        val newEqualsNodePosition = Position(1,2)
+        val newEqualsNodePosition = Position(1, 2)
         val result = formatter.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
@@ -281,21 +283,23 @@ class SpaceBeforeEqualSignRuleTest {
             }
         }
     }
+
     @Test
-    fun testSpaceAndShouldNotMoveAssignationNode(){
+    fun testSpaceAndShouldNotMoveAssignationNode()  {
         // example: a =10
         //          12345
         // should not change node
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 3), Position(1, 3))
         val expressionNode = LiteralNode(10.0, Position(1, 4), Position(1, 5))
-        val assignationNode = AssignationNode(
-            identifierNode,
-            expressionNode,
-            equalsNode,
-            Position(1, 1),
-            Position(1, 4),
-        )
+        val assignationNode =
+            AssignationNode(
+                identifierNode,
+                expressionNode,
+                equalsNode,
+                Position(1, 1),
+                Position(1, 4),
+            )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 5))
         val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
@@ -309,25 +313,27 @@ class SpaceBeforeEqualSignRuleTest {
             }
         }
     }
+
     @Test
-    fun testSpaceAndShouldMoveNodesAssignationNode(){
+    fun testSpaceAndShouldMoveNodesAssignationNode()  {
         // example: a=10
         //          12345
         // should not change node
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 2), Position(1, 2))
         val expressionNode = LiteralNode(10.0, Position(1, 3), Position(1, 4))
-        val assignationNode = AssignationNode(
-            identifierNode,
-            expressionNode,
-            equalsNode,
-            Position(1, 1),
-            Position(1, 4),
-        )
+        val assignationNode =
+            AssignationNode(
+                identifierNode,
+                expressionNode,
+                equalsNode,
+                Position(1, 1),
+                Position(1, 4),
+            )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 4))
         val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
-        val newEqualsNodePosition = Position(1,3)
+        val newEqualsNodePosition = Position(1, 3)
         val newExpressionNode = LiteralNode(10.0, Position(1, 4), Position(1, 5))
         val result = formatter.format(programNode)
         if (result is ProgramNode) {
@@ -340,28 +346,29 @@ class SpaceBeforeEqualSignRuleTest {
                 assert(statementResult.expression.getEnd() == newExpressionNode.getEnd())
             }
         }
-
     }
+
     @Test
-    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode(){
+    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode()  {
         // example: a    =10
         //          123456789
         // should not change node
         val identifierNode = IdentifierNode("a", VariableType.NUMBER, Position(1, 1), Position(1, 1))
         val equalsNode = EqualsNode(Position(1, 6), Position(1, 6))
         val expressionNode = LiteralNode(10.0, Position(1, 7), Position(1, 8))
-        val assignationNode = AssignationNode(
-            identifierNode,
-            expressionNode,
-            equalsNode,
-            Position(1, 1),
-            Position(1, 8),
-        )
+        val assignationNode =
+            AssignationNode(
+                identifierNode,
+                expressionNode,
+                equalsNode,
+                Position(1, 1),
+                Position(1, 8),
+            )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 8))
         val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
         val result = formatter.format(programNode)
-        val newEqualsNodePosition = Position(1,3)
+        val newEqualsNodePosition = Position(1, 3)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {
