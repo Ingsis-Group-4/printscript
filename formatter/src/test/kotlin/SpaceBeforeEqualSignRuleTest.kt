@@ -59,7 +59,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAndShouldMoveNode()  {
+    fun testNoSpaceAndShouldMoveNode() {
         // let a:Number =10
         // 1234567890123456
         val keywordNode = LetNode(Position(1, 1), Position(1, 3))
@@ -100,7 +100,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveNodes()  {
+    fun testSpaceAndShouldMoveNodes() {
         // example: let a:Number=10
         //          12345678901234567
         // should not change node
@@ -141,7 +141,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldNotMoveAnyNode()  {
+    fun testSpaceAndShouldNotMoveAnyNode() {
         // example: let a:Number =10
         //          12345678901234567
         // should not change node
@@ -183,7 +183,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveMoreThanOneSpace()  {
+    fun testSpaceAndShouldMoveMoreThanOneSpace() {
         // example: let a:Number    =10
         //          1234567890123456789
         // should not change node
@@ -222,7 +222,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAssignationNode()  {
+    fun testNoSpaceAssignationNode() {
         // example: a=10
         //          12345
         // should not change node
@@ -253,7 +253,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAndShouldMoveAssignationNode()  {
+    fun testNoSpaceAndShouldMoveAssignationNode() {
         // example: a =10
         //          12345
         // should not change node
@@ -285,7 +285,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldNotMoveAssignationNode()  {
+    fun testSpaceAndShouldNotMoveAssignationNode() {
         // example: a =10
         //          12345
         // should not change node
@@ -315,7 +315,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveNodesAssignationNode()  {
+    fun testSpaceAndShouldMoveNodesAssignationNode() {
         // example: a=10
         //          12345
         // should not change node
@@ -349,7 +349,7 @@ class SpaceBeforeEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode()  {
+    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode() {
         // example: a    =10
         //          123456789
         // should not change node
