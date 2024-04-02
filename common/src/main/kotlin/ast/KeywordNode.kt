@@ -1,3 +1,5 @@
 package ast
 
-interface KeywordNode : AST
+interface KeywordNode : AST {
+    fun getKeyword(): String
+}

@@ -47,11 +47,11 @@ class MathExpressionTest {
         assertIs<SumNode>(result.value)
 
         val sumNode = result.value as SumNode
-        assertIs<LiteralNode<Number>>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<LiteralNode<Number>>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(3.0, (sumNode.left as LiteralNode<*>).value)
-        assertEquals(2.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(3.0, (sumNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(2.0, (sumNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -69,12 +69,12 @@ class MathExpressionTest {
         assertIs<SuccessResult>(result)
         assertIs<SubtractionNode>(result.value)
 
-        val sumNode = result.value as SubtractionNode
-        assertIs<LiteralNode<Number>>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        val subtractionNode = result.value as SubtractionNode
+        assertIs<LiteralNode<Number>>(subtractionNode.getLeft())
+        assertIs<LiteralNode<Number>>(subtractionNode.getRight())
 
-        assertEquals(4.0, (sumNode.left as LiteralNode<*>).value)
-        assertEquals(8.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(4.0, (subtractionNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(8.0, (subtractionNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -95,18 +95,18 @@ class MathExpressionTest {
         assertIs<SumNode>(result.value)
 
         val sumNode = result.value as SumNode
-        assertIs<SumNode>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<SumNode>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(1.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(1.0, (sumNode.getRight() as LiteralNode<*>).value)
 
-        val leftSumNode = sumNode.left as SumNode
+        val leftSumNode = sumNode.getLeft() as SumNode
 
-        assertIs<LiteralNode<Number>>(leftSumNode.left)
-        assertIs<LiteralNode<Number>>(leftSumNode.right)
+        assertIs<LiteralNode<Number>>(leftSumNode.getLeft())
+        assertIs<LiteralNode<Number>>(leftSumNode.getRight())
 
-        assertEquals(3.0, (leftSumNode.left as LiteralNode<*>).value)
-        assertEquals(2.0, (leftSumNode.right as LiteralNode<*>).value)
+        assertEquals(3.0, (leftSumNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(2.0, (leftSumNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -127,18 +127,18 @@ class MathExpressionTest {
         assertIs<SumNode>(result.value)
 
         val sumNode = result.value as SumNode
-        assertIs<SubtractionNode>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<SubtractionNode>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(1.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(1.0, (sumNode.getRight() as LiteralNode<*>).value)
 
-        val leftSubtractionNode = sumNode.left as SubtractionNode
+        val leftSubtractionNode = sumNode.getLeft() as SubtractionNode
 
-        assertIs<LiteralNode<Number>>(leftSubtractionNode.left)
-        assertIs<LiteralNode<Number>>(leftSubtractionNode.right)
+        assertIs<LiteralNode<Number>>(leftSubtractionNode.getLeft())
+        assertIs<LiteralNode<Number>>(leftSubtractionNode.getRight())
 
-        assertEquals(3.0, (leftSubtractionNode.left as LiteralNode<*>).value)
-        assertEquals(2.0, (leftSubtractionNode.right as LiteralNode<*>).value)
+        assertEquals(3.0, (leftSubtractionNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(2.0, (leftSubtractionNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -159,18 +159,18 @@ class MathExpressionTest {
         assertIs<SumNode>(result.value)
 
         val sumNode = result.value as SumNode
-        assertIs<LiteralNode<Number>>(sumNode.left)
-        assertIs<ProductNode>(sumNode.right)
+        assertIs<LiteralNode<Number>>(sumNode.getLeft())
+        assertIs<ProductNode>(sumNode.getRight())
 
-        assertEquals(4.0, (sumNode.left as LiteralNode<*>).value)
+        assertEquals(4.0, (sumNode.getLeft() as LiteralNode<*>).value)
 
-        val productNode = sumNode.right as ProductNode
+        val productNode = sumNode.getRight() as ProductNode
 
-        assertIs<LiteralNode<Number>>(productNode.left)
-        assertIs<LiteralNode<Number>>(productNode.right)
+        assertIs<LiteralNode<Number>>(productNode.getLeft())
+        assertIs<LiteralNode<Number>>(productNode.getRight())
 
-        assertEquals(3.0, (productNode.left as LiteralNode<*>).value)
-        assertEquals(2.0, (productNode.right as LiteralNode<*>).value)
+        assertEquals(3.0, (productNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(2.0, (productNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -191,18 +191,18 @@ class MathExpressionTest {
         assertIs<SumNode>(result.value)
 
         val sumNode = result.value as SumNode
-        assertIs<ProductNode>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<ProductNode>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(2.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(2.0, (sumNode.getRight() as LiteralNode<*>).value)
 
-        val productNode = sumNode.left as ProductNode
+        val productNode = sumNode.getLeft() as ProductNode
 
-        assertIs<LiteralNode<Number>>(productNode.left)
-        assertIs<LiteralNode<Number>>(productNode.right)
+        assertIs<LiteralNode<Number>>(productNode.getLeft())
+        assertIs<LiteralNode<Number>>(productNode.getRight())
 
-        assertEquals(4.0, (productNode.left as LiteralNode<*>).value)
-        assertEquals(3.0, (productNode.right as LiteralNode<*>).value)
+        assertEquals(4.0, (productNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(3.0, (productNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -224,18 +224,18 @@ class MathExpressionTest {
 
         val productNode = result.value as ProductNode
 
-        assertIs<ProductNode>(productNode.left)
-        assertIs<LiteralNode<Number>>(productNode.right)
+        assertIs<ProductNode>(productNode.getLeft())
+        assertIs<LiteralNode<Number>>(productNode.getRight())
 
-        assertEquals(4.0, (productNode.right as LiteralNode<*>).value)
+        assertEquals(4.0, (productNode.getRight() as LiteralNode<*>).value)
 
-        val leftProductNode = productNode.left as ProductNode
+        val leftProductNode = productNode.getLeft() as ProductNode
 
-        assertIs<LiteralNode<Number>>(leftProductNode.left)
-        assertIs<LiteralNode<Number>>(leftProductNode.right)
+        assertIs<LiteralNode<Number>>(leftProductNode.getLeft())
+        assertIs<LiteralNode<Number>>(leftProductNode.getRight())
 
-        assertEquals(2.0, (leftProductNode.left as LiteralNode<*>).value)
-        assertEquals(3.0, (leftProductNode.right as LiteralNode<*>).value)
+        assertEquals(2.0, (leftProductNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(3.0, (leftProductNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -259,18 +259,18 @@ class MathExpressionTest {
 
         val productNode = result.value as ProductNode
 
-        assertIs<SumNode>(productNode.left)
-        assertIs<LiteralNode<Number>>(productNode.right)
+        assertIs<SumNode>(productNode.getLeft())
+        assertIs<LiteralNode<Number>>(productNode.getRight())
 
-        assertEquals(4.0, (productNode.right as LiteralNode<*>).value)
+        assertEquals(4.0, (productNode.getRight() as LiteralNode<*>).value)
 
-        val sumNode = productNode.left as SumNode
+        val sumNode = productNode.getLeft() as SumNode
 
-        assertIs<LiteralNode<Number>>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<LiteralNode<Number>>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(2.0, (sumNode.left as LiteralNode<*>).value)
-        assertEquals(3.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(2.0, (sumNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(3.0, (sumNode.getRight() as LiteralNode<*>).value)
     }
 
     @Test
@@ -294,17 +294,17 @@ class MathExpressionTest {
 
         val productNode = result.value as ProductNode
 
-        assertIs<LiteralNode<Number>>(productNode.left)
-        assertIs<SumNode>(productNode.right)
+        assertIs<LiteralNode<Number>>(productNode.getLeft())
+        assertIs<SumNode>(productNode.getRight())
 
-        assertEquals(2.0, (productNode.left as LiteralNode<*>).value)
+        assertEquals(2.0, (productNode.getLeft() as LiteralNode<*>).value)
 
-        val sumNode = productNode.right as SumNode
+        val sumNode = productNode.getRight() as SumNode
 
-        assertIs<LiteralNode<Number>>(sumNode.left)
-        assertIs<LiteralNode<Number>>(sumNode.right)
+        assertIs<LiteralNode<Number>>(sumNode.getLeft())
+        assertIs<LiteralNode<Number>>(sumNode.getRight())
 
-        assertEquals(3.0, (sumNode.left as LiteralNode<*>).value)
-        assertEquals(4.0, (sumNode.right as LiteralNode<*>).value)
+        assertEquals(3.0, (sumNode.getLeft() as LiteralNode<*>).value)
+        assertEquals(4.0, (sumNode.getRight() as LiteralNode<*>).value)
     }
 }

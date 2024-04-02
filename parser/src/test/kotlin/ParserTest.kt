@@ -401,8 +401,8 @@ class ParserTest {
 
         assertIs<SuccessResult>(result)
         assertIs<SumNode>(result.value)
-        assertIs<LiteralNode<Double>>((result.value as SumNode).left)
-        assertIs<LiteralNode<Double>>((result.value as SumNode).right)
+        assertIs<LiteralNode<Double>>((result.value as SumNode).getLeft())
+        assertIs<LiteralNode<Double>>((result.value as SumNode).getRight())
     }
 
     @Test
@@ -434,8 +434,8 @@ class ParserTest {
 
         assertIs<SuccessResult>(result)
         assertIs<SubtractionNode>(result.value)
-        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).left)
-        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).right)
+        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).getLeft())
+        assertIs<LiteralNode<Double>>((result.value as SubtractionNode).getRight())
     }
 
     @Test
@@ -467,8 +467,8 @@ class ParserTest {
 
         assertIs<SuccessResult>(result)
         assertIs<ProductNode>(result.value)
-        assertIs<LiteralNode<Double>>((result.value as ProductNode).left)
-        assertIs<LiteralNode<Double>>((result.value as ProductNode).right)
+        assertIs<LiteralNode<Double>>((result.value as ProductNode).getLeft())
+        assertIs<LiteralNode<Double>>((result.value as ProductNode).getRight())
     }
 
     @Test
@@ -500,8 +500,8 @@ class ParserTest {
 
         assertIs<SuccessResult>(result)
         assertIs<DivisionNode>(result.value)
-        assertIs<LiteralNode<Double>>((result.value as DivisionNode).left)
-        assertIs<LiteralNode<Double>>((result.value as DivisionNode).right)
+        assertIs<LiteralNode<Double>>((result.value as DivisionNode).getLeft())
+        assertIs<LiteralNode<Double>>((result.value as DivisionNode).getRight())
     }
 
     @Test
@@ -533,7 +533,7 @@ class ParserTest {
 
         assertIs<SuccessResult>(result)
         assertIs<SumNode>(result.value)
-        assertIs<LiteralNode<Double>>((result.value as SumNode).left)
-        assertIs<IdentifierNode>((result.value as SumNode).right)
+        assertIs<LiteralNode<Double>>((result.value as SumNode).getLeft())
+        assertIs<IdentifierNode>((result.value as SumNode).getRight())
     }
 }
