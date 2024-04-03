@@ -1,16 +1,16 @@
+import ast.AssignationNode
+import ast.ColonNode
+import ast.EqualsNode
+import ast.IdentifierNode
 import ast.LetNode
+import ast.LiteralNode
+import ast.OperatorNode
+import ast.OperatorType
 import ast.ProgramNode
+import ast.SumNode
 import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
-import ast.IdentifierNode
-import ast.ColonNode
-import ast.EqualsNode
-import ast.LiteralNode
-import ast.SumNode
-import ast.OperatorNode
-import ast.OperatorType
-import ast.AssignationNode
 import formatter.Formatter
 import formatter.rule.SpaceAfterEqualSignRule
 import position.Position
@@ -20,7 +20,7 @@ import kotlin.test.assertIs
 
 class SpaceAfterEqualSignRuleTest {
     @Test
-    fun testNoSpaceAndShouldNotMoveVariableDeclarationNode()  {
+    fun testNoSpaceAndShouldNotMoveVariableDeclarationNode() {
         // example: let a:Number=10
         //          12345678901234567
         // should not change node
@@ -62,7 +62,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAndShouldMoveVariableDeclarationNode()  {
+    fun testNoSpaceAndShouldMoveVariableDeclarationNode() {
         // example: let a:Number= 2+3
         //          12345678901234567
         // should not change node
@@ -131,7 +131,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAndShouldMoveMoreThanOneSpaceVariableDeclarationNode()  {
+    fun testNoSpaceAndShouldMoveMoreThanOneSpaceVariableDeclarationNode() {
         // example: let a:Number=    2+3
         //          12345678901234567890
         // should not change node
@@ -195,12 +195,12 @@ class SpaceAfterEqualSignRuleTest {
                     ((result.statements[0] as VariableDeclarationNode).expression as SumNode).getRight().getEnd(),
                     newSecondExpressionNode.getEnd(),
                 )
-            } 
-        } 
+            }
+        }
     }
 
     @Test
-    fun testSpaceAndShouldNotMoveVariableDeclarationNode()  {
+    fun testSpaceAndShouldNotMoveVariableDeclarationNode() {
         // example: let a:Number= 10
         //          12345678901234567
         // should not change node
@@ -242,7 +242,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveOneSpaceToTheRight()  {
+    fun testSpaceAndShouldMoveOneSpaceToTheRight() {
         // example: let a:Number=10
         //          12345678901234567
         // should not change node
@@ -289,7 +289,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveOneSpaceToTheLeft()  {
+    fun testSpaceAndShouldMoveOneSpaceToTheLeft() {
         // example: let a:Number=  2+3
         //          123456789012345678
         // should not change node
@@ -366,7 +366,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveSeveralSpacesToTheLeft()  {
+    fun testSpaceAndShouldMoveSeveralSpacesToTheLeft() {
         // example: let a:Number=    2+3
         //          12345678901234567890
         // should not change node
@@ -435,7 +435,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testNoSpaceAndShouldMoveAssignationNode()  {
+    fun testNoSpaceAndShouldMoveAssignationNode() {
         // example: a =  10
         //          1234567
         // should change node
@@ -467,7 +467,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveOneSpaceAssignationNode()  {
+    fun testSpaceAndShouldMoveOneSpaceAssignationNode() {
         // example: a =10
         //          1234567
         // should change node
@@ -499,7 +499,7 @@ class SpaceAfterEqualSignRuleTest {
     }
 
     @Test
-    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode()  {
+    fun testSpaceAndShouldMoveSeveralSpacesAssignationNode() {
         // example: a =    10
         //          123456789
         // should change node
