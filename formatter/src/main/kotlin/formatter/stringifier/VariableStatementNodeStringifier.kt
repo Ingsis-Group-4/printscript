@@ -17,10 +17,10 @@ class VariableStatementNodeStringifier : Stringifier {
     }
 
     private fun handleAssignationNode(assignationNode: AssignationNode): String {
-        val whiteSpacesBeforeIdentifier = " ".repeat(assignationNode.getStart().column)
+        val whiteSpacesBeforeIdentifier = " ".repeat(assignationNode.getStart().column - 1)
         val whiteSpacesBetweenIdentifierAndEquals =
             " ".repeat(
-                assignationNode.identifier.getEnd().column - assignationNode.equalsNode.getStart().column,
+                assignationNode.equalsNode.getStart().column - assignationNode.identifier.getEnd().column - 1,
             )
         val rightSide = handleRightSideStatementNode(assignationNode.expression, assignationNode.equalsNode, assignationNode.getEnd())
         return whiteSpacesBeforeIdentifier +
@@ -31,23 +31,23 @@ class VariableStatementNodeStringifier : Stringifier {
     }
 
     private fun handleVariableDeclarationNode(variableDeclarationNode: VariableDeclarationNode): String {
-        val whiteSpacesBeforeKeyword = " ".repeat(variableDeclarationNode.keywordNode.getStart().column)
+        val whiteSpacesBeforeKeyword = " ".repeat(variableDeclarationNode.keywordNode.getStart().column - 1)
         val whiteSpacesBetweenKeywordAndIdentifier =
             " ".repeat(
-                variableDeclarationNode.identifier.getStart().column - variableDeclarationNode.keywordNode.getEnd().column,
+                variableDeclarationNode.identifier.getStart().column - variableDeclarationNode.keywordNode.getEnd().column - 1,
             )
         val whiteSpacesBetweenIdentifierAndColon =
             " ".repeat(
-                variableDeclarationNode.colonNode.getStart().column - variableDeclarationNode.identifier.getEnd().column,
+                variableDeclarationNode.colonNode.getStart().column - variableDeclarationNode.identifier.getEnd().column - 1,
             )
         val whiteSpacesBetweenColonAndType =
             " ".repeat(
-                variableDeclarationNode.typeNode.getStart().column - variableDeclarationNode.colonNode.getEnd().column,
+                variableDeclarationNode.typeNode.getStart().column - variableDeclarationNode.colonNode.getEnd().column - 1,
             )
-        if (hasExpression(variableDeclarationNode)) {
+        if (!hasExpression(variableDeclarationNode)) {
             val whiteSpacesAfterType =
                 " ".repeat(
-                    variableDeclarationNode.getEnd().column - variableDeclarationNode.typeNode.getEnd().column,
+                    variableDeclarationNode.getEnd().column - variableDeclarationNode.typeNode.getEnd().column - 1,
                 )
             return whiteSpacesBeforeKeyword +
                 variableDeclarationNode.keywordNode.getKeyword() +
@@ -56,12 +56,12 @@ class VariableStatementNodeStringifier : Stringifier {
                 whiteSpacesBetweenIdentifierAndColon +
                 ":" +
                 whiteSpacesBetweenColonAndType +
-                variableDeclarationNode.typeNode.variableType.name +
+                variableDeclarationNode.typeNode.getVariableType() +
                 whiteSpacesAfterType
         }
         val whiteSpacesBetweenTypeAndEquals =
             " ".repeat(
-                variableDeclarationNode.equalsNode!!.getStart().column - variableDeclarationNode.typeNode.getEnd().column,
+                variableDeclarationNode.equalsNode!!.getStart().column - variableDeclarationNode.typeNode.getEnd().column - 1,
             )
         val rightSide =
             handleRightSideStatementNode(
@@ -76,7 +76,7 @@ class VariableStatementNodeStringifier : Stringifier {
             whiteSpacesBetweenIdentifierAndColon +
             ":" +
             whiteSpacesBetweenColonAndType +
-            variableDeclarationNode.typeNode.variableType.name +
+            variableDeclarationNode.typeNode.getVariableType() +
             whiteSpacesBetweenTypeAndEquals +
             "=" +
             rightSide
@@ -87,11 +87,11 @@ class VariableStatementNodeStringifier : Stringifier {
         equalsNode: EqualsNode,
         endPosition: Position,
     ): String {
-        val whiteSpacesBetweenEqualsAndExpression = " ".repeat(expressionNode.getStart().column - equalsNode.getEnd().column)
+        val whiteSpacesBetweenEqualsAndExpression = " ".repeat(expressionNode.getStart().column - equalsNode.getEnd().column - 1)
         val expressionNodeString = ExpressionNodeStringifier().stringify(expressionNode)
-        val whiteSpacesAfterExpression = " ".repeat(endPosition.column - expressionNode.getEnd().column)
+        val whiteSpacesAfterExpression = " ".repeat(endPosition.column - expressionNode.getEnd().column - 1)
         return whiteSpacesBetweenEqualsAndExpression + expressionNodeString + whiteSpacesAfterExpression
     }
 
-    private fun hasExpression(variableDeclarationNode: VariableDeclarationNode) = variableDeclarationNode.expression == null
+    private fun hasExpression(variableDeclarationNode: VariableDeclarationNode) = variableDeclarationNode.expression != null
 }

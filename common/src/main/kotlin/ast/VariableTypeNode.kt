@@ -10,4 +10,11 @@ class VariableTypeNode(
     override fun getStart(): Position = start
 
     override fun getEnd(): Position = end
+
+    fun getVariableType(): String {
+        return when (variableType) {
+            VariableType.NUMBER -> "Number"
+            VariableType.STRING -> "String"
+        }
+    }
 }
