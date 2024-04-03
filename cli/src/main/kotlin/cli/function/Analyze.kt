@@ -8,8 +8,8 @@ import logger.Logger
 import parser.Parser
 import parser.factory.ProgramParserFactory
 import sca.StaticCodeAnalyzer
-import sca.factory.StaticCodeAnalyzerConfigurerFactory
-import sca.provider.StaticCodeAnalyzerConfigurer
+import sca.factory.DefaultSCARuleFactory
+import sca.factory.SCARuleFactory
 
 /**
  * Analyzes the given source code, with a static code analyzer
@@ -24,7 +24,7 @@ import sca.provider.StaticCodeAnalyzerConfigurer
 class Analyze(
     private val lexer: Lexer = Lexer(getTokenMap()),
     private val parser: Parser = ProgramParserFactory.create(),
-    private val analyzerConfigurer: StaticCodeAnalyzerConfigurer = StaticCodeAnalyzerConfigurerFactory().create(),
+    private val ruleFactory: SCARuleFactory = DefaultSCARuleFactory(),
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
@@ -47,7 +47,9 @@ class Analyze(
     private fun getSca(args: Map<String, String>): StaticCodeAnalyzer {
         val configFile = getConfigFile(args)
 
-        return analyzerConfigurer.createStaticCodeAnalyzer(configFile)
+        return StaticCodeAnalyzer(
+            ruleFactory.getRules(configFile),
+        )
     }
 
     /**
