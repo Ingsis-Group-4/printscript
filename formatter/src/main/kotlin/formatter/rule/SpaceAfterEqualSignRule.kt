@@ -4,10 +4,9 @@ import ast.AssignationNode
 import ast.FunctionStatementNode
 import ast.StatementNode
 import ast.VariableDeclarationNode
-import formatter.utils.changeExpressionNodePositions
+import formatter.utils.changeExpressionNodeColumn
 import formatter.utils.createNewAssignationNode
 import formatter.utils.createNewVariableDeclarationNode
-import position.Position
 
 class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
     override fun apply(
@@ -26,20 +25,8 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                     if (equalSignPosition.column == expressionNodePosition.column - 1) {
                         return statements
                     } else {
-                        val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
-                        val newExpressionNodeStartPosition =
-                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 1))
-                        val newExpressionNodeEndPosition =
-                            Position(
-                                expressionNodePosition.line,
-                                statementNode.expression.getEnd().column - (differenceBetweenPositions - 1),
-                            )
-                        val newExpressionNode =
-                            changeExpressionNodePositions(
-                                statementNode.expression,
-                                newExpressionNodeStartPosition,
-                                newExpressionNodeEndPosition,
-                            )
+                        val differenceBetweenPositions = expressionNodePosition.column - (equalSignPosition.column + 1)
+                        val newExpressionNode = changeExpressionNodeColumn(statementNode.expression, -differenceBetweenPositions)
                         val auxStatementList = statements.toMutableList()
                         val newAssignationNode =
                             createNewAssignationNode(
@@ -56,20 +43,21 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                     if (equalSignPosition.column == expressionNodePosition.column - 2) {
                         return statements
                     } else {
-                        val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
-                        val newExpressionNodeStartPosition =
-                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 2))
-                        val newExpressionNodeEndPosition =
-                            Position(
-                                expressionNodePosition.line,
-                                statementNode.expression.getEnd().column - (differenceBetweenPositions - 2),
-                            )
-                        val newExpressionNode =
-                            changeExpressionNodePositions(
-                                statementNode.expression,
-                                newExpressionNodeStartPosition,
-                                newExpressionNodeEndPosition,
-                            )
+                        val differenceBetweenPositions = expressionNodePosition.column - (equalSignPosition.column + 2)
+                        val newExpressionNode = changeExpressionNodeColumn(statementNode.expression, -differenceBetweenPositions)
+//                        val newExpressionNodeStartPosition =
+//                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 2))
+//                        val newExpressionNodeEndPosition =
+//                            Position(
+//                                expressionNodePosition.line,
+//                                statementNode.expression.getEnd().column - (differenceBetweenPositions - 2),
+//                            )
+//                        val newExpressionNode =
+//                            changeExpressionNodePositions(
+//                                statementNode.expression,
+//                                newExpressionNodeStartPosition,
+//                                newExpressionNodeEndPosition,
+//                            )
                         val auxStatementList = statements.toMutableList()
                         val newAssignationNode =
                             createNewAssignationNode(
@@ -94,20 +82,8 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                     if (equalSignPosition.column == expressionNodePosition.column - 1) {
                         return statements
                     } else {
-                        val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
-                        val newExpressionNodeStartPosition =
-                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 1))
-                        val newExpressionNodeEndPosition =
-                            Position(
-                                expressionNodePosition.line,
-                                statementNode.expression!!.getEnd().column - (differenceBetweenPositions - 1),
-                            )
-                        val newExpressionNode =
-                            changeExpressionNodePositions(
-                                statementNode.expression!!,
-                                newExpressionNodeStartPosition,
-                                newExpressionNodeEndPosition,
-                            )
+                        val differenceBetweenPositions = expressionNodePosition.column - (equalSignPosition.column + 1)
+                        val newExpressionNode = changeExpressionNodeColumn(statementNode.expression!!, -differenceBetweenPositions)
                         val auxStatementList = statements.toMutableList()
                         val newVariableDeclarationNode =
                             createNewVariableDeclarationNode(
@@ -127,20 +103,21 @@ class SpaceAfterEqualSignRule(private val hasSpace: Boolean) : Rule {
                     if (equalSignPosition.column == expressionNodePosition.column - 2) {
                         return statements
                     } else {
-                        val differenceBetweenPositions = expressionNodePosition.column - equalSignPosition.column
-                        val newExpressionNodeStartPosition =
-                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 2))
-                        val newExpressionNodeEndPosition =
-                            Position(
-                                expressionNodePosition.line,
-                                statementNode.expression!!.getEnd().column - (differenceBetweenPositions - 2),
-                            )
-                        val newExpressionNode =
-                            changeExpressionNodePositions(
-                                statementNode.expression!!,
-                                newExpressionNodeStartPosition,
-                                newExpressionNodeEndPosition,
-                            )
+                        val differenceBetweenPositions = expressionNodePosition.column - (equalSignPosition.column + 2)
+                        val newExpressionNode = changeExpressionNodeColumn(statementNode.expression!!, -differenceBetweenPositions)
+//                        val newExpressionNodeStartPosition =
+//                            Position(expressionNodePosition.line, expressionNodePosition.column - (differenceBetweenPositions - 2))
+//                        val newExpressionNodeEndPosition =
+//                            Position(
+//                                expressionNodePosition.line,
+//                                statementNode.expression!!.getEnd().column - (differenceBetweenPositions - 2),
+//                            )
+//                        val newExpressionNode =
+//                            changeExpressionNodePositions(
+//                                statementNode.expression!!,
+//                                newExpressionNodeStartPosition,
+//                                newExpressionNodeEndPosition,
+//                            )
                         val auxStatementList = statements.toMutableList()
                         val newVariableDeclarationNode =
                             createNewVariableDeclarationNode(
