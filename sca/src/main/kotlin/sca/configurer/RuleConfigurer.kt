@@ -1,4 +1,4 @@
-package sca.provider
+package sca.configurer
 
 import kotlinx.serialization.json.JsonObject
 import sca.rule.Rule
