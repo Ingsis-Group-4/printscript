@@ -304,14 +304,19 @@ fun handleSumNodeWhitespaces(statementNode: SumNode): ExpressionNode {
     val leftNodeHasSpace = spaceAfterLeftNode(leftNode, operatorNode)
     val rightNodeHasSpace = spaceBeforeRightNode(rightNode, operatorNode)
     if (areThereAlreadySpaces(leftNodeHasSpace, rightNodeHasSpace)) return statementNode
-    if (!leftNodeHasSpace){
-        val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column+2)
-        val newOperatorNode = OperatorNode(Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions), Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions), operatorNode.getType())
-        val newSumNode = SumNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
-        return handleSumNodeWhitespaces(newSumNode)
-    }
-    else {
-        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column+2)
+    if (!leftNodeHasSpace)
+        {
+            val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column + 2)
+            val newOperatorNode =
+                OperatorNode(
+                    Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions),
+                    Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions),
+                    operatorNode.getType(),
+                )
+            val newSumNode = SumNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
+            return handleSumNodeWhitespaces(newSumNode)
+        } else {
+        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column + 2)
         val newRightNode = changeExpressionNodeColumn(rightNode, -differenceBetweenPositions)
         val newSumNode = SumNode(leftNode, newRightNode, operatorNode, leftNode.getStart(), newRightNode.getEnd())
         return newSumNode
@@ -332,14 +337,19 @@ fun handleSubtractionNodeWhitespaces(statementNode: SubtractionNode): Expression
     val leftNodeHasSpace = spaceAfterLeftNode(leftNode, operatorNode)
     val rightNodeHasSpace = spaceBeforeRightNode(rightNode, operatorNode)
     if (areThereAlreadySpaces(leftNodeHasSpace, rightNodeHasSpace)) return statementNode
-    if (!leftNodeHasSpace){
-        val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column+2)
-        val newOperatorNode = OperatorNode(Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions), Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions), operatorNode.getType())
-        val newSubtractionNode = SubtractionNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
-        return handleSubtractionNodeWhitespaces(newSubtractionNode)
-    }
-    else {
-        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column+2)
+    if (!leftNodeHasSpace)
+        {
+            val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column + 2)
+            val newOperatorNode =
+                OperatorNode(
+                    Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions),
+                    Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions),
+                    operatorNode.getType(),
+                )
+            val newSubtractionNode = SubtractionNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
+            return handleSubtractionNodeWhitespaces(newSubtractionNode)
+        } else {
+        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column + 2)
         val newRightNode = changeExpressionNodeColumn(rightNode, -differenceBetweenPositions)
         val newSubtractionNode = SubtractionNode(leftNode, newRightNode, operatorNode, leftNode.getStart(), newRightNode.getEnd())
         return newSubtractionNode
@@ -353,14 +363,19 @@ fun handleProductNodeWhitespaces(statementNode: ProductNode): ExpressionNode {
     val leftNodeHasSpace = spaceAfterLeftNode(leftNode, operatorNode)
     val rightNodeHasSpace = spaceBeforeRightNode(rightNode, operatorNode)
     if (areThereAlreadySpaces(leftNodeHasSpace, rightNodeHasSpace)) return statementNode
-    if (!leftNodeHasSpace){
-        val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column+2)
-        val newOperatorNode = OperatorNode(Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions), Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions), operatorNode.getType())
-        val newProductNode = ProductNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
-        return handleProductNodeWhitespaces(newProductNode)
-    }
-    else {
-        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column+2)
+    if (!leftNodeHasSpace)
+        {
+            val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column + 2)
+            val newOperatorNode =
+                OperatorNode(
+                    Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions),
+                    Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions),
+                    operatorNode.getType(),
+                )
+            val newProductNode = ProductNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
+            return handleProductNodeWhitespaces(newProductNode)
+        } else {
+        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column + 2)
         val newRightNode = changeExpressionNodeColumn(rightNode, -differenceBetweenPositions)
         val newProductNode = ProductNode(leftNode, newRightNode, operatorNode, leftNode.getStart(), newRightNode.getEnd())
         return newProductNode
@@ -374,14 +389,19 @@ fun handleDivisionNodeWhitespaces(statementNode: DivisionNode): ExpressionNode {
     val leftNodeHasSpace = spaceAfterLeftNode(leftNode, operatorNode)
     val rightNodeHasSpace = spaceBeforeRightNode(rightNode, operatorNode)
     if (areThereAlreadySpaces(leftNodeHasSpace, rightNodeHasSpace)) return statementNode
-    if (!leftNodeHasSpace){
-        val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column+2)
-        val newOperatorNode = OperatorNode(Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions), Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions), operatorNode.getType())
-        val newDivisionNode = DivisionNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
-        return handleDivisionNodeWhitespaces(newDivisionNode)
-    }
-    else {
-        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column+2)
+    if (!leftNodeHasSpace)
+        {
+            val differenceBetweenPositions = operatorNode.getStart().column - (leftNode.getEnd().column + 2)
+            val newOperatorNode =
+                OperatorNode(
+                    Position(operatorNode.getStart().line, operatorNode.getStart().column - differenceBetweenPositions),
+                    Position(operatorNode.getEnd().line, operatorNode.getEnd().column - differenceBetweenPositions),
+                    operatorNode.getType(),
+                )
+            val newDivisionNode = DivisionNode(leftNode, rightNode, newOperatorNode, leftNode.getStart(), rightNode.getEnd())
+            return handleDivisionNodeWhitespaces(newDivisionNode)
+        } else {
+        val differenceBetweenPositions = rightNode.getStart().column - (operatorNode.getEnd().column + 2)
         val newRightNode = changeExpressionNodeColumn(rightNode, -differenceBetweenPositions)
         val newDivisionNode = DivisionNode(leftNode, newRightNode, operatorNode, leftNode.getStart(), newRightNode.getEnd())
         return newDivisionNode
