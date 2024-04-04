@@ -20,16 +20,17 @@ class WhitespaceBeforeAndAfterOperatorRule(private val hasSpace: Boolean) : Rule
             is VariableDeclarationNode -> {
                 if (statementNode.expression != null) {
                     val auxStatementList = statements.toMutableList()
+                    val newExpressionNode = handleExpressionNodeWhitespaces(statementNode.expression!!)
                     val newVariableDeclarationNode =
                         createNewVariableDeclarationNode(
                             statementNode.identifier,
-                            handleExpressionNodeWhitespaces(statementNode.expression!!),
+                            newExpressionNode,
                             statementNode.keywordNode,
                             statementNode.colonNode,
                             statementNode.typeNode,
                             statementNode.equalsNode,
                             statementNode.getStart(),
-                            statementNode.getEnd(),
+                            newExpressionNode.getEnd(),
                         )
                     auxStatementList[currentStatementIndex] = newVariableDeclarationNode
                     auxStatementList
