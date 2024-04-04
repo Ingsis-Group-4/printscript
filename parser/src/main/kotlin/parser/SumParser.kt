@@ -13,7 +13,10 @@ import token.Token
 import token.TokenType
 
 class SumParser(private val baseParser: Parser) : Parser {
-    override fun parse(tokens: List<Token>, currentIndex: Int): ParserResult {
+    override fun parse(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): ParserResult {
         for (i in currentIndex until tokens.size) {
             if (isTokenValid(tokens, i, TokenType.SUM)) {
                 val leftTokens = tokens.subList(currentIndex, i)
@@ -31,14 +34,13 @@ class SumParser(private val baseParser: Parser) : Parser {
                                 OperatorType.SUM,
                             ),
                             at(tokens, currentIndex).start,
-                            at(tokens, right.lastValidatedIndex).end
+                            at(tokens, right.lastValidatedIndex).end,
                         ),
-                        i
+                        i,
                     )
                 }
             }
         }
         return FailureResult("The sum at index $currentIndex is invalid.", currentIndex)
     }
-
 }
