@@ -22,7 +22,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     private val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
     @Test
-    fun testShouldReturnNodesUnchanged()  {
+    fun testShouldReturnNodesUnchanged() {
         // example: let a :Number = 10 + 2
         //         1234567890123456789012345
         // should change node
@@ -80,7 +80,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     }
 
     @Test
-    fun testShouldChangeTheRightNodeOnly()  {
+    fun testShouldChangeTheRightNodeOnly() {
         // example: let a :Number = 10 +    2
         //         12345678901234567890123456
         // should change node
@@ -137,7 +137,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     }
 
     @Test
-    fun testShouldMoveEachNodeOneSpaceToTheLeft()  {
+    fun testShouldMoveEachNodeOneSpaceToTheLeft() {
         // example: let a :Number = 10  + 2
         //         12345678901234567890123456
         // should change node
@@ -195,7 +195,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     }
 
     @Test
-    fun testShouldMoveEachNodeOneSpaceToTheRight()  {
+    fun testShouldMoveEachNodeOneSpaceToTheRight() {
         // example: let a :Number = 10+2
         //         12345678901234567890123456
         // should change node
@@ -253,7 +253,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     }
 
     @Test
-    fun testWithComplexTerms()  {
+    fun testWithComplexTerms() {
         // example: let a :Number = 1+2  + 3+4
         //         123456789012345678901234567890
         // should change node
@@ -324,7 +324,7 @@ class WhitespaceBeforeAndAfterOperatorRuleTest {
     }
 
     @Test
-    fun testWithMoreComplexTerms2()  {
+    fun testWithMoreComplexTerms2() {
         // example: let a :Number = 1+2+3+4
         //         123456789012345678901234567890
         // should change node
