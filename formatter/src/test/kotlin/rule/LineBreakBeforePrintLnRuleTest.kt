@@ -1,3 +1,5 @@
+package rule
+
 import ast.AssignationNode
 import ast.EqualsNode
 import ast.IdentifierNode

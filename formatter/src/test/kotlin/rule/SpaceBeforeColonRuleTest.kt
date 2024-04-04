@@ -1,3 +1,5 @@
+package rule
+
 import ast.AssignationNode
 import ast.ColonNode
 import ast.EqualsNode
@@ -8,7 +10,7 @@ import ast.ProgramNode
 import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
-import formatter.Formatter
+import formatter.AstRuleProcessor
 import formatter.rule.SpaceBeforeColonRule
 import position.Position
 import kotlin.test.Test
@@ -42,9 +44,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 17))
         val rule = SpaceBeforeColonRule(false)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is VariableDeclarationNode) {
@@ -84,9 +86,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 16))
         val rule = SpaceBeforeColonRule(false)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         val newColonNode = ColonNode(Position(1, 6), Position(1, 6))
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
@@ -125,9 +127,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 18))
         val rule = SpaceBeforeColonRule(false)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         val newColonNode = ColonNode(Position(1, 6), Position(1, 6))
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
@@ -165,9 +167,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 18))
         val rule = SpaceBeforeColonRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is VariableDeclarationNode) {
@@ -207,9 +209,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 15))
         val rule = SpaceBeforeColonRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         val newColonNode = ColonNode(Position(1, 7), Position(1, 7))
         val newTypeNode = VariableTypeNode(VariableType.NUMBER, Position(1, 8), Position(1, 13))
         val newEqualsNode = EqualsNode(Position(1, 14), Position(1, 14))
@@ -276,9 +278,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 18))
         val rule = SpaceBeforeColonRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         val newColonNode = ColonNode(Position(1, 7), Position(1, 7))
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
@@ -304,9 +306,9 @@ class SpaceBeforeColonRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 6))
         val rule = SpaceBeforeColonRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {

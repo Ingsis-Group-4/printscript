@@ -1,3 +1,5 @@
+package rule
+
 import ast.AssignationNode
 import ast.ColonNode
 import ast.EqualsNode
@@ -8,7 +10,7 @@ import ast.ProgramNode
 import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
-import formatter.Formatter
+import formatter.AstRuleProcessor
 import formatter.rule.SpaceBeforeEqualSignRule
 import position.Position
 import kotlin.test.Test
@@ -42,9 +44,9 @@ class SpaceBeforeEqualSignRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 15))
         val rule = SpaceBeforeEqualSignRule(false)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is VariableDeclarationNode) {
@@ -82,9 +84,9 @@ class SpaceBeforeEqualSignRuleTest {
         val statements = listOf(variableDeclarationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 16))
         val rule = SpaceBeforeEqualSignRule(false)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
         val newEqualsNodePosition = Position(1, 13)
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is VariableDeclarationNode) {
@@ -123,11 +125,11 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(variableDeclarationNode)
         val rule = SpaceBeforeEqualSignRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 15))
         val newEqualsNodePosition = Position(1, 14)
         val newExpressionNode = LiteralNode(10.0, Position(1, 15), Position(1, 16))
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
         assertEquals((result.statements[0] as VariableDeclarationNode).typeNode, typeNode)
@@ -166,9 +168,9 @@ class SpaceBeforeEqualSignRuleTest {
 
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 16))
         val rule = SpaceBeforeEqualSignRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
 
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is VariableDeclarationNode) {
@@ -206,10 +208,10 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(variableDeclarationNode)
         val rule = SpaceBeforeEqualSignRule(true)
-        val formatter = Formatter(listOf(rule))
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 19))
         val newEqualsNodePosition = Position(1, 14)
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         assert(result is ProgramNode)
         assertIs<VariableDeclarationNode>((result as ProgramNode).statements[0])
         assertEquals((result.statements[0] as VariableDeclarationNode).typeNode, typeNode)
@@ -240,8 +242,8 @@ class SpaceBeforeEqualSignRuleTest {
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 4))
         val rule = SpaceBeforeEqualSignRule(false)
-        val formatter = Formatter(listOf(rule))
-        val result = formatter.format(programNode)
+        val astRuleProcessor = AstRuleProcessor(listOf(rule))
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {
@@ -270,9 +272,9 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 5))
-        val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(false)))
+        val astRuleProcessor = AstRuleProcessor(listOf(SpaceBeforeEqualSignRule(false)))
         val newEqualsNodePosition = Position(1, 2)
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {
@@ -302,8 +304,8 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 5))
-        val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
-        val result = formatter.format(programNode)
+        val astRuleProcessor = AstRuleProcessor(listOf(SpaceBeforeEqualSignRule(true)))
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {
@@ -332,10 +334,10 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 4))
-        val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
+        val astRuleProcessor = AstRuleProcessor(listOf(SpaceBeforeEqualSignRule(true)))
         val newEqualsNodePosition = Position(1, 3)
         val newExpressionNode = LiteralNode(10.0, Position(1, 4), Position(1, 5))
-        val result = formatter.format(programNode)
+        val result = astRuleProcessor.format(programNode)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)
             if (statementResult is AssignationNode) {
@@ -366,8 +368,8 @@ class SpaceBeforeEqualSignRuleTest {
             )
         val statements = listOf(assignationNode)
         val programNode = ProgramNode(statements, Position(1, 1), Position(1, 8))
-        val formatter = Formatter(listOf(SpaceBeforeEqualSignRule(true)))
-        val result = formatter.format(programNode)
+        val astRuleProcessor = AstRuleProcessor(listOf(SpaceBeforeEqualSignRule(true)))
+        val result = astRuleProcessor.format(programNode)
         val newEqualsNodePosition = Position(1, 3)
         if (result is ProgramNode) {
             val statementResult = result.statements.get(0)

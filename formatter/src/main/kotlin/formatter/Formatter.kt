@@ -2,23 +2,13 @@ package formatter
 
 import ast.AST
 import ast.ProgramNode
-import ast.StatementNode
-import formatter.rule.Rule
+import formatter.stringifier.Stringifier
 
-class Formatter(private val rules: List<Rule>) {
-    fun format(node: ProgramNode): AST {
-        var formattedStatements = mutableListOf<StatementNode>()
-        var currentIndex = 0
-        for (statement in node.statements) {
-            for (rule in rules) {
-                formattedStatements = rule.apply(currentIndex, node.statements).toMutableList()
-            }
-            currentIndex += 1
-        }
-        return ProgramNode(
-            formattedStatements,
-            formattedStatements[0].getStart(),
-            formattedStatements[formattedStatements.size - 1].getEnd(),
-        )
+
+// Not sure if the best way to pass the rule processor and stringifier is through the constructor, maybe using the init block would be better
+class Formatter(private val ruleProcessor: AstRuleProcessor, private val stringifier: Stringifier) {
+    fun format(node: AST): String {
+        val formattedAst = ruleProcessor.format(node as ProgramNode)
+        return stringifier.stringify(formattedAst)
     }
 }
