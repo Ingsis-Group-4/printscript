@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation project(':common')
-    implementation project(':lexer')
-    implementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation project(':lexer')
+    testImplementation 'com.google.code.gson:gson:2.10.1'
 }
 
