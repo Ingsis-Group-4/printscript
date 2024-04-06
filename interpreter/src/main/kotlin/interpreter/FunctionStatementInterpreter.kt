@@ -2,6 +2,7 @@ package interpreter
 
 import ast.FunctionStatementNode
 import ast.PrintLnNode
+import interpreter.expression.ExpressionInterpreter
 import logger.Logger
 
 class FunctionStatementInterpreter(
@@ -12,7 +13,7 @@ class FunctionStatementInterpreter(
     override fun interpret(): Value {
         when (node) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter(node.expression, environment).interpret()
+                val value = ExpressionInterpreter().interpret(node.expression, environment)
                 logger.log(value.toString())
             }
         }

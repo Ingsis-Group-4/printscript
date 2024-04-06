@@ -3,20 +3,21 @@ package interpreter
 import ast.AssignationNode
 import ast.VariableDeclarationNode
 import ast.VariableStatementNode
+import interpreter.expression.ExpressionInterpreter
 
 class VariableStatementInterpreter(private val node: VariableStatementNode, private val environment: Environment) :
     Interpreter {
     override fun interpret(): Value {
         when (node) {
             is AssignationNode -> {
-                val value = ExpressionInterpreter(node.expression, environment).interpret()
+                val value = ExpressionInterpreter().interpret(node.expression, environment)
                 environment.updateVariable(node.identifier.variableName, value)
                 return VoidValue()
             }
 
             is VariableDeclarationNode -> {
                 if (node.expression != null) {
-                    val value = ExpressionInterpreter(node.expression!!, environment).interpret()
+                    val value = ExpressionInterpreter().interpret(node.expression!!, environment)
                     environment.createVariable(
                         node.identifier.variableName,
                         value,
