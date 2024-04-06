@@ -27,16 +27,17 @@ class VariableStatementInterpreterTest {
                 Position(1, 1),
                 Position(1, 2),
             )
+
         val environment = Environment()
         environment.createVariable("x", VoidValue(), VariableType.STRING)
 
-        val interpreter = VariableStatementInterpreter(input, environment)
+        val interpreter = VariableStatementInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
-        assert(result is VoidValue)
-        assert(environment.getVariable("x") is StringValue)
-        assertEquals("a", (environment.getVariable("x") as StringValue).value)
+        assertEquals(0, result.logs.size)
+        assert(result.environment.getVariable("x") is StringValue)
+        assertEquals("a", (result.environment.getVariable("x") as StringValue).value)
     }
 
     @Test
@@ -52,13 +53,13 @@ class VariableStatementInterpreterTest {
         val environment = Environment()
         environment.createVariable("x", StringValue("b"), VariableType.STRING)
 
-        val interpreter = VariableStatementInterpreter(input, environment)
+        val interpreter = VariableStatementInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
-        assert(result is VoidValue)
-        assert(environment.getVariable("x") is StringValue)
-        assertEquals("a", (environment.getVariable("x") as StringValue).value)
+        assertEquals(0, result.logs.size)
+        assert(result.environment.getVariable("x") is StringValue)
+        assertEquals("a", (result.environment.getVariable("x") as StringValue).value)
     }
 
     @Test
@@ -76,12 +77,12 @@ class VariableStatementInterpreterTest {
             )
         val environment = Environment()
 
-        val interpreter = VariableStatementInterpreter(input, environment)
+        val interpreter = VariableStatementInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
-        assert(result is VoidValue)
-        assert(environment.getVariable("x") is NullValue)
+        assertEquals(0, result.logs.size)
+        assert(result.environment.getVariable("x") is NullValue)
     }
 
     @Test
@@ -99,13 +100,13 @@ class VariableStatementInterpreterTest {
             )
         val environment = Environment()
 
-        val interpreter = VariableStatementInterpreter(input, environment)
+        val interpreter = VariableStatementInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
-        assert(result is VoidValue)
-        assert(environment.getVariable("x") is NumberValue)
-        assertEquals(10.0, (environment.getVariable("x") as NumberValue).value)
+        assertEquals(0, result.logs.size)
+        assert(result.environment.getVariable("x") is NumberValue)
+        assertEquals(10.0, (result.environment.getVariable("x") as NumberValue).value)
     }
 
     @Test
@@ -129,12 +130,12 @@ class VariableStatementInterpreterTest {
             )
         val environment = Environment()
 
-        val interpreter = VariableStatementInterpreter(input, environment)
+        val interpreter = VariableStatementInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
-        assert(result is VoidValue)
-        assert(environment.getVariable("x") is NumberValue)
-        assertEquals(30.0, (environment.getVariable("x") as NumberValue).value)
+        assertEquals(0, result.logs.size)
+        assert(result.environment.getVariable("x") is NumberValue)
+        assertEquals(30.0, (result.environment.getVariable("x") as NumberValue).value)
     }
 }

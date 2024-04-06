@@ -1,22 +1,27 @@
 package interpreter
 
+import ast.AST
 import ast.FunctionStatementNode
 import ast.PrintLnNode
 import interpreter.expression.ExpressionInterpreter
-import logger.Logger
 
-class FunctionStatementInterpreter(
-    private val node: FunctionStatementNode,
-    private val environment: Environment,
-    private val logger: Logger,
-) : Interpreter {
-    override fun interpret(): Value {
-        when (node) {
+class FunctionStatementInterpreter : Interpreter {
+    override fun interpret(
+        ast: AST,
+        environment: Environment,
+    ): InterpretOutput {
+        when (val node = getFunctionNodeOrThrow(ast)) {
             is PrintLnNode -> {
                 val value = ExpressionInterpreter().interpret(node.expression, environment)
-                logger.log(value.toString())
+                return InterpretOutput(environment, listOf(value.toString()))
             }
         }
-        return VoidValue()
+    }
+
+    private fun getFunctionNodeOrThrow(node: AST): FunctionStatementNode {
+        if (node is FunctionStatementNode) return node
+        throw Exception(
+            "Unknown statement at (line: ${node.getStart().line} column: ${node.getStart().column})",
+        )
     }
 }

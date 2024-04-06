@@ -1,24 +1,39 @@
 package interpreter
 
+import ast.AST
 import ast.FunctionStatementNode
 import ast.ProgramNode
 import ast.VariableStatementNode
-import logger.ConsoleLogger
-import logger.Logger
 
-class ProgramInterpreter(
-    private val node: ProgramNode,
-    private val logger: Logger = ConsoleLogger(),
-) : Interpreter {
-    private val environment: Environment = Environment()
+class ProgramInterpreter : Interpreter {
+    override fun interpret(
+        ast: AST,
+        environment: Environment,
+    ): InterpretOutput {
+        val node = getProgramNodeOrThrow(ast)
 
-    override fun interpret(): Value {
+        val logs = mutableListOf<String>()
+
         for (statement in node.statements) {
             when (statement) {
-                is VariableStatementNode -> VariableStatementInterpreter(statement, environment).interpret()
-                is FunctionStatementNode -> FunctionStatementInterpreter(statement, environment, logger).interpret()
+                is VariableStatementNode -> {
+                    val interpretOutput = VariableStatementInterpreter().interpret(statement, environment)
+                    logs.addAll(interpretOutput.logs)
+                }
+                is FunctionStatementNode -> {
+                    val interpretOutput = FunctionStatementInterpreter().interpret(statement, environment)
+                    logs.addAll(interpretOutput.logs)
+                }
             }
         }
-        return VoidValue()
+
+        return InterpretOutput(environment, logs)
+    }
+
+    private fun getProgramNodeOrThrow(node: AST): ProgramNode {
+        if (node is ProgramNode) return node
+        throw Exception(
+            "Unknown statement at (line: ${node.getStart().line} column: ${node.getStart().column})",
+        )
     }
 }

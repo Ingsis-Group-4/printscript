@@ -6,7 +6,6 @@ import ast.OperatorType
 import ast.PrintLnNode
 import ast.SumNode
 import position.Position
-import util.CollectorLogger
 import kotlin.test.Test
 
 class FunctionStatementInterpreterTest {
@@ -23,13 +22,11 @@ class FunctionStatementInterpreterTest {
                 Position(1, 14),
             )
 
-        val collectorLogger = CollectorLogger()
+        val interpreter = FunctionStatementInterpreter()
 
-        val interpreter = FunctionStatementInterpreter(input, Environment(), collectorLogger)
+        val result = interpreter.interpret(input, Environment())
 
-        interpreter.interpret()
-
-        val logs = collectorLogger.getLogs()
+        val logs = result.logs
 
         assert(logs.size == 1)
         assert(logs[0] == "hello")
@@ -48,13 +45,11 @@ class FunctionStatementInterpreterTest {
                 Position(1, 2),
             )
 
-        val collectorLogger = CollectorLogger()
+        val interpreter = FunctionStatementInterpreter()
 
-        val interpreter = FunctionStatementInterpreter(input, Environment(), collectorLogger)
+        val result = interpreter.interpret(input, Environment())
 
-        interpreter.interpret()
-
-        val logs = collectorLogger.getLogs()
+        val logs = result.logs
 
         assert(logs.size == 1)
         assert(logs[0] == "5.0")
@@ -75,13 +70,11 @@ class FunctionStatementInterpreterTest {
                 Position(1, 2),
             )
 
-        val collectorLogger = CollectorLogger()
+        val interpreter = FunctionStatementInterpreter()
 
-        val interpreter = FunctionStatementInterpreter(input, Environment(), collectorLogger)
+        val result = interpreter.interpret(input, Environment())
 
-        interpreter.interpret()
-
-        val logs = collectorLogger.getLogs()
+        val logs = result.logs
 
         assert(logs.size == 1)
         assert(logs[0] == "5.0")

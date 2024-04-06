@@ -1,11 +1,15 @@
-package interpreter
+package interpreter.expression
 
 import ast.DivisionNode
 import ast.OperationNode
 import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
-import interpreter.expression.ExpressionInterpreter
+import interpreter.Environment
+import interpreter.NumberValue
+import interpreter.StringValue
+import interpreter.Value
+import interpreter.VoidValue
 
 class OperationInterpreter() {
     fun interpret(

@@ -5,7 +5,6 @@ import ast.IdentifierNode
 import ast.LiteralNode
 import ast.OperationNode
 import interpreter.Environment
-import interpreter.OperationInterpreter
 import interpreter.Value
 
 class ExpressionInterpreter {
