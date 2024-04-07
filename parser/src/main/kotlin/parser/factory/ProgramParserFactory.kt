@@ -41,7 +41,7 @@ object ProgramParserFactory : ParserFactory {
     }
 }
 
-object StatementProgramFactory : ParserFactory {
+object StatementParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */

@@ -2,6 +2,10 @@ package interpreter
 
 import ast.VariableType
 
+/**
+ * Holds all the declared variables and their values.
+ * It is immutable, so all modification operations return a new, modified Environment
+ */
 class Environment(
     private val variables: Map<String, EnvironmentElement> = mapOf(),
 ) {
