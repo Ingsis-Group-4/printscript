@@ -1,7 +1,7 @@
 package parser
 
 import ast.AssignationNode
-import ast.PrintLnNode
+import ast.FunctionStatementNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import parser.factory.AssignationParserFactory
 import parser.factory.PrintLnParserFactory
@@ -65,7 +65,7 @@ class PositionTest {
         assertEquals(Position(1, 1), ast.getStart())
         assertEquals(Position(1, 21), ast.getEnd())
 
-        assertIs<ast.VariableDeclarationNode>(ast)
+        assertIs<ast.DeclarationNode>(ast)
         val identifierNode = ast.identifier
 
         assertNotNull(ast.expression)
@@ -116,10 +116,9 @@ class PositionTest {
         assertEquals(Position(1, 1), ast.getStart())
         assertEquals(Position(1, 11), ast.getEnd())
 
-        assertIs<PrintLnNode>(ast)
+        assertIs<FunctionStatementNode>(ast)
 
-        assertNotNull(ast.expression)
-        val expressionNode = ast.expression
+        val expressionNode = ast.getFunctionNode().getExpression()
 
         assertEquals(Position(1, 9), expressionNode.getStart())
         assertEquals(Position(1, 9), expressionNode.getEnd())

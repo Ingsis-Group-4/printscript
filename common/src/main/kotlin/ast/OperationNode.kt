@@ -1,3 +1,5 @@
 package ast
 
-interface OperationNode : ExpressionNode
+interface OperationNode : ExpressionNode {
+    fun getOperator(): OperatorNode
+}

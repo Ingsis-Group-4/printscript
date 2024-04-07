@@ -2,6 +2,7 @@ package interpreter
 
 import ast.AssignationNode
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
 import ast.IdentifierNode
 import ast.LetNode
@@ -9,7 +10,6 @@ import ast.LiteralNode
 import ast.OperatorNode
 import ast.OperatorType
 import ast.SumNode
-import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import org.junit.jupiter.api.Test
@@ -64,7 +64,7 @@ class VariableStatementInterpreterTest {
     @Test
     fun testVariableDeclarationWithoutValue() {
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
                 null,
                 LetNode(Position(1, 1), Position(1, 1)),
@@ -87,7 +87,7 @@ class VariableStatementInterpreterTest {
     @Test
     fun testVariableDeclarationWithValue() {
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
                 LiteralNode(10.0, Position(1, 1), Position(1, 2)),
                 LetNode(Position(1, 1), Position(1, 1)),
@@ -111,7 +111,7 @@ class VariableStatementInterpreterTest {
     @Test
     fun testVariableDeclarationWithSum() {
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
                 SumNode(
                     LiteralNode(10.0, Position(1, 1), Position(1, 2)),

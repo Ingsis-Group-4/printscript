@@ -1,6 +1,7 @@
 package parser
 
 import ast.ExpressionNode
+import ast.FunctionStatementNode
 import ast.PrintLnNode
 import parser.result.FailureResult
 import parser.result.ParserResult
@@ -81,6 +82,7 @@ class PrintLnParser(private val parserSelector: Map<TokenType, Parser>) : Parser
                     lastValidatedIndex = nextIndex(closeParenthesisIndex),
                     startPosition = startPosition,
                     semicolonPosition = semicolonPosition,
+                    closeParenthesisPosition = at(tokens, closeParenthesisIndex).start,
                 )
             }
 
@@ -92,9 +94,15 @@ class PrintLnParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         expressionNode: ExpressionNode,
         lastValidatedIndex: Int,
         startPosition: Position,
+        closeParenthesisPosition: Position,
         semicolonPosition: Position,
     ): ParserResult {
-        val ast = PrintLnNode(expressionNode, startPosition, semicolonPosition)
-        return SuccessResult(ast, lastValidatedIndex)
+        val functionStatementNode =
+            FunctionStatementNode(
+                startPosition,
+                semicolonPosition,
+                PrintLnNode(expressionNode, startPosition, closeParenthesisPosition),
+            )
+        return SuccessResult(functionStatementNode, lastValidatedIndex)
     }
 }
