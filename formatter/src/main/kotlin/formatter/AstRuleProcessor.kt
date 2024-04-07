@@ -2,16 +2,16 @@ package formatter
 
 import ast.AST
 import ast.ProgramNode
-import ast.StatementNode
 import formatter.rule.Rule
 
 class AstRuleProcessor(private val rules: List<Rule>) {
     fun format(node: ProgramNode): AST {
-        var formattedStatements = mutableListOf<StatementNode>()
+        val formattedStatements = node.statements.toMutableList()
         var currentIndex = 0
         for (statement in node.statements) {
             for (rule in rules) {
-                formattedStatements = rule.apply(currentIndex, node.statements).toMutableList()
+                val newStatements = rule.apply(currentIndex, formattedStatements).toMutableList()
+                formattedStatements[currentIndex] = newStatements[currentIndex]
             }
             currentIndex += 1
         }

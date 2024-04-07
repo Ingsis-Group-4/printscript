@@ -3,5 +3,6 @@
   "spaceAfterColon": true,
   "spaceAfterEquals": true,
   "spaceBeforeColon": true,
-  "spaceBeforeEquals": true
+  "spaceBeforeEquals": true,
+  "lineBreakBeforePrintLn": 2
 }

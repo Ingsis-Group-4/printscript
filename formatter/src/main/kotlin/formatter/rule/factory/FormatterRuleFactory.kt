@@ -5,6 +5,7 @@ import formatter.rule.Rule
 import formatter.rule.WhitespaceBeforeAndAfterOperatorRule
 import formatter.rule.WhitespaceBetweenTokensRule
 import formatter.rule.configurer.LineBreakAfterSemicolonConfigurer
+import formatter.rule.configurer.LineBreakBeforePrintLnConfigurer
 import formatter.rule.configurer.SpaceAfterColonConfigurer
 import formatter.rule.configurer.SpaceAfterEqualSignConfigurer
 import formatter.rule.configurer.SpaceBeforeColonConfigurer
@@ -29,14 +30,15 @@ class FormatterRuleFactory(configPath: String) {
 
     private val rules: List<Rule> =
         listOf(
-            LineBreakAfterSemicolonRule(true),
-            WhitespaceBetweenTokensRule(true),
-            WhitespaceBeforeAndAfterOperatorRule(true),
             SpaceAfterColonConfigurer().getRule(jsonFile),
             SpaceBeforeColonConfigurer().getRule(jsonFile),
             SpaceBeforeEqualSignConfigurer().getRule(jsonFile),
             SpaceAfterEqualSignConfigurer().getRule(jsonFile),
+            WhitespaceBeforeAndAfterOperatorRule(true),
+            LineBreakAfterSemicolonRule(true),
+            WhitespaceBetweenTokensRule(true),
             LineBreakAfterSemicolonConfigurer().getRule(jsonFile),
+            LineBreakBeforePrintLnConfigurer().getRule(jsonFile),
         )
 
     fun getRules(): List<Rule> {

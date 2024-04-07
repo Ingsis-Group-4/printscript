@@ -1,11 +1,13 @@
 package rule
 
 import formatter.rule.LineBreakAfterSemicolonRule
+import formatter.rule.LineBreakBeforePrintLnRule
 import formatter.rule.SpaceAfterColonRule
 import formatter.rule.SpaceAfterEqualSignRule
 import formatter.rule.SpaceBeforeColonRule
 import formatter.rule.SpaceBeforeEqualSignRule
 import formatter.rule.configurer.LineBreakAfterSemicolonConfigurer
+import formatter.rule.configurer.LineBreakBeforePrintLnConfigurer
 import formatter.rule.configurer.SpaceAfterColonConfigurer
 import formatter.rule.configurer.SpaceAfterEqualSignConfigurer
 import formatter.rule.configurer.SpaceBeforeColonConfigurer
@@ -59,5 +61,22 @@ class RuleConfigurerTest {
         val json = readConfig(configPath)
         val rule = SpaceBeforeEqualSignConfigurer().getRule(json)
         assertTrue(rule is SpaceBeforeEqualSignRule)
+    }
+
+    @Test
+    fun `should return a LineBreakBeforePrintLnRule`() {
+        val json = readConfig(configPath)
+        val rule = LineBreakBeforePrintLnConfigurer().getRule(json)
+        assertTrue(rule is LineBreakBeforePrintLnRule)
+    }
+
+    @Test
+    fun `should throw an exception when rule config not found`() {
+        val json = JsonObject(emptyMap())
+        try {
+            LineBreakAfterSemicolonConfigurer().getRule(json)
+        } catch (e: IllegalArgumentException) {
+            assertTrue(e.message == "Rule config not found")
+        }
     }
 }
