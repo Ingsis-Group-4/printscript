@@ -4,9 +4,10 @@ import position.Position
 
 enum class OperatorType {
     SUM,
-    SUB,
-    MUL,
-    DIV,
+    SUBTRACT,
+    MULTIPLICATION,
+    DIVISION,
+    NEGATION,
 }
 
 class OperatorNode(

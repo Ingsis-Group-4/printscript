@@ -2,9 +2,8 @@ package ast
 
 import position.Position
 
-class SumNode(
-    val left: ExpressionNode,
-    val right: ExpressionNode,
+class UnaryOperation(
+    private val operand: ExpressionNode,
     private val operatorNode: OperatorNode,
     private val start: Position,
     private val end: Position,
@@ -14,4 +13,6 @@ class SumNode(
     override fun getStart(): Position = start
 
     override fun getEnd(): Position = end
+
+    fun getOperand(): ExpressionNode = operand
 }
