@@ -1,7 +1,7 @@
 package interpreter
 
 import ast.AssignationNode
-import ast.VariableDeclarationNode
+import ast.DeclarationNode
 import ast.VariableStatementNode
 
 class VariableStatementInterpreter(private val node: VariableStatementNode, private val environment: Environment) :
@@ -14,7 +14,7 @@ class VariableStatementInterpreter(private val node: VariableStatementNode, priv
                 return VoidValue()
             }
 
-            is VariableDeclarationNode -> {
+            is DeclarationNode -> {
                 if (node.expression != null) {
                     val value = ExpressionInterpreter(node.expression!!, environment).interpret()
                     environment.createVariable(

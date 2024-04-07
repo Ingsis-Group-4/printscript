@@ -2,13 +2,13 @@ package sca.rule
 
 import ast.AST
 import ast.AssignationNode
+import ast.DeclarationNode
 import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LiteralNode
 import ast.PrintLnNode
 import ast.ProgramNode
 import ast.StatementNode
-import ast.VariableDeclarationNode
 
 /**
  * Rule that checks if a println call has been made with an argument that is not a literal or a variable
@@ -56,7 +56,7 @@ class PrintLnArgumentRule : Rule {
     private fun checkStatementNode(ast: StatementNode): RuleResult {
         return when (ast) {
             is AssignationNode -> RuleSuccess
-            is VariableDeclarationNode -> RuleSuccess
+            is DeclarationNode -> RuleSuccess
             is FunctionStatementNode -> checkFunctionStatementNode(ast)
         }
     }

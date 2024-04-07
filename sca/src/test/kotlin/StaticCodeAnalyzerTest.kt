@@ -1,4 +1,5 @@
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
 import ast.FunctionStatementNode
 import ast.IdentifierNode
@@ -9,7 +10,6 @@ import ast.OperatorType
 import ast.PrintLnNode
 import ast.ProgramNode
 import ast.SumNode
-import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ class StaticCodeAnalyzerTest {
 
         // let aBc: Number = 1;
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 identifier = IdentifierNode("a", start = Position(1, 5), end = Position(1, 5)),
                 expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                 LetNode(start = Position(1, 1), end = Position(1, 3)),
@@ -57,7 +57,7 @@ class StaticCodeAnalyzerTest {
 
         // let ABc: Number = 1;
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 identifier = IdentifierNode("A", start = Position(1, 5), end = Position(1, 5)),
                 expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                 LetNode(start = Position(1, 1), end = Position(1, 3)),
@@ -84,7 +84,7 @@ class StaticCodeAnalyzerTest {
 
         // let a_b: Number = 1;
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 identifier = IdentifierNode("a_b", start = Position(1, 5), end = Position(1, 7)),
                 expression = LiteralNode(1, start = Position(1, 19), end = Position(1, 19)),
                 LetNode(start = Position(1, 1), end = Position(1, 3)),
@@ -109,7 +109,7 @@ class StaticCodeAnalyzerTest {
 
         // let aB: Number = 1;
         val input =
-            VariableDeclarationNode(
+            DeclarationNode(
                 identifier = IdentifierNode("aB", start = Position(1, 5), end = Position(1, 6)),
                 expression = LiteralNode(1, start = Position(1, 18), end = Position(1, 18)),
                 LetNode(start = Position(1, 1), end = Position(1, 3)),
@@ -216,7 +216,7 @@ class StaticCodeAnalyzerTest {
             ProgramNode(
                 statements =
                     listOf(
-                        VariableDeclarationNode(
+                        DeclarationNode(
                             identifier = IdentifierNode("B", start = Position(1, 5), end = Position(1, 5)),
                             expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                             LetNode(start = Position(1, 1), end = Position(1, 3)),
@@ -274,7 +274,7 @@ class StaticCodeAnalyzerTest {
             ProgramNode(
                 statements =
                     listOf(
-                        VariableDeclarationNode(
+                        DeclarationNode(
                             identifier = IdentifierNode("a", start = Position(1, 5), end = Position(1, 5)),
                             expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                             LetNode(start = Position(1, 1), end = Position(1, 3)),

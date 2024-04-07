@@ -65,7 +65,7 @@ class PositionTest {
         assertEquals(Position(1, 1), ast.getStart())
         assertEquals(Position(1, 21), ast.getEnd())
 
-        assertIs<ast.VariableDeclarationNode>(ast)
+        assertIs<ast.DeclarationNode>(ast)
         val identifierNode = ast.identifier
 
         assertNotNull(ast.expression)
