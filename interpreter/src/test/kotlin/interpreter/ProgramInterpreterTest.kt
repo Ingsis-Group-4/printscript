@@ -3,6 +3,7 @@ package interpreter
 import ast.AssignationNode
 import ast.ColonNode
 import ast.EqualsNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LetNode
 import ast.LiteralNode
@@ -37,7 +38,15 @@ class ProgramInterpreterTest {
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
+                FunctionStatementNode(
+                    Position(1, 1),
+                    Position(1, 1),
+                    PrintLnNode(
+                        IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)),
+                        Position(1, 1),
+                        Position(1, 1),
+                    ),
+                ),
             )
 
         val collectorLogger = CollectorLogger()
@@ -88,7 +97,15 @@ class ProgramInterpreterTest {
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
+                FunctionStatementNode(
+                    Position(1, 1),
+                    Position(1, 1),
+                    PrintLnNode(
+                        IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)),
+                        Position(1, 1),
+                        Position(1, 1),
+                    ),
+                ),
             )
 
         val collectorLogger = CollectorLogger()

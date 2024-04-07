@@ -1,5 +1,6 @@
 import ast.ColonNode
 import ast.EqualsNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LetNode
 import ast.LiteralNode
@@ -175,17 +176,21 @@ class StaticCodeAnalyzerTest {
 
         // println(1+1);
         val input =
-            PrintLnNode(
-                expression =
-                    SumNode(
-                        left = LiteralNode(1, start = Position(1, 9), end = Position(1, 9)),
-                        right = LiteralNode(1, start = Position(1, 11), end = Position(1, 11)),
-                        OperatorNode(Position(1, 10), Position(1, 10), OperatorType.SUM),
-                        start = Position(1, 9),
-                        end = Position(1, 11),
-                    ),
-                start = Position(1, 1),
-                end = Position(1, 12),
+            FunctionStatementNode(
+                Position(1, 1),
+                Position(1, 12),
+                PrintLnNode(
+                    expression =
+                        SumNode(
+                            left = LiteralNode(1, start = Position(1, 9), end = Position(1, 9)),
+                            right = LiteralNode(1, start = Position(1, 11), end = Position(1, 11)),
+                            OperatorNode(Position(1, 10), Position(1, 10), OperatorType.SUM),
+                            start = Position(1, 9),
+                            end = Position(1, 11),
+                        ),
+                    start = Position(1, 1),
+                    end = Position(1, 12),
+                ),
             )
 
         val result = sca.analyze(input).ruleFailures
@@ -221,17 +226,21 @@ class StaticCodeAnalyzerTest {
                             start = Position(1, 1),
                             end = Position(1, 19),
                         ),
-                        PrintLnNode(
-                            expression =
-                                SumNode(
-                                    left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
-                                    right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
-                                    OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
-                                    start = Position(2, 7),
-                                    end = Position(2, 9),
-                                ),
-                            start = Position(2, 1),
-                            end = Position(2, 8),
+                        FunctionStatementNode(
+                            Position(2, 1),
+                            Position(2, 2),
+                            PrintLnNode(
+                                expression =
+                                    SumNode(
+                                        left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
+                                        right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
+                                        OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
+                                        start = Position(2, 7),
+                                        end = Position(2, 9),
+                                    ),
+                                start = Position(2, 1),
+                                end = Position(2, 8),
+                            ),
                         ),
                     ),
                 start = Position(1, 1),
@@ -275,17 +284,21 @@ class StaticCodeAnalyzerTest {
                             start = Position(1, 1),
                             end = Position(1, 18),
                         ),
-                        PrintLnNode(
-                            expression =
-                                SumNode(
-                                    left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
-                                    right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
-                                    OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
-                                    start = Position(2, 7),
-                                    end = Position(2, 9),
-                                ),
-                            start = Position(2, 1),
-                            end = Position(2, 8),
+                        FunctionStatementNode(
+                            Position(2, 1),
+                            Position(2, 2),
+                            PrintLnNode(
+                                expression =
+                                    SumNode(
+                                        left = LiteralNode(1, start = Position(2, 7), end = Position(2, 7)),
+                                        right = LiteralNode(1, start = Position(2, 9), end = Position(2, 9)),
+                                        OperatorNode(Position(2, 8), Position(2, 8), OperatorType.SUM),
+                                        start = Position(2, 7),
+                                        end = Position(2, 9),
+                                    ),
+                                start = Position(2, 1),
+                                end = Position(2, 8),
+                            ),
                         ),
                     ),
                 start = Position(1, 1),

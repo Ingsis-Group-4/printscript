@@ -2,9 +2,9 @@ package parser
 
 import ast.AssignationNode
 import ast.DivisionNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LiteralNode
-import ast.PrintLnNode
 import ast.ProductNode
 import ast.ProgramNode
 import ast.StatementNode
@@ -307,9 +307,9 @@ class ParserTest {
         val result = parser.parse(input, 0)
 
         assertIs<SuccessResult>(result)
-        assertIs<PrintLnNode>(result.value)
-        assertIs<LiteralNode<String>>((result.value as PrintLnNode).expression)
-        assertEquals("Hello, World!", ((result.value as PrintLnNode).expression as LiteralNode<*>).value)
+        assertIs<FunctionStatementNode>(result.value)
+        assertIs<LiteralNode<String>>((result.value as FunctionStatementNode).getFunctionNode().getExpression())
+        assertEquals("Hello, World!", ((result.value as FunctionStatementNode).getFunctionNode().getExpression() as LiteralNode<*>).value)
     }
 
     @Test

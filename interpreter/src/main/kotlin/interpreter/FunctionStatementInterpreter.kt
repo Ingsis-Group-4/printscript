@@ -10,9 +10,9 @@ class FunctionStatementInterpreter(
     private val logger: Logger,
 ) : Interpreter {
     override fun interpret(): Value {
-        when (node) {
+        when (val functionNode = node.getFunctionNode()) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter(node.expression, environment).interpret()
+                val value = ExpressionInterpreter(functionNode.getExpression(), environment).interpret()
                 logger.log(value.toString())
             }
         }

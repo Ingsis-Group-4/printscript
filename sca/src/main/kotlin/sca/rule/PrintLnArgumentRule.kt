@@ -2,6 +2,7 @@ package sca.rule
 
 import ast.AST
 import ast.AssignationNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LiteralNode
 import ast.PrintLnNode
@@ -56,7 +57,13 @@ class PrintLnArgumentRule : Rule {
         return when (ast) {
             is AssignationNode -> RuleSuccess
             is VariableDeclarationNode -> RuleSuccess
-            is PrintLnNode -> checkPrintlnExpression(ast)
+            is FunctionStatementNode -> checkFunctionStatementNode(ast)
+        }
+    }
+
+    private fun checkFunctionStatementNode(node: FunctionStatementNode): RuleResult {
+        return when (val functionNode = node.getFunctionNode()) {
+            is PrintLnNode -> checkPrintlnExpression(functionNode)
         }
     }
 
@@ -67,7 +74,7 @@ class PrintLnArgumentRule : Rule {
      * - If it is any other Node, return failure.
      * */
     private fun checkPrintlnExpression(ast: PrintLnNode): RuleResult {
-        return when (val expression = ast.expression) {
+        return when (val expression = ast.getExpression()) {
             is LiteralNode<*> -> RuleSuccess
             is IdentifierNode -> RuleSuccess
             else ->
