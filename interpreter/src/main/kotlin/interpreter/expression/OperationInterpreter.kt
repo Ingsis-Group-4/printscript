@@ -9,7 +9,6 @@ import interpreter.Environment
 import interpreter.NumberValue
 import interpreter.StringValue
 import interpreter.Value
-import interpreter.VoidValue
 
 class OperationInterpreter() {
     fun interpret(
@@ -57,7 +56,6 @@ class OperationInterpreter() {
                 }
             }
         }
-//        Not sure if this is the best way to handle this
-        return VoidValue()
+        throw Exception("Unsupported operation at (line: ${node.getStart().line} column: ${node.getStart().column})")
     }
 }

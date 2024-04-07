@@ -28,8 +28,7 @@ class VariableStatementInterpreterTest {
                 Position(1, 2),
             )
 
-        val environment = Environment()
-        environment.createVariable("x", VoidValue(), VariableType.STRING)
+        val environment = Environment().createVariable("x", NullValue, VariableType.STRING)
 
         val interpreter = VariableStatementInterpreter()
 
@@ -50,8 +49,7 @@ class VariableStatementInterpreterTest {
                 Position(1, 1),
                 Position(1, 2),
             )
-        val environment = Environment()
-        environment.createVariable("x", StringValue("b"), VariableType.STRING)
+        val environment = Environment().createVariable("x", StringValue("b"), VariableType.STRING)
 
         val interpreter = VariableStatementInterpreter()
 

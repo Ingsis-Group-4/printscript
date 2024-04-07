@@ -33,8 +33,7 @@ class ExpressionInterpreterTest {
     fun testExpressionWithVariable() {
         val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
-        val environment = Environment()
-        environment.createVariable("x", StringValue("a"), VariableType.STRING)
+        val environment = Environment().createVariable("x", StringValue("a"), VariableType.STRING)
 
         val interpreter = ExpressionInterpreter()
 
@@ -73,9 +72,10 @@ class ExpressionInterpreterTest {
                 Position(1, 2),
             )
 
-        val environment = Environment()
-        environment.createVariable("x", NumberValue(10.0), VariableType.NUMBER)
-        environment.createVariable("y", NumberValue(20.0), VariableType.NUMBER)
+        val environment =
+            Environment()
+                .createVariable("x", NumberValue(10.0), VariableType.NUMBER)
+                .createVariable("y", NumberValue(20.0), VariableType.NUMBER)
 
         val interpreter = ExpressionInterpreter()
 

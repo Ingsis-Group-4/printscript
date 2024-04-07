@@ -14,8 +14,7 @@ class IdentifierInterpreterTest {
     fun testIdentifierInterpreter() {
         val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
-        val environment = Environment()
-        environment.createVariable("x", StringValue("a"), VariableType.STRING)
+        val environment = Environment().createVariable("x", StringValue("a"), VariableType.STRING)
 
         val interpreter = IdentifierInterpreter()
 

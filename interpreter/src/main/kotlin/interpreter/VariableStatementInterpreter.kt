@@ -15,26 +15,28 @@ class VariableStatementInterpreter :
         when (val node = getVariableStatementNodeOrThrow(ast)) {
             is AssignationNode -> {
                 val value = ExpressionInterpreter().interpret(node.expression, environment)
-                environment.updateVariable(node.identifier.variableName, value)
-                return InterpretOutput(environment, listOf())
+                val updatedEnv = environment.updateVariable(node.identifier.variableName, value)
+                return InterpretOutput(updatedEnv, listOf())
             }
 
             is VariableDeclarationNode -> {
                 if (node.expression != null) {
                     val value = ExpressionInterpreter().interpret(node.expression!!, environment)
-                    environment.createVariable(
-                        node.identifier.variableName,
-                        value,
-                        node.identifier.variableType,
-                    )
-                    return InterpretOutput(environment, listOf())
+                    val updatedEnv =
+                        environment.createVariable(
+                            node.identifier.variableName,
+                            value,
+                            node.identifier.variableType,
+                        )
+                    return InterpretOutput(updatedEnv, listOf())
                 } else {
-                    environment.createVariable(
-                        node.identifier.variableName,
-                        NullValue(),
-                        node.identifier.variableType,
-                    )
-                    return InterpretOutput(environment, listOf())
+                    val updatedEnv =
+                        environment.createVariable(
+                            node.identifier.variableName,
+                            NullValue,
+                            node.identifier.variableType,
+                        )
+                    return InterpretOutput(updatedEnv, listOf())
                 }
             }
         }

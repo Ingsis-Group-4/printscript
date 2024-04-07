@@ -14,15 +14,19 @@ class ProgramInterpreter : Interpreter {
 
         val logs = mutableListOf<String>()
 
+        var currentEnv: Environment = environment
+
         for (statement in node.statements) {
             when (statement) {
                 is VariableStatementNode -> {
-                    val interpretOutput = VariableStatementInterpreter().interpret(statement, environment)
+                    val interpretOutput = VariableStatementInterpreter().interpret(statement, currentEnv)
                     logs.addAll(interpretOutput.logs)
+                    currentEnv = interpretOutput.environment
                 }
                 is FunctionStatementNode -> {
-                    val interpretOutput = FunctionStatementInterpreter().interpret(statement, environment)
+                    val interpretOutput = FunctionStatementInterpreter().interpret(statement, currentEnv)
                     logs.addAll(interpretOutput.logs)
+                    currentEnv = interpretOutput.environment
                 }
             }
         }
