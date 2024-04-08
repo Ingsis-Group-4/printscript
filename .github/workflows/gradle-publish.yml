@@ -38,7 +38,9 @@ jobs:
 
       # Ensure that USERNAME and TOKEN properties are passed to the Gradle build
       - name: Publish to GitHub Packages
-        run: ./gradlew publish
+        uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+        with:
+          arguments: publish
         env:
-          USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
