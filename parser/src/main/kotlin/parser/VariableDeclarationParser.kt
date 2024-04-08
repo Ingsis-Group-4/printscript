@@ -1,11 +1,11 @@
 package parser
 
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
 import ast.ExpressionNode
 import ast.IdentifierNode
 import ast.LetNode
-import ast.VariableDeclarationNode
 import ast.VariableTypeNode
 import parser.result.FailureResult
 import parser.result.ParserResult
@@ -173,7 +173,7 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         semicolonPosition: Position,
     ): ParserResult {
         val ast =
-            VariableDeclarationNode(
+            DeclarationNode(
                 identifierNode,
                 expressionNode,
                 LetNode(letPositionStart, letPositionEnd),

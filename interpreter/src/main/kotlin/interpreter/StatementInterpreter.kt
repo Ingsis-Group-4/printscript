@@ -10,7 +10,6 @@ class StatementInterpreter(
         ast: AST,
         environment: Environment,
     ): InterpretOutput {
-        val astClass = ast::class
         val handler =
             handlers.getOrElse(ast::class) {
                 throw Exception(

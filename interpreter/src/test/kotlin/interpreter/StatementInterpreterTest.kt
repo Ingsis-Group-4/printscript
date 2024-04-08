@@ -1,8 +1,8 @@
 package interpreter
 
 import ast.AssignationNode
-import ast.PrintLnNode
-import ast.VariableDeclarationNode
+import ast.DeclarationNode
+import ast.FunctionStatementNode
 import ast.VariableType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -27,8 +27,8 @@ class StatementInterpreterTest {
         val interpreter =
             StatementInterpreter(
                 mapOf(
-                    PrintLnNode::class to FunctionStatementInterpreter(),
-                    VariableDeclarationNode::class to VariableStatementInterpreter(),
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
                     AssignationNode::class to VariableStatementInterpreter(),
                 ),
             )
@@ -48,8 +48,8 @@ class StatementInterpreterTest {
         val interpreter =
             StatementInterpreter(
                 mapOf(
-                    PrintLnNode::class to FunctionStatementInterpreter(),
-                    VariableDeclarationNode::class to VariableStatementInterpreter(),
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
                     AssignationNode::class to VariableStatementInterpreter(),
                 ),
             )
@@ -73,8 +73,8 @@ class StatementInterpreterTest {
         val interpreter =
             StatementInterpreter(
                 mapOf(
-                    PrintLnNode::class to FunctionStatementInterpreter(),
-                    VariableDeclarationNode::class to VariableStatementInterpreter(),
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
                     AssignationNode::class to VariableStatementInterpreter(),
                 ),
             )
@@ -106,8 +106,8 @@ class StatementInterpreterTest {
         val interpreter =
             StatementInterpreter(
                 mapOf(
-                    PrintLnNode::class to FunctionStatementInterpreter(),
-                    VariableDeclarationNode::class to VariableStatementInterpreter(),
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
                     AssignationNode::class to VariableStatementInterpreter(),
                 ),
             )

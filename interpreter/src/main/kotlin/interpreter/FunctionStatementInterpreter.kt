@@ -10,9 +10,10 @@ class FunctionStatementInterpreter : Interpreter {
         ast: AST,
         environment: Environment,
     ): InterpretOutput {
-        when (val node = getFunctionNodeOrThrow(ast)) {
+        val node = getFunctionNodeOrThrow(ast)
+        when (val function = node.getFunctionNode()) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter().interpret(node.expression, environment)
+                val value = ExpressionInterpreter().interpret(function.getExpression(), environment)
                 return InterpretOutput(environment, listOf(value.toString()))
             }
         }

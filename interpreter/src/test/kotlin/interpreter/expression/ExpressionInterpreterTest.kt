@@ -109,7 +109,7 @@ class ExpressionInterpreterTest {
             SubtractionNode(
                 LiteralNode(10.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
-                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUB),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.SUBTRACT),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -127,7 +127,7 @@ class ExpressionInterpreterTest {
             DivisionNode(
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
-                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.DIV),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.DIVISION),
                 Position(1, 1),
                 Position(1, 2),
             )
@@ -145,7 +145,7 @@ class ExpressionInterpreterTest {
             ProductNode(
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
                 LiteralNode(20.0, Position(1, 1), Position(1, 2)),
-                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.MUL),
+                OperatorNode(Position(1, 1), Position(1, 2), OperatorType.MULTIPLICATION),
                 Position(1, 1),
                 Position(1, 2),
             )

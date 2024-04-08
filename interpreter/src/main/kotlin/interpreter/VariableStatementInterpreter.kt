@@ -2,7 +2,7 @@ package interpreter
 
 import ast.AST
 import ast.AssignationNode
-import ast.VariableDeclarationNode
+import ast.DeclarationNode
 import ast.VariableStatementNode
 import interpreter.expression.ExpressionInterpreter
 
@@ -19,7 +19,7 @@ class VariableStatementInterpreter :
                 return InterpretOutput(updatedEnv, listOf())
             }
 
-            is VariableDeclarationNode -> {
+            is DeclarationNode -> {
                 if (node.expression != null) {
                     val value = ExpressionInterpreter().interpret(node.expression!!, environment)
                     val updatedEnv =

@@ -177,21 +177,21 @@ class ExpressionParser : Parser {
             TokenType.SUBTRACTION -> return SubtractionNode(
                 left as ExpressionNode,
                 right as ExpressionNode,
-                OperatorNode(operator.start, operator.end, OperatorType.SUB),
+                OperatorNode(operator.start, operator.end, OperatorType.SUBTRACT),
                 left.getStart(),
                 right.getEnd(),
             )
             TokenType.MULTIPLICATION -> return ProductNode(
                 left as ExpressionNode,
                 right as ExpressionNode,
-                OperatorNode(operator.start, operator.end, OperatorType.MUL),
+                OperatorNode(operator.start, operator.end, OperatorType.MULTIPLICATION),
                 left.getStart(),
                 right.getEnd(),
             )
             TokenType.DIVISION -> return DivisionNode(
                 left as ExpressionNode,
                 right as ExpressionNode,
-                OperatorNode(operator.start, operator.end, OperatorType.DIV),
+                OperatorNode(operator.start, operator.end, OperatorType.DIVISION),
                 left.getStart(),
                 right.getEnd(),
             )
