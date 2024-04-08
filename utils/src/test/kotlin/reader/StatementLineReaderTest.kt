@@ -4,7 +4,7 @@ import lexer.Lexer
 import lexer.LineLexer
 import lexer.getTokenMap
 import org.junit.jupiter.api.Test
-import token.Token
+import utils.assertTokenListEquals
 import kotlin.test.assertEquals
 
 class StatementLineReaderTest {
@@ -121,20 +121,5 @@ class StatementLineReaderTest {
         }
 
         assertEquals(0, outputSecondLine.remainingTokens.size)
-    }
-
-    private fun assertTokenListEquals(
-        expected: List<Token>,
-        actual: List<Token>,
-    ) {
-        assertEquals(expected.size, actual.size)
-        for (i in expected.indices) {
-            assertEquals(expected[i].type, actual[i].type)
-            assertEquals(expected[i].start.line, actual[i].start.line)
-            assertEquals(expected[i].start.column, actual[i].start.column)
-            assertEquals(expected[i].end.line, actual[i].end.line)
-            assertEquals(expected[i].end.column, actual[i].end.column)
-            assertEquals(expected[i].value, actual[i].value)
-        }
     }
 }
