@@ -2,13 +2,14 @@ package interpreter
 
 import ast.AssignationNode
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LetNode
 import ast.LiteralNode
 import ast.PrintLnNode
 import ast.ProgramNode
-import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import position.Position
@@ -20,7 +21,7 @@ class ProgramInterpreterTest {
     fun testDeclarationAssignationAndPrint() {
         val input =
             listOf(
-                VariableDeclarationNode(
+                DeclarationNode(
                     IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
                     null,
                     LetNode(Position(1, 1), Position(1, 1)),
@@ -37,7 +38,15 @@ class ProgramInterpreterTest {
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
+                FunctionStatementNode(
+                    Position(1, 1),
+                    Position(1, 1),
+                    PrintLnNode(
+                        IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)),
+                        Position(1, 1),
+                        Position(1, 1),
+                    ),
+                ),
             )
 
         val collectorLogger = CollectorLogger()
@@ -64,7 +73,7 @@ class ProgramInterpreterTest {
     fun testDeclarationAssignationAndReAssignation() {
         val input =
             listOf(
-                VariableDeclarationNode(
+                DeclarationNode(
                     IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2)),
                     null,
                     LetNode(Position(1, 1), Position(1, 1)),
@@ -88,7 +97,15 @@ class ProgramInterpreterTest {
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                PrintLnNode(IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)), Position(1, 1), Position(1, 1)),
+                FunctionStatementNode(
+                    Position(1, 1),
+                    Position(1, 1),
+                    PrintLnNode(
+                        IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 1)),
+                        Position(1, 1),
+                        Position(1, 1),
+                    ),
+                ),
             )
 
         val collectorLogger = CollectorLogger()

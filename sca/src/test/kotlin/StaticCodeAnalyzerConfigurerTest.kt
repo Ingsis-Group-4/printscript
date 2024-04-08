@@ -1,9 +1,9 @@
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
 import ast.IdentifierNode
 import ast.LetNode
 import ast.LiteralNode
-import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import position.Position
@@ -20,7 +20,7 @@ class StaticCodeAnalyzerConfigurerTest {
 
         val result =
             sca.analyze(
-                VariableDeclarationNode(
+                DeclarationNode(
                     identifier = IdentifierNode("B", start = Position(1, 5), end = Position(1, 5)),
                     expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                     LetNode(start = Position(1, 1), end = Position(1, 3)),
