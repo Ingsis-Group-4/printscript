@@ -16,6 +16,6 @@ interface Parser {
      */
     fun parse(
         tokens: List<Token>,
-        currentIndex: Int,
+        currentIndex: Int = 0,
     ): ParserResult
 }
