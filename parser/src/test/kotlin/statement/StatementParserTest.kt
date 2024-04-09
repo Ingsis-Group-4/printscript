@@ -3,7 +3,7 @@ package parser.statement
 import lexer.Lexer
 import lexer.getTokenMap
 import org.junit.jupiter.api.Test
-import parser.factory.StatementProgramFactory
+import parser.factory.StatementParserFactory
 import parser.result.SuccessResult
 import parser.utils.convertToJson
 import parser.utils.getJsonFromFile
@@ -13,7 +13,7 @@ import kotlin.test.assertIs
 
 class StatementParserTest {
     private val lexer = Lexer(getTokenMap())
-    private val statementParser = StatementProgramFactory.create()
+    private val statementParser = StatementParserFactory.create()
 
     @Ignore
     @Test

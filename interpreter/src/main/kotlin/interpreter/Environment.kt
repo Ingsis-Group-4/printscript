@@ -2,50 +2,79 @@ package interpreter
 
 import ast.VariableType
 
-class Environment {
-    private val variables = HashMap<String, EnvironmentElement>()
-
+/**
+ * Holds all the declared variables and their values.
+ * It is immutable, so all modification operations return a new, modified Environment
+ */
+class Environment(
+    private val variables: Map<String, EnvironmentElement> = mapOf(),
+) {
     fun createVariable(
         name: String,
         value: Value,
         type: VariableType?,
-    ) {
+    ): Environment {
         if (variables.containsKey(name)) {
             throw Exception("Variable $name already exists")
         }
-        variables[name] = EnvironmentElement(value, type!!)
+
+        if (!isOfType(value, type!!)) {
+            throw Exception("Value assigned to variable $name is not a ${type.toString().lowercase()}")
+        }
+
+        return createNewEnvironment(name, EnvironmentElement(value, type))
     }
 
     fun updateVariable(
         name: String,
         value: Value,
-    ) {
-        if (!variables.containsKey(name)) {
-            throw Exception("Variable $name does not exist")
-        }
-        val oldValue = variables[name]
-        when (value) {
-            is NumberValue -> {
-                if (oldValue?.type != VariableType.NUMBER) {
-                    throw Exception("Variable $name is not a number")
-                }
+    ): Environment {
+        val oldValue =
+            variables.getOrElse(name) {
+                throw Exception("Variable $name does not exist")
             }
 
-            is StringValue -> {
-                if (oldValue?.type != VariableType.STRING) {
-                    throw Exception("Variable $name is not a string")
-                }
-            }
+        if (!isOfType(value, oldValue.type)) {
+            throw Exception("Value assigned to variable $name is not a ${oldValue.type.toString().lowercase()}")
         }
-        variables[name] = EnvironmentElement(value, oldValue?.type!!)
+
+        return createNewEnvironment(name, EnvironmentElement(value, oldValue.type))
     }
 
     fun getVariable(name: String): Value {
-        if (!variables.containsKey(name)) {
-            throw Exception("Variable $name does not exist")
-        }
-        return variables[name]?.value ?: throw Exception("Variable $name is not initialized")
+        val envElement =
+            variables.getOrElse(name) {
+                throw Exception("Variable $name does not exist")
+            }
+
+        return envElement.value
     }
 
-    data class EnvironmentElement(val value: Value = NullValue(), val type: VariableType)
+    private fun isOfType(
+        value: Value,
+        type: VariableType,
+    ): Boolean {
+        return when (value) {
+            is NumberValue -> {
+                type == VariableType.NUMBER
+            }
+
+            is StringValue -> {
+                type == VariableType.STRING
+            }
+
+            NullValue -> true
+        }
+    }
+
+    private fun createNewEnvironment(
+        name: String,
+        environmentElement: EnvironmentElement,
+    ): Environment {
+        return Environment(
+            variables.plus(name to environmentElement),
+        )
+    }
+
+    data class EnvironmentElement(val value: Value = NullValue, val type: VariableType)
 }

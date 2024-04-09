@@ -1,6 +1,6 @@
 package interpreter
 
-interface Value {
+sealed interface Value {
     override fun toString(): String
 }
 
@@ -16,14 +16,8 @@ class StringValue(val value: String) : Value {
     }
 }
 
-class NullValue : Value {
+object NullValue : Value {
     override fun toString(): String {
         return "null"
-    }
-}
-
-class VoidValue : Value {
-    override fun toString(): String {
-        return ""
     }
 }

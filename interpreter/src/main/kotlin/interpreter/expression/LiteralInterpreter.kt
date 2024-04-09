@@ -1,9 +1,12 @@
-package interpreter
+package interpreter.expression
 
 import ast.LiteralNode
+import interpreter.NumberValue
+import interpreter.StringValue
+import interpreter.Value
 
-class LiteralInterpreter(private val node: LiteralNode<*>, val environment: Environment) : Interpreter {
-    override fun interpret(): Value {
+class LiteralInterpreter {
+    fun interpret(node: LiteralNode<*>): Value {
         return when (node.value) {
             is Number -> NumberValue(node.value as Double)
             is String -> StringValue(node.value as String)

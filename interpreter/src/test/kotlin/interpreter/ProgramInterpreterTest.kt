@@ -13,7 +13,6 @@ import ast.ProgramNode
 import ast.VariableType
 import ast.VariableTypeNode
 import position.Position
-import util.CollectorLogger
 import kotlin.test.Test
 
 class ProgramInterpreterTest {
@@ -49,21 +48,19 @@ class ProgramInterpreterTest {
                 ),
             )
 
-        val collectorLogger = CollectorLogger()
-
         val interpreter =
-            ProgramInterpreter(
+            ProgramInterpreter()
+
+        val result =
+            interpreter.interpret(
                 ProgramNode(
                     input,
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                collectorLogger,
             )
 
-        interpreter.interpret()
-
-        val logs = collectorLogger.getLogs()
+        val logs = result.logs
 
         assert(logs.size == 1)
         assert(logs[0] == "a")
@@ -108,21 +105,19 @@ class ProgramInterpreterTest {
                 ),
             )
 
-        val collectorLogger = CollectorLogger()
-
         val interpreter =
-            ProgramInterpreter(
+            ProgramInterpreter()
+
+        val result =
+            interpreter.interpret(
                 ProgramNode(
                     input,
                     Position(1, 1),
                     Position(1, 1),
                 ),
-                collectorLogger,
             )
 
-        interpreter.interpret()
-
-        assert(collectorLogger.getLogs().size == 1)
-        assert(collectorLogger.getLogs()[0] == "b")
+        assert(result.logs.size == 1)
+        assert(result.logs[0] == "b")
     }
 }

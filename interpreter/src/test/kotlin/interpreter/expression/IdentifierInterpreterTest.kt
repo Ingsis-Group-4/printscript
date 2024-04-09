@@ -1,7 +1,9 @@
-package interpreter
+package interpreter.expression
 
 import ast.IdentifierNode
 import ast.VariableType
+import interpreter.Environment
+import interpreter.StringValue
 import org.junit.jupiter.api.assertThrows
 import position.Position
 import kotlin.test.Test
@@ -12,12 +14,11 @@ class IdentifierInterpreterTest {
     fun testIdentifierInterpreter() {
         val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
-        val environment = Environment()
-        environment.createVariable("x", StringValue("a"), VariableType.STRING)
+        val environment = Environment().createVariable("x", StringValue("a"), VariableType.STRING)
 
-        val interpreter = IdentifierInterpreter(input, environment)
+        val interpreter = IdentifierInterpreter()
 
-        val result = interpreter.interpret()
+        val result = interpreter.interpret(input, environment)
 
         assert(result is StringValue)
         assertEquals("a", (result as StringValue).value)
@@ -27,11 +28,11 @@ class IdentifierInterpreterTest {
     fun testIdentifierInterpreterWithNonExistingVariable() {
         val input = IdentifierNode("x", VariableType.STRING, Position(1, 1), Position(1, 2))
 
-        val interpreter = IdentifierInterpreter(input, Environment())
+        val interpreter = IdentifierInterpreter()
 
         val exception =
             assertThrows<Exception> {
-                interpreter.interpret()
+                interpreter.interpret(input, Environment())
             }
 
         assertEquals("Variable x does not exist", exception.message)

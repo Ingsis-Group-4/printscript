@@ -1,6 +1,5 @@
 package cli.function
 
-import ast.ProgramNode
 import cli.util.generateAST
 import interpreter.ProgramInterpreter
 import lexer.Lexer
@@ -27,6 +26,9 @@ class Interpret(
         val ast = generateAST(lexer, parser, args)
 
         // Interpret the AST
-        ProgramInterpreter(ast as ProgramNode, logger).interpret()
+        val result = ProgramInterpreter().interpret(ast)
+        for (log in result.logs) {
+            logger.log(log)
+        }
     }
 }
