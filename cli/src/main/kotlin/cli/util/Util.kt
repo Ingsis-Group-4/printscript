@@ -34,7 +34,10 @@ fun generateAST(
             return parserResult.value
         }
         is FailureResult -> {
-            throw IllegalArgumentException("Error: ${parserResult.message}")
+            // TODO: Add the exact position, not the index of the last token
+            throw IllegalArgumentException(
+                "Parsing Error: ${parserResult.message}",
+            )
         }
     }
 }
