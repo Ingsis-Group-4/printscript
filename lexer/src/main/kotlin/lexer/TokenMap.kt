@@ -5,7 +5,7 @@ import token.TokenType
 import version.Version
 import java.util.EnumMap
 
-fun getTokenMap(versionNumber: Version): EnumMap<TokenType, TokenMatcher> {
+fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMatcher> {
     val tokenMap: EnumMap<TokenType, TokenMatcher> = EnumMap(TokenType::class.java)
 
     // KEYWORDS
