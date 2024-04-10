@@ -34,28 +34,27 @@ fun getTokenMap(versionNumber: Version): EnumMap<TokenType, TokenMatcher> {
     tokenMap[TokenType.STRING] = TokenMatcher(TokenType.STRING, "\'[^\']*\'|\"[^\"]*\"")
     tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "[0-9]+")
 
-    //UNKNOWN
-    tokenMap[TokenType.UNKNOWN]= TokenMatcher(TokenType.UNKNOWN, "[^ \\n]")
+    // UNKNOWN
+    tokenMap[TokenType.UNKNOWN] = TokenMatcher(TokenType.UNKNOWN, "[^ \\n]")
 
     when (versionNumber) {
         Version.V1 -> {
             return tokenMap
         }
         Version.V2 -> {
-
-            //KEYWORDS
-            tokenMap[TokenType.CONST] = TokenMatcher(TokenType.CONST,"\\bconst\\b")
+            // KEYWORDS
+            tokenMap[TokenType.CONST] = TokenMatcher(TokenType.CONST, "\\bconst\\b")
             tokenMap[TokenType.BOOLEANTYPE] = TokenMatcher(TokenType.BOOLEANTYPE, "Boolean")
             tokenMap[TokenType.IF] = TokenMatcher(TokenType.IF, "\\bif\\b")
             tokenMap[TokenType.ELSE] = TokenMatcher(TokenType.ELSE, "\\belse\\b")
-            tokenMap[TokenType.READINPUT] = TokenMatcher(TokenType.READINPUT,"\\breadInput\\b")
+            tokenMap[TokenType.READINPUT] = TokenMatcher(TokenType.READINPUT, "\\breadInput\\b")
 
-            //TYPES
+            // TYPES
             tokenMap[TokenType.BOOLEAN] = TokenMatcher(TokenType.BOOLEAN, "(?:true|false)")
 
-            //OPERATORS
+            // OPERATORS
             tokenMap[TokenType.OPENCURLY] = TokenMatcher(TokenType.OPENCURLY, "\\{")
-            tokenMap[TokenType.CLOSECURLY] = TokenMatcher(TokenType.CLOSECURLY,"\\}")
+            tokenMap[TokenType.CLOSECURLY] = TokenMatcher(TokenType.CLOSECURLY, "\\}")
 
             return tokenMap
         }

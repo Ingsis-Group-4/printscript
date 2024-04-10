@@ -33,7 +33,6 @@ enum class TokenType() {
     // identifiers
     IDENTIFIER,
 
-    //unknown
-    UNKNOWN
+    // unknown
+    UNKNOWN,
 }
-

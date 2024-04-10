@@ -366,7 +366,7 @@ class LexerTest {
         val input = "true"
         val expected =
             listOf(
-                Token(TokenType.BOOLEAN, Position(1, 1), Position(1, 4), "true")
+                Token(TokenType.BOOLEAN, Position(1, 1), Position(1, 4), "true"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -377,7 +377,7 @@ class LexerTest {
         val input = "false"
         val expected =
             listOf(
-                Token(TokenType.BOOLEAN, Position(1, 1), Position(1, 5), "false")
+                Token(TokenType.BOOLEAN, Position(1, 1), Position(1, 5), "false"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -388,7 +388,7 @@ class LexerTest {
         val input = "if"
         val expected =
             listOf(
-                Token(TokenType.IF, Position(1, 1), Position(1, 2), "if")
+                Token(TokenType.IF, Position(1, 1), Position(1, 2), "if"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -399,7 +399,7 @@ class LexerTest {
         val input = "else"
         val expected =
             listOf(
-                Token(TokenType.ELSE, Position(1, 1), Position(1, 4), "else")
+                Token(TokenType.ELSE, Position(1, 1), Position(1, 4), "else"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -410,7 +410,7 @@ class LexerTest {
         val input = "readInput"
         val expected =
             listOf(
-                Token(TokenType.READINPUT, Position(1, 1), Position(1, 9), "readInput")
+                Token(TokenType.READINPUT, Position(1, 1), Position(1, 9), "readInput"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -421,7 +421,7 @@ class LexerTest {
         val input = "{"
         val expected =
             listOf(
-                Token(TokenType.OPENCURLY, Position(1, 1), Position(1, 1), "{")
+                Token(TokenType.OPENCURLY, Position(1, 1), Position(1, 1), "{"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -432,7 +432,7 @@ class LexerTest {
         val input = "}"
         val expected =
             listOf(
-                Token(TokenType.CLOSECURLY, Position(1, 1), Position(1, 1), "}")
+                Token(TokenType.CLOSECURLY, Position(1, 1), Position(1, 1), "}"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -468,7 +468,7 @@ class LexerTest {
                 Token(TokenType.BOOLEANTYPE, Position(1, 15), Position(1, 21), "Boolean"),
                 Token(TokenType.ASSIGNATION, Position(1, 23), Position(1, 23), "="),
                 Token(TokenType.BOOLEAN, Position(1, 25), Position(1, 28), "true"),
-                Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";")
+                Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
@@ -483,17 +483,16 @@ class LexerTest {
                 Token(TokenType.IF, Position(1, 1), Position(1, 2), "if"),
                 Token(TokenType.OPENPARENTHESIS, Position(1, 3), Position(1, 3), "("),
                 Token(TokenType.IDENTIFIER, Position(1, 4), Position(1, 4), "a"),
-                Token(TokenType.CLOSEPARENTHESIS,Position(1,5),Position(1,5),")"),
-                Token(TokenType.OPENCURLY,Position(1,6),Position(1,6),"{"),
-                Token(TokenType.PRINTLN,Position(2,1),Position(2,7),"println"),
-                Token(TokenType.OPENPARENTHESIS,Position(2,8),Position(2,8),"("),
-                Token(TokenType.IDENTIFIER,Position(2,9),Position(2,9),"a"),
-                Token(TokenType.CLOSEPARENTHESIS,Position(2,10),Position(2,10),")"),
-                Token(TokenType.CLOSECURLY,Position(3,1),Position(3,1),"}"),
-                Token(TokenType.SEMICOLON,Position(3,2),Position(3,2),";")
+                Token(TokenType.CLOSEPARENTHESIS, Position(1, 5), Position(1, 5), ")"),
+                Token(TokenType.OPENCURLY, Position(1, 6), Position(1, 6), "{"),
+                Token(TokenType.PRINTLN, Position(2, 1), Position(2, 7), "println"),
+                Token(TokenType.OPENPARENTHESIS, Position(2, 8), Position(2, 8), "("),
+                Token(TokenType.IDENTIFIER, Position(2, 9), Position(2, 9), "a"),
+                Token(TokenType.CLOSEPARENTHESIS, Position(2, 10), Position(2, 10), ")"),
+                Token(TokenType.CLOSECURLY, Position(3, 1), Position(3, 1), "}"),
+                Token(TokenType.SEMICOLON, Position(3, 2), Position(3, 2), ";"),
             )
         val result = lexerSecondVersion.lex(input)
-        assertEquals(expected,result)
+        assertEquals(expected, result)
     }
-
 }
