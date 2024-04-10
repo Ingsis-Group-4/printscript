@@ -3,7 +3,10 @@ package formatter
 import ast.AST
 
 class AssignationNodeFormatter : Formatter {
-    override fun format(node: AST, rule: FormattingRule): String {
+    override fun format(
+        node: AST,
+        rule: FormattingRule,
+    ): String {
         val assignationNode = node as ast.AssignationNode
         return buildString {
             append(assignationNode.identifier.variableName)
