@@ -14,11 +14,10 @@ class AssignationNodeFormatter : Formatter {
                 "=",
                 getExpression(assignationNode.expression, rule),
             )
-        if (rule.spaceBetweenEqualSign)
-            {
-                tokens[0] = addWhiteSpace(tokens[0])
-                tokens[1] = addWhiteSpace(tokens[1])
-            }
+        if (rule.spaceBetweenEqualSign) {
+            tokens[0] = addWhiteSpace(tokens[0])
+            tokens[1] = addWhiteSpace(tokens[1])
+        }
 
         val resultString = tokens.joinToString(separator = "")
         return resultString

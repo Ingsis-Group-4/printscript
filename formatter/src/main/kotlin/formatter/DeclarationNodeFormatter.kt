@@ -14,27 +14,24 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
         resultString += "let"
         resultString = addWhiteSpace(resultString)
         resultString += declarationNode.identifier.variableName
-        if (rule.spaceBetweenColon)
-            {
-                resultString = addWhiteSpace(resultString)
-                resultString += ":"
-                resultString = addWhiteSpace(resultString)
-            } else {
+        if (rule.spaceBetweenColon) {
+            resultString = addWhiteSpace(resultString)
+            resultString += ":"
+            resultString = addWhiteSpace(resultString)
+        } else {
             resultString += ":"
         }
         resultString += declarationNode.typeNode.variableType.name
-        if (declarationNode.equalsNode != null)
-            {
-                if (rule.spaceBetweenEqualSign)
-                    {
-                        resultString = addWhiteSpace(resultString)
-                        resultString += "="
-                        resultString = addWhiteSpace(resultString)
-                    } else {
-                    resultString += "="
-                }
-                resultString += getExpression(declarationNode.expression!!, rule)
+        if (declarationNode.equalsNode != null) {
+            if (rule.spaceBetweenEqualSign) {
+                resultString = addWhiteSpace(resultString)
+                resultString += "="
+                resultString = addWhiteSpace(resultString)
+            } else {
+                resultString += "="
             }
+            resultString += getExpression(declarationNode.expression!!, rule)
+        }
         return resultString
     }
 }
