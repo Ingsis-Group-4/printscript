@@ -10,28 +10,15 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
         rule: FormattingRule,
     ): String {
         val declarationNode = node as ast.DeclarationNode
-        var resultString = ""
-        resultString += "let"
-        resultString = addWhiteSpace(resultString)
-        resultString += declarationNode.identifier.variableName
-        if (rule.spaceBetweenColon) {
-            resultString = addWhiteSpace(resultString)
-            resultString += ":"
-            resultString = addWhiteSpace(resultString)
-        } else {
-            resultString += ":"
-        }
-        resultString += declarationNode.typeNode.variableType.name
-        if (declarationNode.equalsNode != null) {
-            if (rule.spaceBetweenEqualSign) {
-                resultString = addWhiteSpace(resultString)
-                resultString += "="
-                resultString = addWhiteSpace(resultString)
-            } else {
-                resultString += "="
+        return buildString {
+            append(keywordMap[declarationNode.keywordNode::class])
+            append(" ")
+            append(declarationNode.identifier.variableName)
+            append(if (rule.spaceBetweenColon) " : " else ":")
+            declarationNode.equalsNode?.let {
+                append(if (rule.spaceBetweenEqualSign) " = " else "=")
+                append(getExpression(declarationNode.expression!!, rule))
             }
-            resultString += getExpression(declarationNode.expression!!, rule)
         }
-        return resultString
     }
 }
