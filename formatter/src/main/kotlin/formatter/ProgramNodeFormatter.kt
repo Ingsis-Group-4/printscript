@@ -9,11 +9,9 @@ class ProgramNodeFormatter(private val formatterMap: Map<KClass<out AST>, Format
         rule: FormattingRule,
     ): String {
         val programNode = node as ast.ProgramNode
-        val stringStatements = mutableListOf<String>()
-        for (statements in programNode.statements) {
-            val formatter = formatterMap[statements::class] ?: throw IllegalArgumentException("No formatter found for ${statements::class}")
-            stringStatements.add(formatter.format(statements, rule))
+        return programNode.statements.joinToString(";\n") { statement ->
+            formatterMap[statement::class]?.format(statement, rule)
+                ?: throw IllegalArgumentException("No formatter found for ${statement::class}")
         }
-        return stringStatements.joinToString(";\n")
     }
 }

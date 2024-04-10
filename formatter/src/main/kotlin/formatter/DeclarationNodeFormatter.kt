@@ -1,10 +1,10 @@
 package formatter
 
 import ast.AST
-import ast.KeywordNode
+import ast.LetNode
 import kotlin.reflect.KClass
 
-class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNode>, String>) : Formatter {
+class DeclarationNodeFormatter(private val keywordMap: Map<KClass<LetNode>, String>) : Formatter {
     override fun format(
         node: AST,
         rule: FormattingRule,
