@@ -12,5 +12,5 @@ data class FormattingRule(
     val whiteSpaceBetweenTokens: Boolean = true,
     val spaceBetweenColon: Boolean = SpaceBetweenColonConfigurer(CONFIG_PATH).getRule(),
     val spaceBetweenEqualSign: Boolean = SpaceBetweenEqualSignConfigurer(CONFIG_PATH).getRule(),
-    val lineBreakBeforePrintLn: Number = LineBreakBeforePrintLnConfigurer(CONFIG_PATH).getRule(),
+    val lineBreakBeforePrintLn: Int = LineBreakBeforePrintLnConfigurer(CONFIG_PATH).getRule(),
 )
