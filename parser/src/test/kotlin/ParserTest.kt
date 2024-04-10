@@ -1,16 +1,16 @@
 package parser
 
 import ast.AssignationNode
+import ast.DeclarationNode
 import ast.DivisionNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LiteralNode
-import ast.PrintLnNode
 import ast.ProductNode
 import ast.ProgramNode
 import ast.StatementNode
 import ast.SubtractionNode
 import ast.SumNode
-import ast.VariableDeclarationNode
 import parser.factory.AssignationParserFactory
 import parser.factory.ExpressionParserFactory
 import parser.factory.PrintLnParserFactory
@@ -206,8 +206,8 @@ class ParserTest {
         val result = parser.parse(input, 0)
 
         assertIs<SuccessResult>(result)
-        assertIs<VariableDeclarationNode>(result.value)
-        assertEquals("a", (result.value as VariableDeclarationNode).identifier.variableName)
+        assertIs<DeclarationNode>(result.value)
+        assertEquals("a", (result.value as DeclarationNode).identifier.variableName)
     }
 
     @Test
@@ -262,9 +262,9 @@ class ParserTest {
         val result = parser.parse(input, 0)
 
         assertIs<SuccessResult>(result)
-        assertIs<VariableDeclarationNode>(result.value)
-        assertEquals("a", (result.value as VariableDeclarationNode).identifier.variableName)
-        assertIs<LiteralNode<Number>>((result.value as VariableDeclarationNode).expression)
+        assertIs<DeclarationNode>(result.value)
+        assertEquals("a", (result.value as DeclarationNode).identifier.variableName)
+        assertIs<LiteralNode<Number>>((result.value as DeclarationNode).expression)
     }
 
     @Test
@@ -307,9 +307,9 @@ class ParserTest {
         val result = parser.parse(input, 0)
 
         assertIs<SuccessResult>(result)
-        assertIs<PrintLnNode>(result.value)
-        assertIs<LiteralNode<String>>((result.value as PrintLnNode).expression)
-        assertEquals("Hello, World!", ((result.value as PrintLnNode).expression as LiteralNode<*>).value)
+        assertIs<FunctionStatementNode>(result.value)
+        assertIs<LiteralNode<String>>((result.value as FunctionStatementNode).getFunctionNode().getExpression())
+        assertEquals("Hello, World!", ((result.value as FunctionStatementNode).getFunctionNode().getExpression() as LiteralNode<*>).value)
     }
 
     @Test

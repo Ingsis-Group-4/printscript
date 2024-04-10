@@ -2,10 +2,10 @@ package sca.rule
 
 import ast.AST
 import ast.AssignationNode
+import ast.DeclarationNode
 import ast.FunctionStatementNode
 import ast.ProgramNode
 import ast.StatementNode
-import ast.VariableDeclarationNode
 
 /**
  * Rule that checks if variables in the AST follow a specific naming rule
@@ -58,14 +58,14 @@ class VariableNamingRule(
         return when (ast) {
             is AssignationNode -> RuleSuccess
             is FunctionStatementNode -> RuleSuccess
-            is VariableDeclarationNode -> checkVariableDeclaration(ast)
+            is DeclarationNode -> checkVariableDeclaration(ast)
         }
     }
 
     /**
      * Check if the variable declaration follows the naming regex
      * */
-    private fun checkVariableDeclaration(ast: VariableDeclarationNode): RuleResult {
+    private fun checkVariableDeclaration(ast: DeclarationNode): RuleResult {
         val variableName = ast.identifier.variableName
 
         return if (variableName.matches(regex.toRegex())) {

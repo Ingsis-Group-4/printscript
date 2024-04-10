@@ -40,3 +40,7 @@ bin/
 
 kls_database.db
 gradle.properties
+
+
+### Java version file ###
+.java-version

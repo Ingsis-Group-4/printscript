@@ -1,11 +1,23 @@
 package interpreter
 
-interface Value
+sealed interface Value {
+    override fun toString(): String
+}
 
-class NumberValue(val value: Double) : Value
+class NumberValue(val value: Double) : Value {
+    override fun toString(): String {
+        return value.toString()
+    }
+}
 
-class StringValue(val value: String) : Value
+class StringValue(val value: String) : Value {
+    override fun toString(): String {
+        return value
+    }
+}
 
-class NullValue : Value
-
-class VoidValue : Value
+object NullValue : Value {
+    override fun toString(): String {
+        return "null"
+    }
+}

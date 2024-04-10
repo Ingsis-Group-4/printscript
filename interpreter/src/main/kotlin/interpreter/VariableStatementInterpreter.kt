@@ -1,29 +1,51 @@
 package interpreter
 
+import ast.AST
 import ast.AssignationNode
-import ast.VariableDeclarationNode
+import ast.DeclarationNode
 import ast.VariableStatementNode
+import interpreter.expression.ExpressionInterpreter
 
-class VariableStatementInterpreter(private val node: VariableStatementNode, private val environment: Environment) :
+class VariableStatementInterpreter :
     Interpreter {
-    override fun interpret(): Value {
-        when (node) {
+    override fun interpret(
+        ast: AST,
+        environment: Environment,
+    ): InterpretOutput {
+        when (val node = getVariableStatementNodeOrThrow(ast)) {
             is AssignationNode -> {
-                val value = ExpressionInterpreter(node.expression, environment).interpret()
-                environment.updateVariable(node.identifier.variableName, value)
-                return VoidValue()
+                val value = ExpressionInterpreter().interpret(node.expression, environment)
+                val updatedEnv = environment.updateVariable(node.identifier.variableName, value)
+                return InterpretOutput(updatedEnv, listOf())
             }
 
-            is VariableDeclarationNode -> {
+            is DeclarationNode -> {
                 if (node.expression != null) {
-                    val value = ExpressionInterpreter(node.expression!!, environment).interpret()
-                    environment.createVariable(node.identifier.variableName, value, node.identifier.variableType)
-                    return VoidValue()
+                    val value = ExpressionInterpreter().interpret(node.expression!!, environment)
+                    val updatedEnv =
+                        environment.createVariable(
+                            node.identifier.variableName,
+                            value,
+                            node.identifier.variableType,
+                        )
+                    return InterpretOutput(updatedEnv, listOf())
                 } else {
-                    environment.createVariable(node.identifier.variableName, NullValue(), node.identifier.variableType)
-                    return VoidValue()
+                    val updatedEnv =
+                        environment.createVariable(
+                            node.identifier.variableName,
+                            NullValue,
+                            node.identifier.variableType,
+                        )
+                    return InterpretOutput(updatedEnv, listOf())
                 }
             }
         }
+    }
+
+    private fun getVariableStatementNodeOrThrow(node: AST): VariableStatementNode {
+        if (node is VariableStatementNode) return node
+        throw Exception(
+            "Unknown statement at (line: ${node.getStart().line} column: ${node.getStart().column})",
+        )
     }
 }

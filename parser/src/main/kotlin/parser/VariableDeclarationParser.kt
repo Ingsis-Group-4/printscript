@@ -1,8 +1,12 @@
 package parser
 
+import ast.ColonNode
+import ast.DeclarationNode
+import ast.EqualsNode
 import ast.ExpressionNode
 import ast.IdentifierNode
-import ast.VariableDeclarationNode
+import ast.LetNode
+import ast.VariableTypeNode
 import parser.result.FailureResult
 import parser.result.ParserResult
 import parser.result.SuccessResult
@@ -21,8 +25,11 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         tokens: List<Token>,
         currentIndex: Int,
     ): ParserResult {
+        val keywordPositionStart = at(tokens, currentIndex).start
+        val keywordPositionEnd = at(tokens, currentIndex).end
         val identifierIndex = nextIndex(currentIndex)
         val colonIndex = nextIndex(identifierIndex)
+
         if (!areInitialTokensValid(tokens, currentIndex, identifierIndex, colonIndex)) {
             return FailureResult(
                 "Expected a let token followed by an identifier and a colon token at position $currentIndex",
@@ -35,7 +42,10 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
                     tokens,
                     identifierNode.lastValidatedIndex,
                     identifierNode.value as IdentifierNode,
-                    at(tokens, currentIndex).start,
+                    keywordPositionStart,
+                    keywordPositionEnd,
+                    at(tokens, colonIndex).start,
+                    at(tokens, nextIndex(colonIndex)),
                 )
 
             is FailureResult -> identifierNode
@@ -59,10 +69,18 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         identifierToken: Token,
     ): ParserResult {
         val typeIndex = nextIndex(currentIndex)
-        when (val type = DefaultTypeProvider.getType(at(tokens, typeIndex).type)) {
+        val typeToken = at(tokens, typeIndex)
+
+        when (val type = DefaultTypeProvider.getType(typeToken.type)) {
             null -> return FailureResult("Invalid type at position $typeIndex", typeIndex)
             else -> {
-                val identifierNode = IdentifierNode(identifierToken.value, type, identifierToken.start, at(tokens, typeIndex).end)
+                val identifierNode =
+                    IdentifierNode(
+                        identifierToken.value,
+                        type,
+                        identifierToken.start,
+                        at(tokens, typeIndex).end,
+                    )
                 return SuccessResult(identifierNode, typeIndex)
             }
         }
@@ -72,19 +90,36 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         tokens: List<Token>,
         currentIndex: Int,
         identifierNode: IdentifierNode,
-        letPosition: Position,
+        letPositionStart: Position,
+        letPositionEnd: Position,
+        colonPosition: Position,
+        variableTypeToken: Token,
     ): ParserResult {
-        val newCurrentIndex = nextIndex(currentIndex)
-        val token = at(tokens, newCurrentIndex)
+        val semicolonOrAssignationIndex = nextIndex(currentIndex)
+        val token = at(tokens, semicolonOrAssignationIndex)
         return when (token.type) {
-            TokenType.SEMICOLON -> buildParserResult(identifierNode, null, nextIndex(currentIndex), letPosition, token.end)
+            TokenType.SEMICOLON ->
+                buildParserResult(
+                    identifierNode,
+                    null,
+                    nextIndex(currentIndex),
+                    letPositionStart,
+                    letPositionEnd,
+                    colonPosition,
+                    variableTypeToken,
+                    null,
+                    token.end,
+                )
             TokenType.ASSIGNATION ->
                 this.parseAssignationSyntax(
                     tokens,
-                    nextIndex(newCurrentIndex),
+                    semicolonOrAssignationIndex,
                     identifierNode,
                     parserSelector,
-                    letPosition,
+                    letPositionStart,
+                    letPositionEnd,
+                    colonPosition,
+                    variableTypeToken,
                 )
 
             else -> FailureResult("Expected an assignation token or semicolon at position $currentIndex", currentIndex)
@@ -93,12 +128,15 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
 
     private fun parseAssignationSyntax(
         tokens: List<Token>,
-        currentIndex: Int,
+        equalsIndex: Int,
         identifierNode: IdentifierNode,
         parserSelector: Map<TokenType, Parser>,
-        letPosition: Position,
+        letPositionStart: Position,
+        letPositionEnd: Position,
+        colonPosition: Position,
+        variableTypeToken: Token,
     ): ParserResult {
-        val syntaxSubtreeResult = getSyntaxSubtree(tokens, currentIndex, parserSelector)
+        val syntaxSubtreeResult = getSyntaxSubtree(tokens, nextIndex(equalsIndex), parserSelector)
 
         return when (syntaxSubtreeResult) {
             is SuccessResult -> {
@@ -110,8 +148,12 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
                     identifierNode,
                     syntaxSubtreeResult.value as ExpressionNode,
                     semicolonIndex,
-                    letPosition,
-                    at(tokens, semicolonIndex).end,
+                    letPositionStart,
+                    letPositionEnd,
+                    colonPosition,
+                    variableTypeToken,
+                    equalsPosition = at(tokens, equalsIndex).start,
+                    semicolonPosition = at(tokens, semicolonIndex).end,
                 )
             }
 
@@ -123,10 +165,24 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         identifierNode: IdentifierNode,
         expressionNode: ExpressionNode?,
         lastValidatedIndex: Int,
-        letPosition: Position,
+        letPositionStart: Position,
+        letPositionEnd: Position,
+        colonPosition: Position,
+        variableTypeToken: Token,
+        equalsPosition: Position?,
         semicolonPosition: Position,
     ): ParserResult {
-        val ast = VariableDeclarationNode(identifierNode, expressionNode, letPosition, semicolonPosition)
+        val ast =
+            DeclarationNode(
+                identifierNode,
+                expressionNode,
+                LetNode(letPositionStart, letPositionEnd),
+                ColonNode(colonPosition, colonPosition),
+                VariableTypeNode(identifierNode.variableType!!, variableTypeToken.start, variableTypeToken.end),
+                equalsNode = equalsPosition?.let { EqualsNode(it, it) },
+                letPositionStart,
+                semicolonPosition,
+            )
         return SuccessResult(ast, lastValidatedIndex)
     }
 }
