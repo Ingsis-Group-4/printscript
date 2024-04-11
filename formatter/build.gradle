@@ -1,0 +1,11 @@
+plugins {
+    id 'printscript.gradle.kotlin-common-conventions'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':lexer')
+    implementation project(':parser')
+    implementation('org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0')
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+}
