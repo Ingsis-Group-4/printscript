@@ -1,13 +1,6 @@
 package parser.strategy
 
-import ast.AST
-import ast.DivisionNode
-import ast.ExpressionNode
-import ast.OperatorNode
-import ast.OperatorType
-import ast.ProductNode
-import ast.SubtractionNode
-import ast.SumNode
+import ast.*
 import token.Token
 
 interface OperationStrategy {
@@ -24,7 +17,7 @@ class SumOperationStrategy : OperationStrategy {
         right: AST,
         operator: Token,
     ): AST {
-        return SumNode(
+        return BinaryOperation(
             left as ExpressionNode,
             right as ExpressionNode,
             OperatorNode(operator.start, operator.end, OperatorType.SUM),
@@ -40,10 +33,10 @@ class SubtractionOperationStrategy : OperationStrategy {
         right: AST,
         operator: Token,
     ): AST {
-        return SubtractionNode(
+        return BinaryOperation(
             left as ExpressionNode,
             right as ExpressionNode,
-            OperatorNode(operator.start, operator.end, OperatorType.SUB),
+            OperatorNode(operator.start, operator.end, OperatorType.SUBTRACT),
             left.getStart(),
             right.getEnd(),
         )
@@ -56,10 +49,10 @@ class MultiplicationOperationStrategy : OperationStrategy {
         right: AST,
         operator: Token,
     ): AST {
-        return ProductNode(
+        return BinaryOperation(
             left as ExpressionNode,
             right as ExpressionNode,
-            OperatorNode(operator.start, operator.end, OperatorType.MUL),
+            OperatorNode(operator.start, operator.end, OperatorType.MULTIPLICATION),
             left.getStart(),
             right.getEnd(),
         )
@@ -72,10 +65,10 @@ class DivisionOperationStrategy : OperationStrategy {
         right: AST,
         operator: Token,
     ): AST {
-        return DivisionNode(
+        return BinaryOperation(
             left as ExpressionNode,
             right as ExpressionNode,
-            OperatorNode(operator.start, operator.end, OperatorType.DIV),
+            OperatorNode(operator.start, operator.end, OperatorType.DIVISION),
             left.getStart(),
             right.getEnd(),
         )
