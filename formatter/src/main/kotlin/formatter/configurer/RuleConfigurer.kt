@@ -11,14 +11,14 @@ interface RuleConfigurer<T> {
 }
 
 class SpaceBetweenColonConfigurer(configPath: String) : RuleConfigurer<Boolean> {
-    private val ruleConfigName = "spaceBetweenColon"
+    private val ruleConfigName = "hasSpaceBetweenColon"
     private val rule: Boolean = getJsonValue(readConfig(configPath), ruleConfigName, String::toBoolean)
 
     override fun getRule(): Boolean = rule
 }
 
 class SpaceBetweenEqualSignConfigurer(configPath: String) : RuleConfigurer<Boolean> {
-    private val ruleConfigName = "spaceBetweenEquals"
+    private val ruleConfigName = "hasSpaceBetweenEqualSign"
     private val rule: Boolean = getJsonValue(readConfig(configPath), ruleConfigName, String::toBoolean)
 
     override fun getRule(): Boolean = rule
