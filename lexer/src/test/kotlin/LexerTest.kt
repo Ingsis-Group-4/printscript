@@ -417,7 +417,7 @@ class LexerTest {
     }
 
     @Test
-    fun testReadEnv(){
+    fun testReadEnv() {
         val input = "readEnv"
         val expected =
             listOf(
