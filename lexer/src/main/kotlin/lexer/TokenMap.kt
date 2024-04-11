@@ -2,14 +2,15 @@ package lexer
 
 import token.TokenMatcher
 import token.TokenType
+import version.Version
 import java.util.EnumMap
 
-fun getTokenMap(): EnumMap<TokenType, TokenMatcher> {
+fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMatcher> {
     val tokenMap: EnumMap<TokenType, TokenMatcher> = EnumMap(TokenType::class.java)
 
     // KEYWORDS
-    tokenMap[TokenType.LET] = TokenMatcher(TokenType.LET, "let")
-    tokenMap[TokenType.PRINTLN] = TokenMatcher(TokenType.PRINTLN, "println")
+    tokenMap[TokenType.LET] = TokenMatcher(TokenType.LET, "\\blet\\b")
+    tokenMap[TokenType.PRINTLN] = TokenMatcher(TokenType.PRINTLN, "\\bprintln")
 
     // TYPES
     tokenMap[TokenType.STRINGTYPE] = TokenMatcher(TokenType.STRINGTYPE, "String")
@@ -31,6 +32,32 @@ fun getTokenMap(): EnumMap<TokenType, TokenMatcher> {
 
     // LITERALS
     tokenMap[TokenType.STRING] = TokenMatcher(TokenType.STRING, "\'[^\']*\'|\"[^\"]*\"")
-    tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "[0-9]+")
-    return tokenMap
+    tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "-?\\d+(\\.\\d+)?")
+
+    // UNKNOWN
+    tokenMap[TokenType.UNKNOWN] = TokenMatcher(TokenType.UNKNOWN, "[^ \\n]")
+
+    when (versionNumber) {
+        Version.V1 -> {
+            return tokenMap
+        }
+        Version.V2 -> {
+            // KEYWORDS
+            tokenMap[TokenType.CONST] = TokenMatcher(TokenType.CONST, "\\bconst\\b")
+            tokenMap[TokenType.BOOLEANTYPE] = TokenMatcher(TokenType.BOOLEANTYPE, "Boolean")
+            tokenMap[TokenType.IF] = TokenMatcher(TokenType.IF, "\\bif\\b")
+            tokenMap[TokenType.ELSE] = TokenMatcher(TokenType.ELSE, "\\belse\\b")
+            tokenMap[TokenType.READINPUT] = TokenMatcher(TokenType.READINPUT, "\\breadInput")
+            tokenMap[TokenType.READENV] = TokenMatcher(TokenType.READENV, "\\breadEnv")
+
+            // TYPES
+            tokenMap[TokenType.BOOLEAN] = TokenMatcher(TokenType.BOOLEAN, "(?:true|false)")
+
+            // OPERATORS
+            tokenMap[TokenType.OPENCURLY] = TokenMatcher(TokenType.OPENCURLY, "\\{")
+            tokenMap[TokenType.CLOSECURLY] = TokenMatcher(TokenType.CLOSECURLY, "\\}")
+
+            return tokenMap
+        }
+    }
 }

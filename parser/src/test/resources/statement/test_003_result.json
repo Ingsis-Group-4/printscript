@@ -1,0 +1,42 @@
+{
+  "identifier": {
+    "variableName": "y",
+    "start": {
+      "line": 1,
+      "column": 1
+    },
+    "end": {
+      "line": 1,
+      "column": 1
+    }
+  },
+  "expression": {
+    "value": 10.0,
+    "start": {
+      "line": 1,
+      "column": 5
+    },
+    "end": {
+      "line": 1,
+      "column": 6
+    }
+  },
+  "equalsNode": {
+    "start": {
+      "line": 1,
+      "column": 3
+    },
+    "end": {
+      "line": 1,
+      "column": 3
+    }
+  },
+  "start": {
+    "line": 1,
+    "column": 1
+  },
+  "end": {
+    "line": 1,
+    "column": 7
+  }
+}

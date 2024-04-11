@@ -1,33 +1,26 @@
 import ast.ColonNode
+import ast.DeclarationNode
 import ast.EqualsNode
 import ast.IdentifierNode
 import ast.LetNode
 import ast.LiteralNode
-import ast.VariableDeclarationNode
 import ast.VariableType
 import ast.VariableTypeNode
 import position.Position
-import sca.provider.PrintLnArgumentNonExpressionRuleConfigurer
-import sca.provider.StaticCodeAnalyzerConfigurer
-import sca.provider.VariableNamingRuleConfigurer
+import sca.StaticCodeAnalyzer
+import sca.factory.DefaultSCARuleFactory
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class StaticCodeAnalyzerConfigurerTest {
     @Test
     fun testSCAProviderWithCamelCase() {
-        val provider =
-            StaticCodeAnalyzerConfigurer(
-                mapOf(
-                    "variableNamingRule" to VariableNamingRuleConfigurer(),
-                    "printLnArgumentNonExpressionRule" to PrintLnArgumentNonExpressionRuleConfigurer(),
-                ),
-            )
-        val sca = provider.createStaticCodeAnalyzer("src/test/resources/sca.config.json")
+        val rules = DefaultSCARuleFactory().getRules("src/test/resources/sca.config.json")
+        val sca = StaticCodeAnalyzer(rules)
 
         val result =
             sca.analyze(
-                VariableDeclarationNode(
+                DeclarationNode(
                     identifier = IdentifierNode("B", start = Position(1, 5), end = Position(1, 5)),
                     expression = LiteralNode(1, start = Position(1, 17), end = Position(1, 17)),
                     LetNode(start = Position(1, 1), end = Position(1, 3)),

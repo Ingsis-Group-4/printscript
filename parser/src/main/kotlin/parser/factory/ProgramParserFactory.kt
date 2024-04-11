@@ -5,6 +5,7 @@ import parser.ExpressionParser
 import parser.Parser
 import parser.PrintLnParser
 import parser.ProgramParser
+import parser.StatementParser
 import parser.VariableDeclarationParser
 import token.TokenType
 
@@ -34,6 +35,22 @@ object ProgramParserFactory : ParserFactory {
 
     override fun create(): Parser {
         return ProgramParser(parserSelector)
+    }
+}
+
+object StatementParserFactory : ParserFactory {
+    /**
+     * Selector for parsers based on token type
+     */
+    private val parserSelector: Map<TokenType, Parser> =
+        mapOf(
+            TokenType.LET to VariableDeclarationParserFactory.create(),
+            TokenType.IDENTIFIER to AssignationParserFactory.create(),
+            TokenType.PRINTLN to PrintLnParserFactory.create(),
+        )
+
+    override fun create(): Parser {
+        return StatementParser(parserSelector)
     }
 }
 
