@@ -249,6 +249,60 @@ class LexerTest {
     }
 
     @Test
+    fun testDecimalNumberDeclarationStatement() {
+        val input = "let myVariable: Number = 12.3;"
+        val expected =
+            listOf(
+                Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
+                Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
+                Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
+                Token(TokenType.NUMBER, Position(1, 26), Position(1, 29), "12.3"),
+                Token(TokenType.SEMICOLON, Position(1, 30), Position(1, 30), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testNegativeNumberDeclarationStatement() {
+        val input = "let myVariable: Number = -22;"
+        val expected =
+            listOf(
+                Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
+                Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
+                Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
+                Token(TokenType.NUMBER, Position(1, 26), Position(1, 28), "-22"),
+                Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testNegativeDecimalNumberDeclarationStatement() {
+        val input = "let myVariable: Number = -2.2;"
+        val expected =
+            listOf(
+                Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
+                Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
+                Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
+                Token(TokenType.NUMBER, Position(1, 26), Position(1, 29), "-2.2"),
+                Token(TokenType.SEMICOLON, Position(1, 30), Position(1, 30), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
     fun testStringDeclarationStatement() {
         val input = "let myVariable: String = \"Hello, World!\";"
         val expected =

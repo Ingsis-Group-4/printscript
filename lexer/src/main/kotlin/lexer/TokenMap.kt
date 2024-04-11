@@ -32,7 +32,7 @@ fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMa
 
     // LITERALS
     tokenMap[TokenType.STRING] = TokenMatcher(TokenType.STRING, "\'[^\']*\'|\"[^\"]*\"")
-    tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "[0-9]+")
+    tokenMap[TokenType.NUMBER] = TokenMatcher(TokenType.NUMBER, "-?\\d+(\\.\\d+)?")
 
     // UNKNOWN
     tokenMap[TokenType.UNKNOWN] = TokenMatcher(TokenType.UNKNOWN, "[^ \\n]")
