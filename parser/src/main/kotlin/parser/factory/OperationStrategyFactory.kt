@@ -1,6 +1,10 @@
 package parser.factory
 
-import parser.strategy.*
+import parser.strategy.DivisionOperationStrategy
+import parser.strategy.MultiplicationOperationStrategy
+import parser.strategy.OperationStrategy
+import parser.strategy.SubtractionOperationStrategy
+import parser.strategy.SumOperationStrategy
 import token.TokenType
 
 interface OperationStrategyFactory {

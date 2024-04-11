@@ -1,14 +1,29 @@
 package parser.strategy
 
-import ast.*
+import ast.AST
+import ast.DivisionNode
+import ast.ExpressionNode
+import ast.OperatorNode
+import ast.OperatorType
+import ast.ProductNode
+import ast.SubtractionNode
+import ast.SumNode
 import token.Token
 
 interface OperationStrategy {
-    fun execute(left: AST, right: AST, operator: Token): AST
+    fun execute(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST
 }
 
 class SumOperationStrategy : OperationStrategy {
-    override fun execute(left: AST, right: AST, operator: Token): AST {
+    override fun execute(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST {
         return SumNode(
             left as ExpressionNode,
             right as ExpressionNode,
@@ -20,7 +35,11 @@ class SumOperationStrategy : OperationStrategy {
 }
 
 class SubtractionOperationStrategy : OperationStrategy {
-    override fun execute(left: AST, right: AST, operator: Token): AST {
+    override fun execute(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST {
         return SubtractionNode(
             left as ExpressionNode,
             right as ExpressionNode,
@@ -32,7 +51,11 @@ class SubtractionOperationStrategy : OperationStrategy {
 }
 
 class MultiplicationOperationStrategy : OperationStrategy {
-    override fun execute(left: AST, right: AST, operator: Token): AST {
+    override fun execute(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST {
         return ProductNode(
             left as ExpressionNode,
             right as ExpressionNode,
@@ -44,7 +67,11 @@ class MultiplicationOperationStrategy : OperationStrategy {
 }
 
 class DivisionOperationStrategy : OperationStrategy {
-    override fun execute(left: AST, right: AST, operator: Token): AST {
+    override fun execute(
+        left: AST,
+        right: AST,
+        operator: Token,
+    ): AST {
         return DivisionNode(
             left as ExpressionNode,
             right as ExpressionNode,

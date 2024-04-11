@@ -1,6 +1,19 @@
 package parser.factory
 
-import parser.*
+import parser.AssignationParser
+import parser.ExpressionParser
+import parser.ExpressionParserV2
+import parser.ExpressionParserV3
+import parser.IdentifierParser
+import parser.NumberParser
+import parser.NumberParserClass
+import parser.Parser
+import parser.ParserClassRegistry
+import parser.PrintLnParser
+import parser.ProgramParser
+import parser.StringParser
+import parser.SumParserClass
+import parser.VariableDeclarationParser
 import token.TokenType
 
 /**

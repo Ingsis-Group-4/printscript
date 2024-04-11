@@ -2,10 +2,10 @@ package parser
 
 import ast.AST
 import parser.factory.OperationStrategyFactory
-import parser.utils.OperatorProvider
 import parser.factory.TokenHandlerFactory
 import parser.result.ParserResult
 import parser.result.SuccessResult
+import parser.utils.OperatorProvider
 import parser.utils.at
 import parser.utils.isOutOfBounds
 import parser.utils.nextIndex
@@ -32,9 +32,10 @@ class ExpressionParserV3(
         var lastIndex = leftResult.lastValidatedIndex
         var currentOperatorIndex = nextIndex(lastIndex)
 
-        while (!isOutOfBounds(tokens, currentOperatorIndex) && OperatorProvider.isPrimaryOperator(
+        while (!isOutOfBounds(tokens, currentOperatorIndex) &&
+            OperatorProvider.isPrimaryOperator(
                 tokens,
-                currentOperatorIndex
+                currentOperatorIndex,
             )
         ) {
             val operator = at(tokens, currentOperatorIndex)
@@ -61,9 +62,10 @@ class ExpressionParserV3(
 
         var currentOperatorIndex = nextIndex(lastIndex)
 
-        while (!isOutOfBounds(tokens, currentOperatorIndex) && OperatorProvider.isTermOperator(
+        while (!isOutOfBounds(tokens, currentOperatorIndex) &&
+            OperatorProvider.isTermOperator(
                 tokens,
-                currentOperatorIndex
+                currentOperatorIndex,
             )
         ) {
             val operator = at(tokens, currentOperatorIndex)
@@ -89,7 +91,6 @@ class ExpressionParserV3(
         val astNode = handler.handleToken(tokens, currentIndex)
         return SuccessResult(astNode, currentIndex)
     }
-
 
     private fun buildOperationNode(
         left: AST,
