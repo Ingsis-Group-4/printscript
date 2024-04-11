@@ -1,7 +1,6 @@
 package cli.function
 
 import cli.util.generateAST
-import interpreter.ProgramInterpreter
 import lexer.Lexer
 import lexer.getTokenMap
 import logger.ConsoleLogger
@@ -10,25 +9,19 @@ import parser.Parser
 import parser.factory.ProgramParserFactory
 
 /**
- * Interprets the given source code.
+ * Builds the AST and throws error if the result is failure. Otherwise, logs the success message.
  *
  * @param lexer The lexer to use.
  * @param parser The parser to use.
- * @param logger The logger to use.
  */
-class Interpret(
+class Verify(
     private val lexer: Lexer = Lexer(getTokenMap()),
     private val parser: Parser = ProgramParserFactory.create(),
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
-        // Generate the AST from the source code
-        val ast = generateAST(lexer, parser, args)
+        generateAST(lexer, parser, args)
 
-        // Interpret the AST
-        val result = ProgramInterpreter().interpret(ast)
-        for (log in result.logs) {
-            logger.log(log)
-        }
+        logger.log("Verification successful!")
     }
 }

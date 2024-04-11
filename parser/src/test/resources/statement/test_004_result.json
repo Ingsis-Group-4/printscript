@@ -1,0 +1,74 @@
+{
+  "identifier": {
+    "variableName": "x",
+    "variableType": "NUMBER",
+    "start": {
+      "line": 1,
+      "column": 5
+    },
+    "end": {
+      "line": 1,
+      "column": 13
+    }
+  },
+  "expression": {
+    "value": 5.0,
+    "start": {
+      "line": 1,
+      "column": 17
+    },
+    "end": {
+      "line": 1,
+      "column": 17
+    }
+  },
+  "keywordNode": {
+    "start": {
+      "line": 1,
+      "column": 1
+    },
+    "end": {
+      "line": 1,
+      "column": 3
+    }
+  },
+  "colonNode": {
+    "start": {
+      "line": 1,
+      "column": 6
+    },
+    "end": {
+      "line": 1,
+      "column": 6
+    }
+  },
+  "typeNode": {
+    "variableType": "NUMBER",
+    "start": {
+      "line": 1,
+      "column": 8
+    },
+    "end": {
+      "line": 1,
+      "column": 13
+    }
+  },
+  "equalsNode": {
+    "start": {
+      "line": 1,
+      "column": 15
+    },
+    "end": {
+      "line": 1,
+      "column": 15
+    }
+  },
+  "start": {
+    "line": 1,
+    "column": 1
+  },
+  "end": {
+    "line": 1,
+    "column": 18
+  }
+}
