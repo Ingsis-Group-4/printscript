@@ -11,7 +11,7 @@ import parser.utils.isOutOfBounds
 import parser.utils.nextIndex
 import token.Token
 
-class ExpressionParserV3(
+class ExpressionParser(
     private val strategyFactory: OperationStrategyFactory,
     private val tokenHandlerFactory: TokenHandlerFactory,
 ) : Parser {
@@ -88,8 +88,8 @@ class ExpressionParserV3(
     ): SuccessResult {
         val currentToken = at(tokens, currentIndex)
         val handler = tokenHandlerFactory.getHandler(currentToken.type, this)
-        val astNode = handler.handleToken(tokens, currentIndex)
-        return SuccessResult(astNode, currentIndex)
+        val handlerResult = handler.handleToken(tokens, currentIndex)
+        return handlerResult
     }
 
     private fun buildOperationNode(

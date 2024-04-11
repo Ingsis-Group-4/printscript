@@ -5,6 +5,7 @@ import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
 import org.junit.jupiter.api.Test
+import parser.factory.ExpressionParserFactory
 import parser.result.SuccessResult
 import position.Position
 import token.Token
@@ -13,7 +14,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class MathExpressionTest {
-    private val expressionParser = ExpressionParser()
+    private val expressionParser = ExpressionParserFactory.create()
 
     @Test
     fun test_2() {

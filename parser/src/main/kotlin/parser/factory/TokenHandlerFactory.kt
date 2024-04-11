@@ -1,6 +1,6 @@
 package parser.factory
 
-import parser.ExpressionParserV3
+import parser.ExpressionParser
 import parser.strategy.IdentifierTokenHandler
 import parser.strategy.NumberTokenHandler
 import parser.strategy.ParenthesisTokenHandler
@@ -11,14 +11,14 @@ import token.TokenType
 interface TokenHandlerFactory {
     fun getHandler(
         tokenType: TokenType,
-        parser: ExpressionParserV3,
+        parser: ExpressionParser,
     ): TokenHandler
 }
 
 object DefaultTokenHandlerFactory : TokenHandlerFactory {
     override fun getHandler(
         tokenType: TokenType,
-        parser: ExpressionParserV3,
+        parser: ExpressionParser,
     ): TokenHandler {
         return when (tokenType) {
             TokenType.IDENTIFIER -> IdentifierTokenHandler()

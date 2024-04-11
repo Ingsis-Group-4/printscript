@@ -12,8 +12,7 @@ import ast.SubtractionNode
 import ast.SumNode
 import ast.VariableDeclarationNode
 import parser.factory.AssignationParserFactory
-import parser.factory.ExpressionParserFactoryV3
-import parser.factory.ExpressionParserV2Factory
+import parser.factory.ExpressionParserFactory
 import parser.factory.PrintLnParserFactory
 import parser.factory.ProgramParserFactory
 import parser.factory.VariableDeclarationParserFactory
@@ -316,7 +315,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithNumberLiteral() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -336,7 +335,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithStringLiteral() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -356,7 +355,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithIdentifier() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -376,7 +375,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithSum() {
-        val parser = ExpressionParserV2Factory.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -409,7 +408,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithSubtraction() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -442,7 +441,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithMultiplication() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -475,7 +474,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithDivision() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -508,7 +507,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithSumBetweenNumberAndIdentifier() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -541,7 +540,7 @@ class ParserTest {
 
     @Test
     fun testExpressionParserWithTwoSumsInOneStatement() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(
@@ -589,7 +588,7 @@ class ParserTest {
     @Ignore
     @Test
     fun testExpressionParserWithMultiplicationAndParenthesis() {
-        val parser = ExpressionParserFactoryV3.create()
+        val parser = ExpressionParserFactory.create()
         val input =
             listOf(
                 Token(

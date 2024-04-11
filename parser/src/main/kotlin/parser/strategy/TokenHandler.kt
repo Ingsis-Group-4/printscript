@@ -1,9 +1,8 @@
 package parser.strategy
 
-import ast.AST
 import ast.IdentifierNode
 import ast.LiteralNode
-import parser.ExpressionParserV3
+import parser.ExpressionParser
 import parser.result.SuccessResult
 import parser.utils.at
 import parser.utils.isTokenValid
@@ -15,19 +14,22 @@ interface TokenHandler {
     fun handleToken(
         tokens: List<Token>,
         currentIndex: Int,
-    ): AST
+    ): SuccessResult
 }
 
 class IdentifierTokenHandler : TokenHandler {
     override fun handleToken(
         tokens: List<Token>,
         currentIndex: Int,
-    ): AST {
+    ): SuccessResult {
         val currentToken = at(tokens, currentIndex)
-        return IdentifierNode(
-            currentToken.value,
-            start = currentToken.start,
-            end = currentToken.end,
+        return SuccessResult(
+            IdentifierNode(
+                currentToken.value,
+                start = currentToken.start,
+                end = currentToken.end,
+            ),
+            currentIndex,
         )
     }
 }
@@ -36,12 +38,15 @@ class NumberTokenHandler : TokenHandler {
     override fun handleToken(
         tokens: List<Token>,
         currentIndex: Int,
-    ): AST {
+    ): SuccessResult {
         val currentToken = at(tokens, currentIndex)
-        return LiteralNode(
-            currentToken.value.toDouble(),
-            start = currentToken.start,
-            end = currentToken.end,
+        return SuccessResult(
+            LiteralNode(
+                currentToken.value.toDouble(),
+                start = currentToken.start,
+                end = currentToken.end,
+            ),
+            currentIndex,
         )
     }
 }
@@ -50,21 +55,24 @@ class StringTokenHandler : TokenHandler {
     override fun handleToken(
         tokens: List<Token>,
         currentIndex: Int,
-    ): AST {
+    ): SuccessResult {
         val currentToken = at(tokens, currentIndex)
-        return LiteralNode(
-            currentToken.value,
-            start = currentToken.start,
-            end = currentToken.end,
+        return SuccessResult(
+            LiteralNode(
+                currentToken.value,
+                start = currentToken.start,
+                end = currentToken.end,
+            ),
+            currentIndex,
         )
     }
 }
 
-class ParenthesisTokenHandler(private val parser: ExpressionParserV3) : TokenHandler {
+class ParenthesisTokenHandler(private val parser: ExpressionParser) : TokenHandler {
     override fun handleToken(
         tokens: List<Token>,
         currentIndex: Int,
-    ): AST {
+    ): SuccessResult {
         val currentToken = at(tokens, currentIndex)
         val expressionResult = parser.parse(tokens, nextIndex(currentIndex))
         val expression =
@@ -79,7 +87,7 @@ class ParenthesisTokenHandler(private val parser: ExpressionParserV3) : TokenHan
             throw Exception("Expected a right parenthesis")
         }
 
-        return expression
+        return SuccessResult(expression, rightParenIndex)
     }
 }
 

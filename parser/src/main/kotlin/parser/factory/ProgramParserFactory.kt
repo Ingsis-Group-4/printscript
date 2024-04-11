@@ -2,17 +2,9 @@ package parser.factory
 
 import parser.AssignationParser
 import parser.ExpressionParser
-import parser.ExpressionParserV2
-import parser.ExpressionParserV3
-import parser.IdentifierParser
-import parser.NumberParser
-import parser.NumberParserClass
 import parser.Parser
-import parser.ParserClassRegistry
 import parser.PrintLnParser
 import parser.ProgramParser
-import parser.StringParser
-import parser.SumParserClass
 import parser.VariableDeclarationParser
 import token.TokenType
 
@@ -88,49 +80,10 @@ object AssignationParserFactory : ParserFactory {
  */
 object ExpressionParserFactory : ParserFactory {
     override fun create(): Parser {
-        return ExpressionParser()
-    }
-}
-
-/**
- * Factory to create a parser for strings.
- * This factory creates a parser that can parse strings in the code.
- */
-object StringParserFactory : ParserFactory {
-    /**
-     * Creates a StringParser.
-     * @return a new StringParser instance.
-     */
-    override fun create(): Parser {
-        return StringParser()
-    }
-}
-
-/**
- * Factory to create a parser for identifiers.
- * This factory creates a parser that can parse identifiers in the code.
- */
-object IdentifierParserFactory : ParserFactory {
-    /**
-     * Creates an IdentifierParser.
-     * @return a new IdentifierParser instance.
-     */
-    override fun create(): Parser {
-        return IdentifierParser()
-    }
-}
-
-/**
- * Factory to create a parser for numbers.
- * This factory creates a parser that can parse numbers in the code.
- */
-object NumberParserFactory : ParserFactory {
-    /**
-     * Creates a NumberParser.
-     * @return a new NumberParser instance.
-     */
-    override fun create(): Parser {
-        return NumberParser()
+        return ExpressionParser(
+            DefaultOperationStrategyFactory,
+            DefaultTokenHandlerFactory,
+        )
     }
 }
 
@@ -150,30 +103,5 @@ object PrintLnParserFactory : ParserFactory {
 
     override fun create(): Parser {
         return PrintLnParser(parserSelector)
-    }
-}
-
-object ExpressionParserV2Factory : ParserFactory {
-    override fun create(): Parser {
-        val sumParserClass = SumParserClass
-        val numberParserClass = NumberParserClass
-
-        // Register the ParserClass instances
-        ParserClassRegistry.register(sumParserClass)
-        ParserClassRegistry.register(numberParserClass)
-
-        // Retrieve all registered ParserClass instances
-        val parserClasses = ParserClassRegistry.getParserClasses()
-        val baseParser = ExpressionParserV2(parserClasses) // Aquí debes proporcionar una instancia de Parser
-        return baseParser
-    }
-}
-
-object ExpressionParserFactoryV3 : ParserFactory {
-    override fun create(): Parser {
-        return ExpressionParserV3(
-            DefaultOperationStrategyFactory,
-            DefaultTokenHandlerFactory,
-        )
     }
 }
