@@ -28,6 +28,9 @@ class ProgramInterpreter : Interpreter {
                     logs.addAll(interpretOutput.logs)
                     currentEnv = interpretOutput.environment
                 }
+                else -> throw Exception(
+                    "Unknown statement at (line: ${statement.getStart().line} column: ${statement.getStart().column})",
+                )
             }
         }
 

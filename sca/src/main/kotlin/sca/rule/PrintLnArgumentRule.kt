@@ -58,12 +58,14 @@ class PrintLnArgumentRule : Rule {
             is AssignationNode -> RuleSuccess
             is DeclarationNode -> RuleSuccess
             is FunctionStatementNode -> checkFunctionStatementNode(ast)
+            else -> RuleFailures(emptyList())
         }
     }
 
     private fun checkFunctionStatementNode(node: FunctionStatementNode): RuleResult {
         return when (val functionNode = node.getFunctionNode()) {
             is PrintLnNode -> checkPrintlnExpression(functionNode)
+            else -> RuleFailures(emptyList())
         }
     }
 
