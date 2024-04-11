@@ -22,7 +22,7 @@ class SumParser(private val baseParser: Parser) : Parser {
                 val leftTokens = tokens.subList(currentIndex, i)
                 val rightTokens = tokens.subList(i + 1, tokens.size)
                 val left = baseParser.parse(leftTokens, currentIndex)
-                val right = baseParser.parse(rightTokens, i + 1)
+                val right = baseParser.parse(rightTokens, currentIndex)
                 if (left is SuccessResult && right is SuccessResult) {
                     return SuccessResult(
                         SumNode(

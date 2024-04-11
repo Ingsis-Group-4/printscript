@@ -8,7 +8,7 @@ import parser.utils.at
 import token.Token
 import token.TokenType
 
-class NumberParser : Parser {
+class NumberParser() : Parser {
     override fun parse(
         tokens: List<Token>,
         currentIndex: Int,

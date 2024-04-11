@@ -21,3 +21,9 @@ object SumParserClass : ParserClass {
         return SumParser(baseParser)
     }
 }
+
+object NumberParserClass : ParserClass {
+    override fun create(baseParser: Parser): Parser {
+        return NumberParser()
+    }
+}

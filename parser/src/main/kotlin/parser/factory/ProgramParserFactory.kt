@@ -1,17 +1,6 @@
 package parser.factory
 
-import parser.AssignationParser
-import parser.ExpressionParser
-import parser.ExpressionParserV2
-import parser.IdentifierParser
-import parser.NumberParser
-import parser.Parser
-import parser.ParserClassRegistry
-import parser.PrintLnParser
-import parser.ProgramParser
-import parser.StringParser
-import parser.SumParserClass
-import parser.VariableDeclarationParser
+import parser.*
 import token.TokenType
 
 /**
@@ -154,13 +143,24 @@ object PrintLnParserFactory : ParserFactory {
 object ExpressionParserV2Factory : ParserFactory {
     override fun create(): Parser {
         val sumParserClass = SumParserClass
+        val numberParserClass = NumberParserClass
 
         // Register the ParserClass instances
         ParserClassRegistry.register(sumParserClass)
+        ParserClassRegistry.register(numberParserClass)
 
         // Retrieve all registered ParserClass instances
         val parserClasses = ParserClassRegistry.getParserClasses()
         val baseParser = ExpressionParserV2(parserClasses) // Aquí debes proporcionar una instancia de Parser
         return baseParser
+    }
+}
+
+object ExpressionParserFactoryV3 : ParserFactory {
+    override fun create(): Parser {
+        return ExpressionParserV3(
+            DefaultOperationStrategyFactory,
+            DefaultTokenHandlerFactory,
+        )
     }
 }
