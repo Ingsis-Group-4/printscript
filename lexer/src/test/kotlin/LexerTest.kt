@@ -417,6 +417,17 @@ class LexerTest {
     }
 
     @Test
+    fun testReadEnv(){
+        val input = "readEnv"
+        val expected =
+            listOf(
+                Token(TokenType.READENV, Position(1, 1), Position(1, 7), "readEnv"),
+            )
+        val result = lexerSecondVersion.lex(input)
+        assertEquals(expected, result)
+    }
+
+    @Test
     fun testOpenCurlyBrackets() {
         val input = "{"
         val expected =

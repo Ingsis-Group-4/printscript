@@ -6,6 +6,7 @@ enum class TokenType() {
     CONST,
     PRINTLN,
     READINPUT,
+    READENV,
     IF,
     ELSE,
     NUMBERTYPE,

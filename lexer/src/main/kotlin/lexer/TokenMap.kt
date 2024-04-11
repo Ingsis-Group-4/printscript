@@ -10,7 +10,7 @@ fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMa
 
     // KEYWORDS
     tokenMap[TokenType.LET] = TokenMatcher(TokenType.LET, "\\blet\\b")
-    tokenMap[TokenType.PRINTLN] = TokenMatcher(TokenType.PRINTLN, "\\bprintln\\b")
+    tokenMap[TokenType.PRINTLN] = TokenMatcher(TokenType.PRINTLN, "\\bprintln")
 
     // TYPES
     tokenMap[TokenType.STRINGTYPE] = TokenMatcher(TokenType.STRINGTYPE, "String")
@@ -47,7 +47,8 @@ fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMa
             tokenMap[TokenType.BOOLEANTYPE] = TokenMatcher(TokenType.BOOLEANTYPE, "Boolean")
             tokenMap[TokenType.IF] = TokenMatcher(TokenType.IF, "\\bif\\b")
             tokenMap[TokenType.ELSE] = TokenMatcher(TokenType.ELSE, "\\belse\\b")
-            tokenMap[TokenType.READINPUT] = TokenMatcher(TokenType.READINPUT, "\\breadInput\\b")
+            tokenMap[TokenType.READINPUT] = TokenMatcher(TokenType.READINPUT, "\\breadInput")
+            tokenMap[TokenType.READENV] = TokenMatcher(TokenType.READENV, "\\breadEnv")
 
             // TYPES
             tokenMap[TokenType.BOOLEAN] = TokenMatcher(TokenType.BOOLEAN, "(?:true|false)")
