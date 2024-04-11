@@ -1,6 +1,10 @@
 package parser.strategy
 
-import ast.*
+import ast.AST
+import ast.BinaryOperation
+import ast.ExpressionNode
+import ast.OperatorNode
+import ast.OperatorType
 import token.Token
 
 interface OperationStrategy {

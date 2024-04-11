@@ -1,6 +1,12 @@
 package interpreter.expression
 
-import ast.*
+import ast.BinaryOperation
+import ast.DivisionNode
+import ast.OperationNode
+import ast.OperatorType
+import ast.ProductNode
+import ast.SubtractionNode
+import ast.SumNode
 import interpreter.Environment
 import interpreter.NumberValue
 import interpreter.StringValue
@@ -84,8 +90,9 @@ class OperationInterpreter() {
                             throw Exception("Operands must be numbers")
                         }
                     }
-                else -> throw Exception("Unsupported binary operation at (line: ${node.getStart().line} column: ${node.getStart().column})")
-
+                    else -> throw Exception(
+                        "Unsupported binary operation at (line: ${node.getStart().line} column: ${node.getStart().column})",
+                    )
                 }
             }
         }

@@ -15,7 +15,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 @Disabled("Ignorando todos los tests en esta clase")
-
 class MathExpressionTest {
     private val expressionParser = ExpressionParserFactory.create()
 

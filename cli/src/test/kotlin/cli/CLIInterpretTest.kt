@@ -2,7 +2,6 @@ package cli
 
 import cli.function.Interpret
 import util.CollectorLogger
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -64,7 +63,6 @@ class CLIInterpretTest {
         assertEquals("5.0", logs[0])
     }
 
-    
     @Test
     fun testInterpretWithPrintlnWithSum() {
         val collectorLogger = CollectorLogger()
