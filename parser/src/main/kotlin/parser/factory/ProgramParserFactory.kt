@@ -2,13 +2,10 @@ package parser.factory
 
 import parser.AssignationParser
 import parser.ExpressionParser
-import parser.IdentifierParser
-import parser.NumberParser
 import parser.Parser
 import parser.PrintLnParser
 import parser.ProgramParser
 import parser.StatementParser
-import parser.StringParser
 import parser.VariableDeclarationParser
 import token.TokenType
 
@@ -100,49 +97,10 @@ object AssignationParserFactory : ParserFactory {
  */
 object ExpressionParserFactory : ParserFactory {
     override fun create(): Parser {
-        return ExpressionParser()
-    }
-}
-
-/**
- * Factory to create a parser for strings.
- * This factory creates a parser that can parse strings in the code.
- */
-object StringParserFactory : ParserFactory {
-    /**
-     * Creates a StringParser.
-     * @return a new StringParser instance.
-     */
-    override fun create(): Parser {
-        return StringParser()
-    }
-}
-
-/**
- * Factory to create a parser for identifiers.
- * This factory creates a parser that can parse identifiers in the code.
- */
-object IdentifierParserFactory : ParserFactory {
-    /**
-     * Creates an IdentifierParser.
-     * @return a new IdentifierParser instance.
-     */
-    override fun create(): Parser {
-        return IdentifierParser()
-    }
-}
-
-/**
- * Factory to create a parser for numbers.
- * This factory creates a parser that can parse numbers in the code.
- */
-object NumberParserFactory : ParserFactory {
-    /**
-     * Creates a NumberParser.
-     * @return a new NumberParser instance.
-     */
-    override fun create(): Parser {
-        return NumberParser()
+        return ExpressionParser(
+            DefaultOperationStrategyFactory,
+            DefaultTokenHandlerFactory,
+        )
     }
 }
 

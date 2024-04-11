@@ -1,7 +1,9 @@
 package interpreter.expression
 
+import ast.BinaryOperation
 import ast.DivisionNode
 import ast.OperationNode
+import ast.OperatorType
 import ast.ProductNode
 import ast.SubtractionNode
 import ast.SumNode
@@ -53,6 +55,44 @@ class OperationInterpreter() {
                     return NumberValue(left.value / right.value)
                 } else {
                     throw Exception("Operands must be numbers")
+                }
+            }
+
+            is BinaryOperation -> {
+                val left = ExpressionInterpreter().interpret(node.getLeft(), environment)
+                val right = ExpressionInterpreter().interpret(node.getRight(), environment)
+                return when (node.getOperator().getType()) {
+                    OperatorType.SUM -> {
+                        when {
+                            left is NumberValue && right is NumberValue -> NumberValue(left.value + right.value)
+                            left is StringValue && right is StringValue -> StringValue(left.value + right.value)
+                            else -> throw Exception("Operands must be both numbers or both strings")
+                        }
+                    }
+                    OperatorType.SUBTRACT -> {
+                        if (left is NumberValue && right is NumberValue) {
+                            return NumberValue(left.value - right.value)
+                        } else {
+                            throw Exception("Operands must be numbers")
+                        }
+                    }
+                    OperatorType.MULTIPLICATION -> {
+                        if (left is NumberValue && right is NumberValue) {
+                            return NumberValue(left.value * right.value)
+                        } else {
+                            throw Exception("Operands must be numbers")
+                        }
+                    }
+                    OperatorType.DIVISION -> {
+                        if (left is NumberValue && right is NumberValue) {
+                            return NumberValue(left.value / right.value)
+                        } else {
+                            throw Exception("Operands must be numbers")
+                        }
+                    }
+                    else -> throw Exception(
+                        "Unsupported binary operation at (line: ${node.getStart().line} column: ${node.getStart().column})",
+                    )
                 }
             }
         }
