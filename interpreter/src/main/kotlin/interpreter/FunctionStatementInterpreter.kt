@@ -16,6 +16,7 @@ class FunctionStatementInterpreter : Interpreter {
                 val value = ExpressionInterpreter().interpret(function.getExpression(), environment)
                 return InterpretOutput(environment, listOf(value.toString()))
             }
+            else -> throw Exception("Unknown function at (line: ${node.getStart().line} column: ${node.getStart().column})")
         }
     }
 
