@@ -1,6 +1,7 @@
 package formatter
 
 import ast.AST
+import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
 class LiteralNodeFormatter : Formatter {
@@ -10,6 +11,12 @@ class LiteralNodeFormatter : Formatter {
         formatterMap: Map<KClass<out AST>, Formatter>,
     ): String {
         val literalNode = node as ast.LiteralNode<*>
-        return literalNode.value.toString()
+        when (literalNode.value) {
+            is Double -> {
+                val value = (literalNode.value as Double).roundToInt()
+                return value.toString()
+            }
+            else -> return literalNode.value.toString()
+        }
     }
 }

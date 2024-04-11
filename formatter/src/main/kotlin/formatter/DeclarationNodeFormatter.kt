@@ -2,6 +2,7 @@ package formatter
 
 import ast.AST
 import ast.KeywordNode
+import java.util.Locale
 import kotlin.reflect.KClass
 
 class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNode>, String>) : Formatter {
@@ -16,6 +17,7 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
             append(" ")
             append(declarationNode.identifier.variableName)
             append(if (rule.hasSpaceBetweenColon) " : " else ":")
+            append(humanize(declarationNode.typeNode.variableType.name))
             declarationNode.equalsNode?.let {
                 append(if (rule.hasSpaceBetweenEqualSign) " = " else "=")
                 append(
@@ -25,4 +27,8 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
             }
         }
     }
+}
+
+private fun humanize(input: String): String {
+    return input.substring(0, 1).uppercase(Locale.getDefault()) + input.substring(1).lowercase(Locale.getDefault())
 }

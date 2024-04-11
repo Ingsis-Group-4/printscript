@@ -4,6 +4,7 @@ import ast.AST
 import ast.AssignationNode
 import ast.BinaryOperation
 import ast.DeclarationNode
+import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.KeywordNode
 import ast.LetNode
@@ -14,6 +15,7 @@ import formatter.AssignationNodeFormatter
 import formatter.BinaryOperationNodeFormatter
 import formatter.DeclarationNodeFormatter
 import formatter.Formatter
+import formatter.FunctionStatementNodeFormatter
 import formatter.IdentifierNodeFormatter
 import formatter.LiteralNodeFormatter
 import formatter.PrintLnNodeFormatter
@@ -34,6 +36,7 @@ class FormatterMapFactory {
             BinaryOperation::class to BinaryOperationNodeFormatter(),
             UnaryOperation::class to UnaryOperationNodeFormatter(),
             PrintLnNode::class to PrintLnNodeFormatter(),
+            FunctionStatementNode::class to FunctionStatementNodeFormatter(),
         )
     }
 }
