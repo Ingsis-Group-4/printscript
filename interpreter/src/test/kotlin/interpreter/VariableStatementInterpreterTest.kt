@@ -1,5 +1,4 @@
 package interpreter
-
 import ast.AssignationNode
 import ast.ColonNode
 import ast.DeclarationNode
@@ -13,6 +12,7 @@ import ast.SumNode
 import ast.VariableType
 import ast.VariableTypeNode
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import position.Position
 import kotlin.test.assertEquals
 
@@ -135,5 +135,22 @@ class VariableStatementInterpreterTest {
         assertEquals(0, result.logs.size)
         assert(result.environment.getVariable("x") is NumberValue)
         assertEquals(30.0, (result.environment.getVariable("x") as NumberValue).value)
+    }
+
+    @Test
+    fun testVariableReAssignationWithConstVariable() {
+        var environment = Environment()
+        environment = environment.createVariable("x", NumberValue(10.0), VariableType.NUMBER, false)
+        val input =
+            AssignationNode(
+                IdentifierNode("x", VariableType.NUMBER, Position(1, 1), Position(1, 2)),
+                LiteralNode(8.0, Position(1, 1), Position(1, 2)),
+                EqualsNode(Position(1, 1), Position(1, 2)),
+                Position(1, 1),
+                Position(1, 2),
+            )
+        val interpreter = VariableStatementInterpreter()
+        val exception = assertThrows<Exception> { interpreter.interpret(input, environment) }
+        assert(exception.message == "Variable x is not modifiable")
     }
 }

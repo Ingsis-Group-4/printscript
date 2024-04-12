@@ -2,6 +2,7 @@ package interpreter
 
 import ast.AST
 import ast.AssignationNode
+import ast.ConstNode
 import ast.DeclarationNode
 import ast.VariableStatementNode
 import interpreter.expression.ExpressionInterpreter
@@ -22,11 +23,13 @@ class VariableStatementInterpreter :
             is DeclarationNode -> {
                 if (node.expression != null) {
                     val value = ExpressionInterpreter().interpret(node.expression!!, environment)
+                    val isModifiable = node.keywordNode !is ConstNode
                     val updatedEnv =
                         environment.createVariable(
                             node.identifier.variableName,
                             value,
                             node.identifier.variableType,
+                            isModifiable,
                         )
                     return InterpretOutput(updatedEnv, listOf())
                 } else {
