@@ -40,7 +40,7 @@ fun generateBufferedAST(
 /**
  * Gets the file path from the command line arguments.
  */
-private fun getFilePath(args: Map<String, String>): String {
+fun getFilePath(args: Map<String, String>): String {
     return args["-f"] ?: throw IllegalArgumentException("No program file path provided")
 }
 
