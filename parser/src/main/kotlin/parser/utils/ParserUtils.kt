@@ -131,5 +131,5 @@ fun consume(
         return currentIndex + 1
     }
 
-    throw ParserException("Expected $expected statement at ${at(tokens, currentIndex).start}")
+    throw ParserException("Expected $expected token at ${at(tokens, currentIndex).start}")
 }

@@ -1,0 +1,21 @@
+{
+  "start": {
+    "line": 1,
+    "column": 1
+  },
+  "end": {
+    "line": 1,
+    "column": 20
+  },
+  "expression": {
+    "value": "\"Hello: \"",
+    "start": {
+      "line": 1,
+      "column": 11
+    },
+    "end": {
+      "line": 1,
+      "column": 19
+    }
+  }
+}

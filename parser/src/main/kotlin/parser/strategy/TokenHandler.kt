@@ -2,9 +2,12 @@ package parser.strategy
 
 import ast.IdentifierNode
 import ast.LiteralNode
+import ast.ReadInputNode
 import parser.ExpressionParser
+import parser.exception.ParserException
 import parser.result.SuccessResult
 import parser.utils.at
+import parser.utils.consume
 import parser.utils.isTokenValid
 import parser.utils.nextIndex
 import token.Token
@@ -105,5 +108,37 @@ class ParenthesisTokenHandler(private val parser: ExpressionParser) : TokenHandl
         }
 
         return SuccessResult(expression, rightParenIndex)
+    }
+}
+
+class ReadInputHandler(
+    private val parser: ExpressionParser,
+) : TokenHandler {
+    override fun handleToken(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): SuccessResult {
+        val readInputIndex = currentIndex
+        val openParenIndex = consume(tokens, readInputIndex, TokenType.READINPUT)
+        val stringIndex = consume(tokens, openParenIndex, TokenType.OPENPARENTHESIS)
+        val closeParenIndex = consume(tokens, stringIndex, TokenType.STRING)
+
+        val parsedString = parser.parse(tokens, stringIndex) as SuccessResult
+
+        val readInputToken = at(tokens, readInputIndex)
+        val closeParenToken = at(tokens, closeParenIndex)
+
+        when (val value = parsedString.value) {
+            is LiteralNode<*> ->
+                return SuccessResult(
+                    ReadInputNode(
+                        readInputToken.start,
+                        closeParenToken.end,
+                        value,
+                    ),
+                    closeParenIndex,
+                )
+            else -> throw ParserException("Expected String literal at position ${value.getStart()}")
+        }
     }
 }

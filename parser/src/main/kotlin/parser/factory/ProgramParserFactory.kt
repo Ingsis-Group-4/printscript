@@ -81,6 +81,7 @@ object VariableDeclarationParserFactory : ParserFactory {
         val parserSelectorV2: Map<TokenType, Parser> =
             mapOf(
                 TokenType.BOOLEAN to ExpressionParserFactory.create(version),
+                TokenType.READINPUT to ExpressionParserFactory.create(version),
             )
 
         if (version == Version.V2) {
@@ -116,6 +117,7 @@ object AssignationParserFactory : ParserFactory {
         val parserSelectorV2: Map<TokenType, Parser> =
             mapOf(
                 TokenType.BOOLEAN to ExpressionParserFactory.create(version),
+                TokenType.READINPUT to ExpressionParserFactory.create(version),
             )
 
         if (version == Version.V2) {
