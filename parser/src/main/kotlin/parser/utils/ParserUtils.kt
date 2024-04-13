@@ -1,10 +1,9 @@
 package parser.utils
 
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.FailureResult
 import parser.result.ParserResult
-import parser.result.SuccessResult
-import position.Position
 import token.Token
 import token.TokenType
 
@@ -123,36 +122,14 @@ fun isTokenValid(
     return at(tokens, tokenIndex).type == expectedType
 }
 
-/**
- * Parses an operation from the list of tokens.
- *
- * This function takes a list of tokens, the current index, a function to check if the right operator is valid,
- * a function to build the parser result, and a map of token types to parser instances.
- * It then parses the operation and returns the parser result.
- *
- * @param tokens List of tokens.
- * @param currentIndex Current index in the list of tokens.
- * @param isRightOperator Function to check if the right operator is valid.
- * @param buildParserResult Function to build the parser result.
- * @param parserSelector Map of token types to parser instances.
- * @return The parser result representing the parsed operation.
- */
-fun parseOperation(
+fun consume(
     tokens: List<Token>,
     currentIndex: Int,
-    isRightOperator: (List<Token>, Int) -> Boolean,
-    buildParserResult: (SuccessResult, SuccessResult, Position, Int) -> ParserResult,
-    parserSelector: Map<TokenType, Parser>,
-): ParserResult {
-    if (!isRightOperator(tokens, currentIndex)) {
-        return FailureResult("Invalid operation at position ${at(tokens, currentIndex).start}", currentIndex)
+    expected: TokenType,
+): Int {
+    if (isTokenValid(tokens, currentIndex, expected)) {
+        return currentIndex + 1
     }
-    val leftOperandIndex = prevIndex(currentIndex)
-    val leftOperand = getSyntaxSubtree(tokens, leftOperandIndex, parserSelector)
-    val rightOperandIndex = nextIndex(currentIndex)
-    val rightOperand = getSyntaxSubtree(tokens, rightOperandIndex, parserSelector)
-    if (leftOperand is SuccessResult && rightOperand is SuccessResult) {
-        return buildParserResult(leftOperand, rightOperand, at(tokens, currentIndex).start, rightOperand.lastValidatedIndex)
-    }
-    return FailureResult("Invalid operation at position ${at(tokens, currentIndex).start}", currentIndex)
+
+    throw ParserException("Expected $expected statement at ${at(tokens, currentIndex).start}")
 }
