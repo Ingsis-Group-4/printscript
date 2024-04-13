@@ -9,6 +9,7 @@ import ast.OperatorNode
 import ast.OperatorType
 import ast.PrintLnNode
 import ast.ProgramNode
+import ast.ReadInputNode
 import ast.SumNode
 import ast.VariableType
 import ast.VariableTypeNode
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test
 import position.Position
 import sca.StaticCodeAnalyzer
 import sca.rule.PrintLnArgumentRule
+import sca.rule.ReadInputArgumentRule
 import sca.rule.VariableNamingRule
 import kotlin.test.assertEquals
 
@@ -311,5 +313,36 @@ class StaticCodeAnalyzerTest {
         val failure = result[0]
 
         assertEquals(Position(2, 7), failure.position)
+    }
+
+    @Test
+    fun failingReadInputFailingTest() {
+        val sca =
+            StaticCodeAnalyzer(
+                listOf(ReadInputArgumentRule()),
+            )
+
+        // readInput(1);
+        val input =
+            FunctionStatementNode(
+                Position(1, 1),
+                Position(1, 12),
+                ReadInputNode(
+                    expression =
+                        ReadInputNode(
+                            start = Position(1, 10),
+                            end = Position(1, 12),
+                            expression = LiteralNode(1, start = Position(1, 10), end = Position(1, 10)),
+                        ),
+                    start = Position(1, 1),
+                    end = Position(1, 12),
+                ),
+            )
+
+        val result = sca.analyze(input).ruleFailures
+
+        assertEquals(1, result.size)
+        val failure = result[0]
+        assertEquals(Position(1, 10), failure.position)
     }
 }
