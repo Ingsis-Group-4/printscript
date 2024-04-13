@@ -11,16 +11,18 @@ import interpreter.Environment
 import interpreter.NumberValue
 import interpreter.StringValue
 import interpreter.Value
+import interpreter.readInputFunction.ReadInputFunction
 
 class OperationInterpreter() {
     fun interpret(
         node: OperationNode,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): Value {
         when (node) {
             is ProductNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler)
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler)
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(left.value * right.value)
                 } else {
@@ -29,8 +31,8 @@ class OperationInterpreter() {
             }
 
             is SumNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler)
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler)
                 return when {
                     left is NumberValue && right is NumberValue -> NumberValue(left.value + right.value)
                     left is StringValue && right is StringValue -> StringValue(left.value + right.value)
@@ -39,8 +41,8 @@ class OperationInterpreter() {
             }
 
             is SubtractionNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler)
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler)
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(left.value - right.value)
                 } else {
@@ -49,8 +51,8 @@ class OperationInterpreter() {
             }
 
             is DivisionNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler)
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler)
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(left.value / right.value)
                 } else {
@@ -59,8 +61,8 @@ class OperationInterpreter() {
             }
 
             is BinaryOperation -> {
-                val left = ExpressionInterpreter().interpret(node.getLeft(), environment)
-                val right = ExpressionInterpreter().interpret(node.getRight(), environment)
+                val left = ExpressionInterpreter().interpret(node.getLeft(), environment, inputHandler)
+                val right = ExpressionInterpreter().interpret(node.getRight(), environment, inputHandler)
                 return when (node.getOperator().getType()) {
                     OperatorType.SUM -> {
                         when {

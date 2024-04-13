@@ -5,15 +5,17 @@ import ast.IfStatement
 import ast.StatementNode
 import ast.VariableStatementNode
 import interpreter.expression.ExpressionInterpreter
+import interpreter.readInputFunction.ReadInputFunction
 
 class IfStatementInterpreter : Interpreter {
     override fun interpret(
         ast: AST,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): InterpretOutput {
         val node = getIfNodeOrThrow(ast)
 
-        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment)
+        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment, inputHandler)
 
         if (condition !is BooleanValue) {
             throw Exception("Condition must be a boolean value")

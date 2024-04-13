@@ -54,6 +54,15 @@ class Environment(
         return envElement.value
     }
 
+    fun getVariableType(name: String): VariableType {
+        val envElement =
+            variables.getOrElse(name) {
+                throw Exception("Variable $name does not exist")
+            }
+
+        return envElement.type
+    }
+
     private fun isOfType(
         value: Value,
         type: VariableType,
@@ -71,6 +80,7 @@ class Environment(
             }
 
             NullValue -> true
+            is InputValue -> type == VariableType.INPUT
         }
     }
 
