@@ -6,6 +6,6 @@ package ast
  * It's position starts at the beginning of the function call and ends at the end of it.
  */
 
-sealed interface FunctionNode : AST {
+sealed interface FunctionNode : ExpressionNode {
     fun getExpression(): ExpressionNode
 }
