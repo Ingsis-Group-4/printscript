@@ -82,6 +82,7 @@ object VariableDeclarationParserFactory : ParserFactory {
             mapOf(
                 TokenType.BOOLEAN to ExpressionParserFactory.create(version),
                 TokenType.READINPUT to ExpressionParserFactory.create(version),
+                TokenType.READENV to ExpressionParserFactory.create(version),
             )
 
         if (version == Version.V2) {
@@ -118,6 +119,7 @@ object AssignationParserFactory : ParserFactory {
             mapOf(
                 TokenType.BOOLEAN to ExpressionParserFactory.create(version),
                 TokenType.READINPUT to ExpressionParserFactory.create(version),
+                TokenType.READENV to ExpressionParserFactory.create(version),
             )
 
         if (version == Version.V2) {

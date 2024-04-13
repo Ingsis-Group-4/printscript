@@ -2,6 +2,7 @@ package parser.strategy
 
 import ast.IdentifierNode
 import ast.LiteralNode
+import ast.ReadEnvNode
 import ast.ReadInputNode
 import parser.ExpressionParser
 import parser.exception.ParserException
@@ -132,6 +133,38 @@ class ReadInputHandler(
             is LiteralNode<*> ->
                 return SuccessResult(
                     ReadInputNode(
+                        readInputToken.start,
+                        closeParenToken.end,
+                        value,
+                    ),
+                    closeParenIndex,
+                )
+            else -> throw ParserException("Expected String literal at position ${value.getStart()}")
+        }
+    }
+}
+
+class ReadEnvHandler(
+    private val parser: ExpressionParser,
+) : TokenHandler {
+    override fun handleToken(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): SuccessResult {
+        val readInputIndex = currentIndex
+        val openParenIndex = consume(tokens, readInputIndex, TokenType.READENV)
+        val stringIndex = consume(tokens, openParenIndex, TokenType.OPENPARENTHESIS)
+        val closeParenIndex = consume(tokens, stringIndex, TokenType.STRING)
+
+        val parsedString = parser.parse(tokens, stringIndex) as SuccessResult
+
+        val readInputToken = at(tokens, readInputIndex)
+        val closeParenToken = at(tokens, closeParenIndex)
+
+        when (val value = parsedString.value) {
+            is LiteralNode<*> ->
+                return SuccessResult(
+                    ReadEnvNode(
                         readInputToken.start,
                         closeParenToken.end,
                         value,

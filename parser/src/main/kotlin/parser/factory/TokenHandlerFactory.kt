@@ -5,6 +5,7 @@ import parser.strategy.BooleanTokenHandler
 import parser.strategy.IdentifierTokenHandler
 import parser.strategy.NumberTokenHandler
 import parser.strategy.ParenthesisTokenHandler
+import parser.strategy.ReadEnvHandler
 import parser.strategy.ReadInputHandler
 import parser.strategy.StringTokenHandler
 import parser.strategy.TokenHandler
@@ -44,6 +45,7 @@ object TokenHandlerFactoryV2 : TokenHandlerFactory {
             TokenType.BOOLEAN -> BooleanTokenHandler()
             TokenType.OPENPARENTHESIS -> ParenthesisTokenHandler(parser)
             TokenType.READINPUT -> ReadInputHandler(parser)
+            TokenType.READENV -> ReadEnvHandler(parser)
             else -> throw IllegalArgumentException("Unsupported token type: $tokenType")
         }
     }
