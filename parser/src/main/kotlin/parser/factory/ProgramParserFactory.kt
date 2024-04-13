@@ -9,6 +9,8 @@ import parser.StatementParser
 import parser.VariableDeclarationParser
 import parser.conditional.BlockParser
 import parser.conditional.IfStatementParser
+import parser.type.TypeProviderV1
+import parser.type.TypeProviderV2
 import token.TokenType
 import version.Version
 
@@ -68,18 +70,30 @@ object StatementParserFactory : ParserFactory {
  * Factory to create a parser for the variable declaration
  */
 object VariableDeclarationParserFactory : ParserFactory {
-    /**
-     * Selector for parsers based on token type
-     */
-    private val parserSelector: Map<TokenType, Parser> =
-        mapOf(
-            TokenType.IDENTIFIER to ExpressionParserFactory.create(),
-            TokenType.NUMBER to ExpressionParserFactory.create(),
-            TokenType.STRING to ExpressionParserFactory.create(),
-        )
-
     override fun create(version: Version): Parser {
-        return VariableDeclarationParser(parserSelector)
+        val parserSelectorV1: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.IDENTIFIER to ExpressionParserFactory.create(),
+                TokenType.NUMBER to ExpressionParserFactory.create(),
+                TokenType.STRING to ExpressionParserFactory.create(),
+            )
+
+        val parserSelectorV2: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.BOOLEAN to ExpressionParserFactory.create(version),
+            )
+
+        if (version == Version.V2) {
+            return VariableDeclarationParser(
+                parserSelectorV1 + parserSelectorV2,
+                TypeProviderV2,
+            )
+        }
+
+        return VariableDeclarationParser(
+            parserSelectorV1,
+            TypeProviderV1,
+        )
     }
 }
 
@@ -90,14 +104,24 @@ object AssignationParserFactory : ParserFactory {
     /**
      * Selector for parsers based on token type
      */
-    private val parserSelector: Map<TokenType, Parser> =
-        mapOf(
-            TokenType.IDENTIFIER to ExpressionParserFactory.create(),
-            TokenType.NUMBER to ExpressionParserFactory.create(),
-            TokenType.STRING to ExpressionParserFactory.create(),
-        )
 
     override fun create(version: Version): Parser {
+        val parserSelector: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.IDENTIFIER to ExpressionParserFactory.create(version),
+                TokenType.NUMBER to ExpressionParserFactory.create(version),
+                TokenType.STRING to ExpressionParserFactory.create(version),
+            )
+
+        val parserSelectorV2: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.BOOLEAN to ExpressionParserFactory.create(version),
+            )
+
+        if (version == Version.V2) {
+            return AssignationParser(parserSelector + parserSelectorV2)
+        }
+
         return AssignationParser(parserSelector)
     }
 }
@@ -107,9 +131,16 @@ object AssignationParserFactory : ParserFactory {
  */
 object ExpressionParserFactory : ParserFactory {
     override fun create(version: Version): Parser {
+        if (version == Version.V2) {
+            return ExpressionParser(
+                DefaultOperationStrategyFactory,
+                TokenHandlerFactoryV2,
+            )
+        }
+
         return ExpressionParser(
             DefaultOperationStrategyFactory,
-            DefaultTokenHandlerFactory,
+            TokenHandlerFactoryV1,
         )
     }
 }

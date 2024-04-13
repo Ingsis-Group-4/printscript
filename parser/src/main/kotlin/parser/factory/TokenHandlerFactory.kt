@@ -1,6 +1,7 @@
 package parser.factory
 
 import parser.ExpressionParser
+import parser.strategy.BooleanTokenHandler
 import parser.strategy.IdentifierTokenHandler
 import parser.strategy.NumberTokenHandler
 import parser.strategy.ParenthesisTokenHandler
@@ -15,7 +16,7 @@ interface TokenHandlerFactory {
     ): TokenHandler
 }
 
-object DefaultTokenHandlerFactory : TokenHandlerFactory {
+object TokenHandlerFactoryV1 : TokenHandlerFactory {
     override fun getHandler(
         tokenType: TokenType,
         parser: ExpressionParser,
@@ -25,7 +26,22 @@ object DefaultTokenHandlerFactory : TokenHandlerFactory {
             TokenType.NUMBER -> NumberTokenHandler()
             TokenType.STRING -> StringTokenHandler()
             TokenType.OPENPARENTHESIS -> ParenthesisTokenHandler(parser)
-            // Agrega casos para otros tipos de tokens si es necesario
+            else -> throw IllegalArgumentException("Unsupported token type: $tokenType")
+        }
+    }
+}
+
+object TokenHandlerFactoryV2 : TokenHandlerFactory {
+    override fun getHandler(
+        tokenType: TokenType,
+        parser: ExpressionParser,
+    ): TokenHandler {
+        return when (tokenType) {
+            TokenType.IDENTIFIER -> IdentifierTokenHandler()
+            TokenType.NUMBER -> NumberTokenHandler()
+            TokenType.STRING -> StringTokenHandler()
+            TokenType.BOOLEAN -> BooleanTokenHandler()
+            TokenType.OPENPARENTHESIS -> ParenthesisTokenHandler(parser)
             else -> throw IllegalArgumentException("Unsupported token type: $tokenType")
         }
     }

@@ -1,0 +1,42 @@
+{
+  "identifier": {
+    "variableName": "a",
+    "start": {
+      "line": 1,
+      "column": 1
+    },
+    "end": {
+      "line": 1,
+      "column": 1
+    }
+  },
+  "expression": {
+    "value": "true",
+    "start": {
+      "line": 1,
+      "column": 5
+    },
+    "end": {
+      "line": 1,
+      "column": 8
+    }
+  },
+  "equalsNode": {
+    "start": {
+      "line": 1,
+      "column": 3
+    },
+    "end": {
+      "line": 1,
+      "column": 3
+    }
+  },
+  "start": {
+    "line": 1,
+    "column": 1
+  },
+  "end": {
+    "line": 1,
+    "column": 9
+  }
+}

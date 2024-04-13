@@ -114,4 +114,55 @@ class StatementParserTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `test_007 assignation with true`() {
+        val code = "a = true;"
+        val tokens = lexerV2.lex(code)
+
+        val result = statementParserV2.parse(tokens, 0)
+
+        assertIs<SuccessResult>(result)
+
+        val ast = result.value
+
+        val expected = getJsonFromFile("src/test/resources/statement/test_007_result.json")
+        val actual = convertToJson(ast)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test_008 assignation with false`() {
+        val code = "a = false;"
+        val tokens = lexerV2.lex(code)
+
+        val result = statementParserV2.parse(tokens, 0)
+
+        assertIs<SuccessResult>(result)
+
+        val ast = result.value
+
+        val expected = getJsonFromFile("src/test/resources/statement/test_008_result.json")
+        val actual = convertToJson(ast)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test_009 variable declaration with true`() {
+        val code = "let a: Boolean = true;"
+        val tokens = lexerV2.lex(code)
+
+        val result = statementParserV2.parse(tokens, 0)
+
+        assertIs<SuccessResult>(result)
+
+        val ast = result.value
+
+        val expected = getJsonFromFile("src/test/resources/statement/test_009_result.json")
+        val actual = convertToJson(ast)
+
+        assertEquals(expected, actual)
+    }
 }

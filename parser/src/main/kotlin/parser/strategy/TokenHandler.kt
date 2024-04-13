@@ -68,6 +68,23 @@ class StringTokenHandler : TokenHandler {
     }
 }
 
+class BooleanTokenHandler : TokenHandler {
+    override fun handleToken(
+        tokens: List<Token>,
+        currentIndex: Int,
+    ): SuccessResult {
+        val currentToken = at(tokens, currentIndex)
+        return SuccessResult(
+            LiteralNode(
+                currentToken.value,
+                start = currentToken.start,
+                end = currentToken.end,
+            ),
+            currentIndex,
+        )
+    }
+}
+
 class ParenthesisTokenHandler(private val parser: ExpressionParser) : TokenHandler {
     override fun handleToken(
         tokens: List<Token>,
@@ -90,5 +107,3 @@ class ParenthesisTokenHandler(private val parser: ExpressionParser) : TokenHandl
         return SuccessResult(expression, rightParenIndex)
     }
 }
-
-// Agrega otras clases de manejo para diferentes tipos de tokens si es necesario

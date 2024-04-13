@@ -10,7 +10,8 @@ import ast.VariableTypeNode
 import parser.result.FailureResult
 import parser.result.ParserResult
 import parser.result.SuccessResult
-import parser.type.DefaultTypeProvider
+import parser.type.TypeProvider
+import parser.type.TypeProviderV1
 import parser.utils.at
 import parser.utils.getSyntaxSubtree
 import parser.utils.isEndOfStatement
@@ -20,7 +21,10 @@ import position.Position
 import token.Token
 import token.TokenType
 
-class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
+class VariableDeclarationParser(
+    private val parserSelector: Map<TokenType, Parser>,
+    private val typeProvider: TypeProvider = TypeProviderV1,
+) : Parser {
     override fun parse(
         tokens: List<Token>,
         currentIndex: Int,
@@ -71,7 +75,7 @@ class VariableDeclarationParser(private val parserSelector: Map<TokenType, Parse
         val typeIndex = nextIndex(currentIndex)
         val typeToken = at(tokens, typeIndex)
 
-        when (val type = DefaultTypeProvider.getType(typeToken.type)) {
+        when (val type = typeProvider.getType(typeToken.type)) {
             null -> return FailureResult("Invalid type at position $typeIndex", typeIndex)
             else -> {
                 val identifierNode =

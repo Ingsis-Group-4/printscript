@@ -21,11 +21,22 @@ interface TypeProvider {
  * This implementation handles predefined token types such as TokenType.NUMBERTYPE and TokenType.STRINGTYPE.
  * You can add more cases as needed to handle additional token types.
  */
-object DefaultTypeProvider : TypeProvider {
+object TypeProviderV1 : TypeProvider {
     override fun getType(tokenType: TokenType): VariableType? {
         return when (tokenType) {
             TokenType.NUMBERTYPE -> VariableType.NUMBER
             TokenType.STRINGTYPE -> VariableType.STRING
+            else -> null
+        }
+    }
+}
+
+object TypeProviderV2 : TypeProvider {
+    override fun getType(tokenType: TokenType): VariableType? {
+        return when (tokenType) {
+            TokenType.NUMBERTYPE -> VariableType.NUMBER
+            TokenType.STRINGTYPE -> VariableType.STRING
+            TokenType.BOOLEANTYPE -> VariableType.BOOLEAN
             else -> null
         }
     }
