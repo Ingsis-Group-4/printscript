@@ -7,11 +7,13 @@ import ast.DivisionNode
 import ast.FunctionStatementNode
 import ast.IdentifierNode
 import ast.LiteralNode
+import ast.OperatorType
 import ast.ProductNode
 import ast.ProgramNode
 import ast.StatementNode
 import ast.SubtractionNode
 import ast.SumNode
+import ast.UnaryOperation
 import parser.factory.AssignationParserFactory
 import parser.factory.ExpressionParserFactory
 import parser.factory.PrintLnParserFactory
@@ -712,5 +714,120 @@ class ParserTest {
         assertIs<DeclarationNode>(result.value)
         assertEquals("a", (result.value as DeclarationNode).identifier.variableName)
         assertIs<LiteralNode<Number>>((result.value as DeclarationNode).expression)
+    }
+
+    @Test
+    fun testNegativeNumber() {
+        val parser = ExpressionParserFactory.create()
+        val input =
+            listOf(
+                Token(
+                    TokenType.SUBTRACTION,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "-",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "1",
+                ),
+            )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<UnaryOperation>(result.value)
+        assertIs<LiteralNode<Int>>((result.value as UnaryOperation).getOperand())
+    }
+
+    @Test
+    fun testNegativeStatement() {
+        val parser = ExpressionParserFactory.create()
+        val input =
+            listOf(
+                Token(
+                    TokenType.SUBTRACTION,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "-",
+                ),
+                Token(
+                    TokenType.OPENPARENTHESIS,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "(",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 2),
+                    Position(1, 2),
+                    "1",
+                ),
+                Token(
+                    TokenType.SUM,
+                    Position(1, 3),
+                    Position(1, 3),
+                    "+",
+                ),
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 4),
+                    Position(1, 4),
+                    "2",
+                ),
+                Token(
+                    TokenType.CLOSEPARENTHESIS,
+                    Position(1, 5),
+                    Position(1, 5),
+                    ")",
+                ),
+            )
+
+        val result = parser.parse(input)
+
+        assertIs<SuccessResult>(result)
+        assertIs<UnaryOperation>(result.value)
+        assertEquals(OperatorType.NEGATION, (result.value as UnaryOperation).getOperator().getType())
+        assertIs<BinaryOperation>((result.value as UnaryOperation).getOperand())
+    }
+
+    @Test
+    fun testIntNumber() {
+        val parser = ExpressionParserFactory.create()
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1",
+                ),
+            )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<LiteralNode<Int>>(result.value)
+    }
+
+    @Test
+    fun testFloatNumber() {
+        val parser = ExpressionParserFactory.create()
+        val input =
+            listOf(
+                Token(
+                    TokenType.NUMBER,
+                    Position(1, 1),
+                    Position(1, 1),
+                    "1.0",
+                ),
+            )
+
+        val result = parser.parse(input, 0)
+
+        assertIs<SuccessResult>(result)
+        assertIs<LiteralNode<Double>>(result.value)
     }
 }

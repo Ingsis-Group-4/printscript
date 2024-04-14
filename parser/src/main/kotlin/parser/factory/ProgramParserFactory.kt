@@ -139,13 +139,13 @@ object ExpressionParserFactory : ParserFactory {
         if (version == Version.V2) {
             return ExpressionParser(
                 DefaultOperationStrategyFactory,
-                TokenHandlerFactoryV2,
+                FactorHandlerFactoryV2,
             )
         }
 
         return ExpressionParser(
             DefaultOperationStrategyFactory,
-            TokenHandlerFactoryV1,
+            FactorHandlerFactoryV1,
         )
     }
 }

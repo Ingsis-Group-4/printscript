@@ -276,7 +276,8 @@ class LexerTest {
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
                 Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.NUMBER, Position(1, 26), Position(1, 28), "-22"),
+                Token(TokenType.SUBTRACTION, Position(1, 26), Position(1, 26), "-"),
+                Token(TokenType.NUMBER, Position(1, 27), Position(1, 28), "22"),
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
             )
 
@@ -294,7 +295,8 @@ class LexerTest {
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
                 Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.NUMBER, Position(1, 26), Position(1, 29), "-2.2"),
+                Token(TokenType.SUBTRACTION, Position(1, 26), Position(1, 26), "-"),
+                Token(TokenType.NUMBER, Position(1, 27), Position(1, 29), "2.2"),
                 Token(TokenType.SEMICOLON, Position(1, 30), Position(1, 30), ";"),
             )
 
