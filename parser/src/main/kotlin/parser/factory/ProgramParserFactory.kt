@@ -99,7 +99,7 @@ object ExpressionParserFactory : ParserFactory {
     override fun create(): Parser {
         return ExpressionParser(
             DefaultOperationStrategyFactory,
-            DefaultTokenHandlerFactory,
+            DefaultFactorHandlerFactory,
         )
     }
 }

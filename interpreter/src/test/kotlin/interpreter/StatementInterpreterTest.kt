@@ -65,7 +65,7 @@ class StatementInterpreterTest {
         val value = output.environment.getVariable(variableName)
 
         assertIs<NumberValue>(value)
-        assertEquals(variableValue.toDouble(), value.value)
+        assertEquals(variableValue, value.value)
     }
 
     @Test
@@ -98,7 +98,7 @@ class StatementInterpreterTest {
         val value = output.environment.getVariable(variableName)
 
         assertIs<NumberValue>(value)
-        assertEquals(newVariableValue.toDouble(), value.value)
+        assertEquals(newVariableValue, value.value)
     }
 
     @Test

@@ -1,8 +1,8 @@
 package parser
 
 import ast.AST
+import parser.factory.FactorHandlerFactory
 import parser.factory.OperationStrategyFactory
-import parser.factory.TokenHandlerFactory
 import parser.result.ParserResult
 import parser.result.SuccessResult
 import parser.utils.OperatorProvider
@@ -13,7 +13,7 @@ import token.Token
 
 class ExpressionParser(
     private val strategyFactory: OperationStrategyFactory,
-    private val tokenHandlerFactory: TokenHandlerFactory,
+    private val tokenHandlerFactory: FactorHandlerFactory,
 ) : Parser {
     override fun parse(
         tokens: List<Token>,
