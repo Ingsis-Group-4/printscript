@@ -45,7 +45,7 @@ fun generateAST(
 /**
  * Gets the file path from the command line arguments.
  */
-private fun getFilePath(args: Map<String, String>): String {
+fun getFilePath(args: Map<String, String>): String {
     return if (args.containsKey("-f")) {
         args["-f"]!!
     } else {

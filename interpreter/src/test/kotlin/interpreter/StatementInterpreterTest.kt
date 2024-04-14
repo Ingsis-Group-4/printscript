@@ -122,4 +122,36 @@ class StatementInterpreterTest {
         assertEquals(1, output.logs.size)
         assertEquals("\"$expectedLog\"", output.logs[0])
     }
+
+    @Test
+    fun `test_006 test declaration and assignation`() {
+        val interpreter =
+            StatementInterpreter(
+                mapOf(
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
+                    AssignationNode::class to VariableStatementInterpreter(),
+                ),
+            )
+
+        val expectedLog = "10.0"
+
+        val input1 = "let x: Number;"
+        val statement1 = getAstFromString(input1)
+
+        val output1 = interpreter.interpret(statement1, Environment())
+
+        val input2 = "x = 10.0;"
+        val statement2 = getAstFromString(input2)
+
+        val output2 = interpreter.interpret(statement2, output1.environment)
+
+        val input3 = "println(x);"
+        val statement3 = getAstFromString(input3)
+
+        val output = interpreter.interpret(statement3, output2.environment)
+
+        assertEquals(1, output.logs.size)
+        assertEquals(expectedLog, output.logs[0])
+    }
 }
