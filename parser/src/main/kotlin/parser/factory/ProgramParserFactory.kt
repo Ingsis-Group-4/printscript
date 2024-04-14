@@ -56,6 +56,7 @@ object StatementParserFactory : ParserFactory {
         val parserSelectorV2: Map<TokenType, Parser> =
             mapOf(
                 TokenType.IF to IfStatementParserFactory.create(version),
+                TokenType.CONST to VariableDeclarationParserFactory.create(version),
             )
 
         if (version == Version.V2) {

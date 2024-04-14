@@ -165,4 +165,21 @@ class StatementParserTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `test_010 variable declaration with const`() {
+        val code = "const a: Boolean = false;"
+        val tokens = lexerV2.lex(code)
+
+        val result = statementParserV2.parse(tokens, 0)
+
+        assertIs<SuccessResult>(result)
+
+        val ast = result.value
+
+        val expected = getJsonFromFile("src/test/resources/statement/test_010_result.json")
+        val actual = convertToJson(ast)
+
+        assertEquals(expected, actual)
+    }
 }
