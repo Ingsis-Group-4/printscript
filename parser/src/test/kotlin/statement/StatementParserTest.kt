@@ -168,7 +168,7 @@ class StatementParserTest {
 
     @Test
     fun `test_010 variable declaration with const`() {
-        val code = "const a: Boolean = false;"
+        val code = "const a: boolean = false;"
         val tokens = lexerV2.lex(code)
 
         val result = statementParserV2.parse(tokens, 0)
