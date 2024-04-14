@@ -120,6 +120,6 @@ class StatementInterpreterTest {
         val output = interpreter.interpret(ast, Environment())
 
         assertEquals(1, output.logs.size)
-        assertEquals("\"$expectedLog\"", output.logs[0])
+        assertEquals(expectedLog, output.logs[0])
     }
 }

@@ -90,7 +90,7 @@ class LexerTest {
                     TokenType.STRING,
                     Position(1, 1),
                     Position(1, 15),
-                    "\"Hello, World!\"",
+                    "Hello, World!",
                 ),
             )
 
@@ -312,7 +312,7 @@ class LexerTest {
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
                 Token(TokenType.STRINGTYPE, Position(1, 17), Position(1, 22), "string"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.STRING, Position(1, 26), Position(1, 40), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 26), Position(1, 40), "Hello, World!"),
                 Token(TokenType.SEMICOLON, Position(1, 41), Position(1, 41), ";"),
             )
 
@@ -342,7 +342,7 @@ class LexerTest {
             listOf(
                 Token(TokenType.PRINTLN, Position(1, 1), Position(1, 7), "println"),
                 Token(TokenType.OPENPARENTHESIS, Position(1, 8), Position(1, 8), "("),
-                Token(TokenType.STRING, Position(1, 9), Position(1, 23), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 9), Position(1, 23), "Hello, World!"),
                 Token(TokenType.CLOSEPARENTHESIS, Position(1, 24), Position(1, 24), ")"),
                 Token(TokenType.SEMICOLON, Position(1, 25), Position(1, 25), ";"),
             )
@@ -365,7 +365,7 @@ class LexerTest {
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
                 Token(TokenType.PRINTLN, Position(2, 1), Position(2, 7), "println"),
                 Token(TokenType.OPENPARENTHESIS, Position(2, 8), Position(2, 8), "("),
-                Token(TokenType.STRING, Position(2, 9), Position(2, 23), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(2, 9), Position(2, 23), "Hello, World!"),
                 Token(TokenType.CLOSEPARENTHESIS, Position(2, 24), Position(2, 24), ")"),
                 Token(TokenType.SEMICOLON, Position(2, 25), Position(2, 25), ";"),
             )
@@ -513,7 +513,7 @@ class LexerTest {
                 Token(TokenType.COLON, Position(1, 17), Position(1, 17), ":"),
                 Token(TokenType.STRINGTYPE, Position(1, 19), Position(1, 24), "string"),
                 Token(TokenType.ASSIGNATION, Position(1, 26), Position(1, 26), "="),
-                Token(TokenType.STRING, Position(1, 28), Position(1, 42), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 28), Position(1, 42), "Hello, World!"),
                 Token(TokenType.SEMICOLON, Position(1, 43), Position(1, 43), ";"),
             )
 
@@ -559,5 +559,57 @@ class LexerTest {
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun testNumberAsVariableShouldNotMatchNumberType() {
+        val input = "numberType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 10), "numberType"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testStringAsVariableShouldNotMatchStringType() {
+        val input = "stringType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 10), "stringType"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchNumberTypeWithNoSpacing() {
+        val input = ":number;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.NUMBERTYPE, Position(1, 2), Position(1, 7), "number"),
+                Token(TokenType.SEMICOLON, Position(1, 8), Position(1, 8), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchStringTypeWithNoSpacing() {
+        val input = ":string;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.STRINGTYPE, Position(1, 2), Position(1, 7), "string"),
+                Token(TokenType.SEMICOLON, Position(1, 8), Position(1, 8), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
     }
 }

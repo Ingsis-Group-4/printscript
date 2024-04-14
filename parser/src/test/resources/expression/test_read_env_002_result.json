@@ -20,7 +20,7 @@
       "column": 22
     },
     "expression": {
-      "value": "\"Hello: \"",
+      "value": "Hello: ",
       "start": {
         "line": 1,
         "column": 13

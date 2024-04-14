@@ -13,8 +13,8 @@ fun getTokenMap(versionNumber: Version = Version.V1): EnumMap<TokenType, TokenMa
     tokenMap[TokenType.PRINTLN] = TokenMatcher(TokenType.PRINTLN, "\\bprintln")
 
     // TYPES
-    tokenMap[TokenType.STRINGTYPE] = TokenMatcher(TokenType.STRINGTYPE, "string")
-    tokenMap[TokenType.NUMBERTYPE] = TokenMatcher(TokenType.NUMBERTYPE, "number")
+    tokenMap[TokenType.STRINGTYPE] = TokenMatcher(TokenType.STRINGTYPE, "(?:|;)string(\\b|;)")
+    tokenMap[TokenType.NUMBERTYPE] = TokenMatcher(TokenType.NUMBERTYPE, "(?:|;)number(\\b|;)")
 
     // IDENTIFIERS
     tokenMap[TokenType.IDENTIFIER] = TokenMatcher(TokenType.IDENTIFIER, "[a-zA-Z_][a-zA-Z0-9_]*")

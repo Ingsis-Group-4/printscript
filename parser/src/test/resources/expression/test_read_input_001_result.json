@@ -8,7 +8,7 @@
     "column": 20
   },
   "expression": {
-    "value": "\"Hello: \"",
+    "value": "Hello: ",
     "start": {
       "line": 1,
       "column": 11
