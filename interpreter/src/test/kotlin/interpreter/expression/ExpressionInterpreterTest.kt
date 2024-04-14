@@ -26,8 +26,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(10.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(10.0, (result.value as NumberValue).value)
     }
 
     @Test
@@ -40,8 +40,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, environment, StandardInputFunction())
 
-        assert(result is StringValue)
-        assertEquals("a", (result as StringValue).value)
+        assert(result.value is StringValue)
+        assertEquals("a", (result.value as StringValue).value)
     }
 
     @Test
@@ -58,8 +58,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(30.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(30.0, (result.value as NumberValue).value)
     }
 
     @Test
@@ -82,8 +82,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, environment, StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(30.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(30.0, (result.value as NumberValue).value)
     }
 
     @Test
@@ -100,8 +100,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is StringValue)
-        assertEquals("HelloWorld", (result as StringValue).value)
+        assert(result.value is StringValue)
+        assertEquals("HelloWorld", (result.value as StringValue).value)
     }
 
     @Test
@@ -118,8 +118,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(-10.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(-10.0, (result.value as NumberValue).value)
     }
 
     @Test
@@ -136,8 +136,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(1.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(1.0, (result.value as NumberValue).value)
     }
 
     @Test
@@ -154,8 +154,8 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is NumberValue)
-        assertEquals(400.0, (result as NumberValue).value)
+        assert(result.value is NumberValue)
+        assertEquals(400.0, (result.value as NumberValue).value)
     }
 
     @Ignore // We should support this case in the future
@@ -173,7 +173,7 @@ class ExpressionInterpreterTest {
 
         val result = interpreter.interpret(input, Environment(), StandardInputFunction())
 
-        assert(result is StringValue)
-        assertEquals("Hello20.0", (result as StringValue).value)
+        assert(result.value is StringValue)
+        assertEquals("Hello20.0", (result.value as StringValue).value)
     }
 }

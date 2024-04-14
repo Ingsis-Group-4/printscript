@@ -15,8 +15,8 @@ class FunctionStatementInterpreter : Interpreter {
         val node = getFunctionNodeOrThrow(ast)
         when (val function = node.getFunctionNode()) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter().interpret(function.getExpression(), environment, inputHandler)
-                return InterpretOutput(environment, listOf(value.toString()))
+                val value = ExpressionInterpreter().interpret(function, environment, inputHandler)
+                return InterpretOutput(environment, value.logs)
             }
 
             else -> throw Exception("Unknown function at (line: ${node.getStart().line} column: ${node.getStart().column})")

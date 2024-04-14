@@ -18,17 +18,19 @@ class VariableStatementInterpreter :
     ): InterpretOutput {
         when (val node = getVariableStatementNodeOrThrow(ast)) {
             is AssignationNode -> {
-                var value = ExpressionInterpreter().interpret(node.expression, environment, inputHandler)
+                val expressionOutput = ExpressionInterpreter().interpret(node.expression, environment, inputHandler)
+                var value = expressionOutput.value
                 if (value is InputValue) {
                     value = castVariableTypeAssignationNode(node, environment, value)
                 }
                 val updatedEnv = environment.updateVariable(node.identifier.variableName, value)
-                return InterpretOutput(updatedEnv, listOf())
+                return InterpretOutput(updatedEnv, expressionOutput.logs)
             }
 
             is DeclarationNode -> {
                 if (node.expression != null) {
-                    var value = ExpressionInterpreter().interpret(node.expression!!, environment, inputHandler)
+                    val expressionOutput = ExpressionInterpreter().interpret(node.expression!!, environment, inputHandler)
+                    var value = expressionOutput.value
                     if (value is InputValue) {
                         value = castVariableTypeDeclarationNode(node, value)
                     }
@@ -40,7 +42,7 @@ class VariableStatementInterpreter :
                             node.identifier.variableType,
                             isModifiable,
                         )
-                    return InterpretOutput(updatedEnv, listOf())
+                    return InterpretOutput(updatedEnv, expressionOutput.logs)
                 } else {
                     val updatedEnv =
                         environment.createVariable(

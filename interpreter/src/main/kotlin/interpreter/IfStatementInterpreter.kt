@@ -15,7 +15,7 @@ class IfStatementInterpreter : Interpreter {
     ): InterpretOutput {
         val node = getIfNodeOrThrow(ast)
 
-        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment, inputHandler)
+        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment, inputHandler).value
 
         if (condition !is BooleanValue) {
             throw Exception("Condition must be a boolean value")
