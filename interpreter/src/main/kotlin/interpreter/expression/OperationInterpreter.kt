@@ -34,7 +34,9 @@ class OperationInterpreter() {
                 return when {
                     left is NumberValue && right is NumberValue -> NumberValue(left.value + right.value)
                     left is StringValue && right is StringValue -> StringValue(left.value + right.value)
-                    else -> throw Exception("Operands must be both numbers or both strings")
+                    left is StringValue && right is NumberValue -> StringValue(left.value + right.value.toString())
+                    left is NumberValue && right is StringValue -> StringValue(left.value.toString() + right.value)
+                    else -> throw Exception("Wrong operands types")
                 }
             }
 

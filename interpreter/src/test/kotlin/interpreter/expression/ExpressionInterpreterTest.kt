@@ -13,7 +13,6 @@ import interpreter.Environment
 import interpreter.NumberValue
 import interpreter.StringValue
 import position.Position
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -157,7 +156,6 @@ class ExpressionInterpreterTest {
         assertEquals(400.0, (result as NumberValue).value)
     }
 
-    @Ignore // We should support this case in the future
     @Test
     fun testExpressionWithSumOfStringsAndNumbers() {
         val input =
