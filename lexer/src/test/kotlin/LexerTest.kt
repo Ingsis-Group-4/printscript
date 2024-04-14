@@ -612,4 +612,29 @@ class LexerTest {
         val result = lexerFirstVersion.lex(input)
         assertTokenListEquals(expected, result)
     }
+
+    @Test
+    fun testBooleanAsVariableShouldNotMatchBooleanType() {
+        val input = "booleanType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 11), "booleanType"),
+            )
+
+        val result = lexerSecondVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchBooleanTypeWithNoSpacing() {
+        val input = ":boolean;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.BOOLEANTYPE, Position(1, 2), Position(1, 8), "boolean"),
+                Token(TokenType.SEMICOLON, Position(1, 9), Position(1, 9), ";"),
+            )
+        val result = lexerSecondVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
 }
