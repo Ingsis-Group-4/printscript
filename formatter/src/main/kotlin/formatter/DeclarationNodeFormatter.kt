@@ -30,5 +30,5 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
 }
 
 private fun humanize(input: String): String {
-    return input.substring(0, 1).uppercase(Locale.getDefault()) + input.substring(1).lowercase(Locale.getDefault())
+    return input.lowercase(Locale.getDefault())
 }

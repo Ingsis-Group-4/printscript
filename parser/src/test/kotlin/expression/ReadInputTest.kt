@@ -53,7 +53,7 @@ class ReadInputTest {
 
     @Test
     fun `test_003 test parse readInput in assignation with statement parser`() {
-        val code = "let a: Boolean = readInput(\"Hello: \");"
+        val code = "let a: boolean = readInput(\"Hello: \");"
         val tokens = lexer.lex(code)
 
         val result = statementParser.parse(tokens, 0)

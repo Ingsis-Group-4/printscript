@@ -68,7 +68,7 @@ class StatementParserTest {
 
     @Test
     fun `test_004 One declaration statement with literal expression should return ast`() {
-        val code = "let x: Number = 5;"
+        val code = "let x: number = 5;"
         val tokens = lexer.lex(code)
 
         val result = statementParser.parse(tokens)
@@ -151,7 +151,7 @@ class StatementParserTest {
 
     @Test
     fun `test_009 variable declaration with true`() {
-        val code = "let a: Boolean = true;"
+        val code = "let a: boolean = true;"
         val tokens = lexerV2.lex(code)
 
         val result = statementParserV2.parse(tokens, 0)
