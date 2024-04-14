@@ -53,7 +53,7 @@ class ReadEnvTest {
 
     @Test
     fun `test_003 test parse readEnv in assignation with statement parser`() {
-        val code = "let a: Boolean = readEnv(\"Hello: \");"
+        val code = "let a: boolean = readEnv(\"Hello: \");"
         val tokens = lexer.lex(code)
 
         val result = statementParser.parse(tokens, 0)
