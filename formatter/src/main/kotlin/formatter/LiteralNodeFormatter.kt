@@ -16,6 +16,7 @@ class LiteralNodeFormatter : Formatter {
                 val value = (literalNode.value as Double).roundToInt()
                 return value.toString()
             }
+            is String -> return "\"${literalNode.value}\""
             else -> return literalNode.value.toString()
         }
     }
