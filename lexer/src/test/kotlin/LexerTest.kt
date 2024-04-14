@@ -59,10 +59,10 @@ class LexerTest {
 
     @Test
     fun testNumberType() {
-        val input = "Number"
+        val input = "number"
         val expected =
             listOf(
-                Token(TokenType.NUMBERTYPE, Position(1, 1), Position(1, 6), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 1), Position(1, 6), "number"),
             )
 
         val result = lexerFirstVersion.lex(input)
@@ -71,10 +71,10 @@ class LexerTest {
 
     @Test
     fun testStringType() {
-        val input = "String"
+        val input = "string"
         val expected =
             listOf(
-                Token(TokenType.STRINGTYPE, Position(1, 1), Position(1, 6), "String"),
+                Token(TokenType.STRINGTYPE, Position(1, 1), Position(1, 6), "string"),
             )
 
         val result = lexerFirstVersion.lex(input)
@@ -90,7 +90,7 @@ class LexerTest {
                     TokenType.STRING,
                     Position(1, 1),
                     Position(1, 15),
-                    "\"Hello, World!\"",
+                    "Hello, World!",
                 ),
             )
 
@@ -232,13 +232,13 @@ class LexerTest {
 
     @Test
     fun testNumberDeclarationStatement() {
-        val input = "let myVariable: Number = 123;"
+        val input = "let myVariable: number = 123;"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
                 Token(TokenType.NUMBER, Position(1, 26), Position(1, 28), "123"),
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
@@ -250,13 +250,13 @@ class LexerTest {
 
     @Test
     fun testDecimalNumberDeclarationStatement() {
-        val input = "let myVariable: Number = 12.3;"
+        val input = "let myVariable: number = 12.3;"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
                 Token(TokenType.NUMBER, Position(1, 26), Position(1, 29), "12.3"),
                 Token(TokenType.SEMICOLON, Position(1, 30), Position(1, 30), ";"),
@@ -268,15 +268,16 @@ class LexerTest {
 
     @Test
     fun testNegativeNumberDeclarationStatement() {
-        val input = "let myVariable: Number = -22;"
+        val input = "let myVariable: number = -22;"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.NUMBER, Position(1, 26), Position(1, 28), "-22"),
+                Token(TokenType.SUBTRACTION, Position(1, 26), Position(1, 26), "-"),
+                Token(TokenType.NUMBER, Position(1, 27), Position(1, 28), "22"),
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
             )
 
@@ -286,15 +287,16 @@ class LexerTest {
 
     @Test
     fun testNegativeDecimalNumberDeclarationStatement() {
-        val input = "let myVariable: Number = -2.2;"
+        val input = "let myVariable: number = -2.2;"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.NUMBER, Position(1, 26), Position(1, 29), "-2.2"),
+                Token(TokenType.SUBTRACTION, Position(1, 26), Position(1, 26), "-"),
+                Token(TokenType.NUMBER, Position(1, 27), Position(1, 29), "2.2"),
                 Token(TokenType.SEMICOLON, Position(1, 30), Position(1, 30), ";"),
             )
 
@@ -304,15 +306,15 @@ class LexerTest {
 
     @Test
     fun testStringDeclarationStatement() {
-        val input = "let myVariable: String = \"Hello, World!\";"
+        val input = "let myVariable: string = \"Hello, World!\";"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.STRINGTYPE, Position(1, 17), Position(1, 22), "String"),
+                Token(TokenType.STRINGTYPE, Position(1, 17), Position(1, 22), "string"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
-                Token(TokenType.STRING, Position(1, 26), Position(1, 40), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 26), Position(1, 40), "Hello, World!"),
                 Token(TokenType.SEMICOLON, Position(1, 41), Position(1, 41), ";"),
             )
 
@@ -342,7 +344,7 @@ class LexerTest {
             listOf(
                 Token(TokenType.PRINTLN, Position(1, 1), Position(1, 7), "println"),
                 Token(TokenType.OPENPARENTHESIS, Position(1, 8), Position(1, 8), "("),
-                Token(TokenType.STRING, Position(1, 9), Position(1, 23), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 9), Position(1, 23), "Hello, World!"),
                 Token(TokenType.CLOSEPARENTHESIS, Position(1, 24), Position(1, 24), ")"),
                 Token(TokenType.SEMICOLON, Position(1, 25), Position(1, 25), ";"),
             )
@@ -353,19 +355,19 @@ class LexerTest {
 
     @Test
     fun testMultipleStatements() {
-        val input = "let myVariable: Number = 123;\nprintln(\"Hello, World!\");"
+        val input = "let myVariable: number = 123;\nprintln(\"Hello, World!\");"
         val expected =
             listOf(
                 Token(TokenType.LET, Position(1, 1), Position(1, 3), "let"),
                 Token(TokenType.IDENTIFIER, Position(1, 5), Position(1, 14), "myVariable"),
                 Token(TokenType.COLON, Position(1, 15), Position(1, 15), ":"),
-                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "Number"),
+                Token(TokenType.NUMBERTYPE, Position(1, 17), Position(1, 22), "number"),
                 Token(TokenType.ASSIGNATION, Position(1, 24), Position(1, 24), "="),
                 Token(TokenType.NUMBER, Position(1, 26), Position(1, 28), "123"),
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
                 Token(TokenType.PRINTLN, Position(2, 1), Position(2, 7), "println"),
                 Token(TokenType.OPENPARENTHESIS, Position(2, 8), Position(2, 8), "("),
-                Token(TokenType.STRING, Position(2, 9), Position(2, 23), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(2, 9), Position(2, 23), "Hello, World!"),
                 Token(TokenType.CLOSEPARENTHESIS, Position(2, 24), Position(2, 24), ")"),
                 Token(TokenType.SEMICOLON, Position(2, 25), Position(2, 25), ";"),
             )
@@ -405,10 +407,10 @@ class LexerTest {
 
     @Test
     fun testBooleanType() {
-        val input = "Boolean"
+        val input = "boolean"
         val expected =
             listOf(
-                Token(TokenType.BOOLEANTYPE, Position(1, 1), Position(1, 7), "Boolean"),
+                Token(TokenType.BOOLEANTYPE, Position(1, 1), Position(1, 7), "boolean"),
             )
 
         val result = lexerSecondVersion.lex(input)
@@ -505,15 +507,15 @@ class LexerTest {
 
     @Test
     fun testDeclarationNodeWithConst() {
-        val input = "const myVariable: String = \"Hello, World!\";"
+        val input = "const myVariable: string = \"Hello, World!\";"
         val expected =
             listOf(
                 Token(TokenType.CONST, Position(1, 1), Position(1, 5), "const"),
                 Token(TokenType.IDENTIFIER, Position(1, 7), Position(1, 16), "myVariable"),
                 Token(TokenType.COLON, Position(1, 17), Position(1, 17), ":"),
-                Token(TokenType.STRINGTYPE, Position(1, 19), Position(1, 24), "String"),
+                Token(TokenType.STRINGTYPE, Position(1, 19), Position(1, 24), "string"),
                 Token(TokenType.ASSIGNATION, Position(1, 26), Position(1, 26), "="),
-                Token(TokenType.STRING, Position(1, 28), Position(1, 42), "\"Hello, World!\""),
+                Token(TokenType.STRING, Position(1, 28), Position(1, 42), "Hello, World!"),
                 Token(TokenType.SEMICOLON, Position(1, 43), Position(1, 43), ";"),
             )
 
@@ -523,14 +525,14 @@ class LexerTest {
 
     @Test
     fun testBooleanDeclaration() {
-        val input = "const isOpen :Boolean = true;"
+        val input = "const isOpen :boolean = true;"
         //           1234567890123456789012345678901
         val expected =
             listOf(
                 Token(TokenType.CONST, Position(1, 1), Position(1, 5), "const"),
                 Token(TokenType.IDENTIFIER, Position(1, 7), Position(1, 12), "isOpen"),
                 Token(TokenType.COLON, Position(1, 14), Position(1, 14), ":"),
-                Token(TokenType.BOOLEANTYPE, Position(1, 15), Position(1, 21), "Boolean"),
+                Token(TokenType.BOOLEANTYPE, Position(1, 15), Position(1, 21), "boolean"),
                 Token(TokenType.ASSIGNATION, Position(1, 23), Position(1, 23), "="),
                 Token(TokenType.BOOLEAN, Position(1, 25), Position(1, 28), "true"),
                 Token(TokenType.SEMICOLON, Position(1, 29), Position(1, 29), ";"),
@@ -559,5 +561,82 @@ class LexerTest {
             )
         val result = lexerSecondVersion.lex(input)
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun testNumberAsVariableShouldNotMatchNumberType() {
+        val input = "numberType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 10), "numberType"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testStringAsVariableShouldNotMatchStringType() {
+        val input = "stringType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 10), "stringType"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchNumberTypeWithNoSpacing() {
+        val input = ":number;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.NUMBERTYPE, Position(1, 2), Position(1, 7), "number"),
+                Token(TokenType.SEMICOLON, Position(1, 8), Position(1, 8), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchStringTypeWithNoSpacing() {
+        val input = ":string;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.STRINGTYPE, Position(1, 2), Position(1, 7), "string"),
+                Token(TokenType.SEMICOLON, Position(1, 8), Position(1, 8), ";"),
+            )
+
+        val result = lexerFirstVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testBooleanAsVariableShouldNotMatchBooleanType() {
+        val input = "booleanType"
+        val expected =
+            listOf(
+                Token(TokenType.IDENTIFIER, Position(1, 1), Position(1, 11), "booleanType"),
+            )
+
+        val result = lexerSecondVersion.lex(input)
+        assertTokenListEquals(expected, result)
+    }
+
+    @Test
+    fun testShouldMatchBooleanTypeWithNoSpacing() {
+        val input = ":boolean;"
+        val expected =
+            listOf(
+                Token(TokenType.COLON, Position(1, 1), Position(1, 1), ":"),
+                Token(TokenType.BOOLEANTYPE, Position(1, 2), Position(1, 8), "boolean"),
+                Token(TokenType.SEMICOLON, Position(1, 9), Position(1, 9), ";"),
+            )
+        val result = lexerSecondVersion.lex(input)
+        assertTokenListEquals(expected, result)
     }
 }

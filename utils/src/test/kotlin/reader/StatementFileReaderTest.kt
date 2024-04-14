@@ -23,7 +23,7 @@ class StatementFileReaderTest {
             expected.add(lineLexer.lex(fileLines[i], i + 1))
         }
 
-        val statements = StatementFileReader(filePath).nextLine()
+        val statements = StatementFileReader(File(filePath).inputStream()).nextLine()
 
         for (i in statements.indices) {
             assertTokenListEquals(expected[i], statements[i])
@@ -32,14 +32,14 @@ class StatementFileReaderTest {
 
     @Test
     fun `test_002 hasNext should return false in an empty file`() {
-        val reader = StatementFileReader("src/test/resources/reader/file/test_002_input.ps")
+        val reader = StatementFileReader(File("src/test/resources/reader/file/test_002_input.ps").inputStream())
 
         assertFalse(reader.hasNextLine())
     }
 
     @Test
     fun `test_003 hasNext should return true in a non empty file`() {
-        val reader = StatementFileReader("src/test/resources/reader/file/test_003_input.ps")
+        val reader = StatementFileReader(File("src/test/resources/reader/file/test_003_input.ps").inputStream())
 
         assertTrue(reader.hasNextLine())
     }

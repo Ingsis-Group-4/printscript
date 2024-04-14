@@ -15,7 +15,7 @@ class StatementInterpreterTest {
     fun `test_001 empty statement interpreter should throw`() {
         val interpreter = StatementInterpreter(mapOf())
 
-        val input = "let a: String;"
+        val input = "let a: string;"
         val ast = getAstFromString(input)
 
         val exception = assertThrows<Exception> { interpreter.interpret(ast, Environment()) }
@@ -35,7 +35,7 @@ class StatementInterpreterTest {
 
         val variableName = "a"
 
-        val input = "let $variableName: String;"
+        val input = "let $variableName: string;"
         val ast = getAstFromString(input)
 
         val output = interpreter.interpret(ast, Environment())
@@ -57,7 +57,7 @@ class StatementInterpreterTest {
         val variableName = "a"
         val variableValue = 1
 
-        val input = "let $variableName: Number = $variableValue ;"
+        val input = "let $variableName: number = $variableValue ;"
         val ast = getAstFromString(input)
 
         val output = interpreter.interpret(ast, Environment())
@@ -120,6 +120,6 @@ class StatementInterpreterTest {
         val output = interpreter.interpret(ast, Environment())
 
         assertEquals(1, output.logs.size)
-        assertEquals("\"$expectedLog\"", output.logs[0])
+        assertEquals(expectedLog, output.logs[0])
     }
 }
