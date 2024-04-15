@@ -2,10 +2,12 @@ package cli.function
 
 import ast.AssignationNode
 import ast.DeclarationNode
-import ast.FunctionStatementNode
+import ast.IfStatement
+import ast.PrintLnNode
 import cli.util.getFilePath
 import interpreter.Environment
 import interpreter.FunctionStatementInterpreter
+import interpreter.IfStatementInterpreter
 import interpreter.Interpreter
 import interpreter.StatementInterpreter
 import interpreter.VariableStatementInterpreter
@@ -16,22 +18,25 @@ import parser.factory.StatementParserFactory
 import parser.result.FailureResult
 import parser.result.SuccessResult
 import reader.StatementFileReader
+import version.Version
+import java.io.File
 
 class BufferedInterpret(
-    private val parser: Parser = StatementParserFactory.create(),
+    private val parser: Parser = StatementParserFactory.create(Version.V2),
     private val interpreter: Interpreter =
         StatementInterpreter(
             mapOf(
-                FunctionStatementNode::class to FunctionStatementInterpreter(),
+                PrintLnNode::class to FunctionStatementInterpreter(),
                 DeclarationNode::class to VariableStatementInterpreter(),
                 AssignationNode::class to VariableStatementInterpreter(),
+                IfStatement::class to IfStatementInterpreter(),
             ),
         ),
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
         val filePath = getFilePath(args)
-        val reader = StatementFileReader(filePath)
+        val reader = StatementFileReader(File(filePath).inputStream(), Version.V2)
 
         var env = Environment()
 

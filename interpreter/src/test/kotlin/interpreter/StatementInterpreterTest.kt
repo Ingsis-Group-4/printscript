@@ -161,7 +161,7 @@ class StatementInterpreterTest {
 
         val expectedLog = "10.0"
 
-        val input1 = "let x: Number;"
+        val input1 = "let x: number;"
         val statement1 = getAstFromString(input1)
 
         val output1 = interpreter.interpret(statement1, Environment())
