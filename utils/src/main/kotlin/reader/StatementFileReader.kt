@@ -15,7 +15,7 @@ class StatementFileReader(
     version: Version = Version.V1,
 ) {
     private val lineReader: StatementLineReader = StatementLineReader(version)
-    private val remainingTokens = mutableListOf<Token>()
+    private var remainingTokens = listOf<Token>()
     private var currentLine = 1
     private val buffer: BufferedReader = BufferedReader(src.reader())
 
@@ -29,7 +29,7 @@ class StatementFileReader(
         val line = buffer.readLine()
         val lineReaderOutput = lineReader.read(line, currentLine, remainingTokens)
 
-        remainingTokens.addAll(lineReaderOutput.remainingTokens)
+        remainingTokens = lineReaderOutput.remainingTokens
 
         currentLine++
 

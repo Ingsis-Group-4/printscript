@@ -127,7 +127,7 @@ class StatementLineReaderTest {
 
     @Test
     fun `test if statement with no else block`() {
-        val line = "if (x == 1) { let a: string; };"
+        val line = "if (x == 1) { let a: string; }"
         val expected = listOf(secondVersionLexer.lex(line))
 
         val output = StatementLineReader(Version.V2).read(line, 1)
@@ -143,7 +143,7 @@ class StatementLineReaderTest {
 
     @Test
     fun `test if statement with else block`() {
-        val line = "if (x == 1) { let a: string; } else {println(2);};"
+        val line = "if (x == 1) { let a: string; } else {println(2);}"
         val expected = listOf(secondVersionLexer.lex(line))
 
         val output = StatementLineReader(Version.V2).read(line, 1)
