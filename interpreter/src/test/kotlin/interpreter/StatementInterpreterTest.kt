@@ -122,4 +122,29 @@ class StatementInterpreterTest {
         assertEquals(1, output.logs.size)
         assertEquals(expectedLog, output.logs[0])
     }
+
+    @Test
+    fun `test_006 declaration with boolean`() {
+        val interpreter =
+            StatementInterpreter(
+                mapOf(
+                    FunctionStatementNode::class to FunctionStatementInterpreter(),
+                    DeclarationNode::class to VariableStatementInterpreter(),
+                    AssignationNode::class to VariableStatementInterpreter(),
+                ),
+            )
+
+        val variableName = "a"
+        val variableValue = true
+
+        val input = "let $variableName: boolean = $variableValue ;"
+        val ast = getAstFromString(input)
+
+        val output = interpreter.interpret(ast, Environment())
+
+        val value = output.environment.getVariable(variableName)
+
+        assertIs<BooleanValue>(value)
+        assertEquals(variableValue, value.value)
+    }
 }
