@@ -62,8 +62,6 @@ class StatementLineReader(
                         if (isNotFinalToken(i, tokens) && nextTokenIsElseBlock(tokens, i)) {
                             return@forEachIndexed
                         }
-                        criteria = SemicolonEndOfStatementCriteria()
-                        return@forEachIndexed
                     }
                     statements.add(currentStatement)
                     currentStatement = mutableListOf()
