@@ -12,7 +12,7 @@
     }
   },
   "expression": {
-    "value": "false",
+    "value": false,
     "start": {
       "line": 1,
       "column": 20

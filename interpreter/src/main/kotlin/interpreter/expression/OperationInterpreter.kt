@@ -11,16 +11,18 @@ import interpreter.Environment
 import interpreter.NumberValue
 import interpreter.StringValue
 import interpreter.Value
+import interpreter.readInputFunction.ReadInputFunction
 
 class OperationInterpreter() {
     fun interpret(
         node: OperationNode,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): Value {
         when (node) {
             is ProductNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler).value
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler).value
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(
                         if (left.value is Int && right.value is Int) {
@@ -35,8 +37,8 @@ class OperationInterpreter() {
             }
 
             is SumNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler).value
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler).value
                 if (isStringConcatenation(left, right)) {
                     return StringValue((left as StringValue).value + (right as StringValue).value)
                 }
@@ -49,15 +51,31 @@ class OperationInterpreter() {
                                 left.value.toDouble() + right.value.toDouble()
                             },
                         )
+                    } else {
+                        return when {
+                            left is StringValue && right is StringValue -> {
+                                StringValue(left.value + right.value)
+                            }
+
+                            left is StringValue && right is NumberValue -> {
+                                StringValue(left.value + right.value.toString())
+                            }
+
+                            left is NumberValue && right is StringValue -> {
+                                StringValue(left.value.toString() + right.value)
+                            }
+
+                            else -> throw Exception("Operands must be numbers or strings")
+                        }
                     }
                 } catch (e: Exception) {
-                    throw Exception("Operands must be both numbers or both strings")
+                    throw Exception("Wrong operand types")
                 }
             }
 
             is SubtractionNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler).value
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler).value
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(
                         if (left.value is Int && right.value is Int) {
@@ -72,8 +90,8 @@ class OperationInterpreter() {
             }
 
             is DivisionNode -> {
-                val left = ExpressionInterpreter().interpret(node.left, environment)
-                val right = ExpressionInterpreter().interpret(node.right, environment)
+                val left = ExpressionInterpreter().interpret(node.left, environment, inputHandler).value
+                val right = ExpressionInterpreter().interpret(node.right, environment, inputHandler).value
                 if (left is NumberValue && right is NumberValue) {
                     return NumberValue(
                         if (left.value is Int && right.value is Int) {
@@ -88,8 +106,8 @@ class OperationInterpreter() {
             }
 
             is BinaryOperation -> {
-                val left = ExpressionInterpreter().interpret(node.getLeft(), environment)
-                val right = ExpressionInterpreter().interpret(node.getRight(), environment)
+                val left = ExpressionInterpreter().interpret(node.getLeft(), environment, inputHandler).value
+                val right = ExpressionInterpreter().interpret(node.getRight(), environment, inputHandler).value
                 val operatorType = node.getOperator().getType()
                 if (isStringConcatenation(left, right)) {
                     return StringValue((left as StringValue).value + (right as StringValue).value)

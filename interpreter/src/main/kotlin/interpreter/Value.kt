@@ -16,6 +16,18 @@ class StringValue(val value: String) : Value {
     }
 }
 
+class BooleanValue(val value: Boolean) : Value {
+    override fun toString(): String {
+        return value.toString()
+    }
+}
+
+class InputValue(val value: String) : Value {
+    override fun toString(): String {
+        return value
+    }
+}
+
 object NullValue : Value {
     override fun toString(): String {
         return "null"

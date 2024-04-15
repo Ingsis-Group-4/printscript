@@ -85,12 +85,20 @@ class BooleanTokenHandler : FactorHandler {
         val currentToken = at(tokens, currentIndex)
         return SuccessResult(
             LiteralNode(
-                currentToken.value,
+                toBoolean(currentToken.value),
                 start = currentToken.start,
                 end = currentToken.end,
             ),
             currentIndex,
         )
+    }
+
+    private fun toBoolean(value: String): Boolean {
+        return when (value) {
+            "true" -> true
+            "false" -> false
+            else -> throw Exception("Invalid boolean value")
+        }
     }
 }
 

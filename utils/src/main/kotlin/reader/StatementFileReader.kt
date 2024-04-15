@@ -1,6 +1,7 @@
 package reader
 
 import token.Token
+import version.Version
 import java.io.BufferedReader
 import java.io.InputStream
 
@@ -11,9 +12,10 @@ import java.io.InputStream
  */
 class StatementFileReader(
     src: InputStream,
-    private val lineReader: StatementLineReader = StatementLineReader(),
+    version: Version = Version.V1,
 ) {
-    private val remainingTokens = mutableListOf<Token>()
+    private val lineReader: StatementLineReader = StatementLineReader(version)
+    private var remainingTokens = listOf<Token>()
     private var currentLine = 1
     private val buffer: BufferedReader = BufferedReader(src.reader())
 
@@ -27,7 +29,7 @@ class StatementFileReader(
         val line = buffer.readLine()
         val lineReaderOutput = lineReader.read(line, currentLine, remainingTokens)
 
-        remainingTokens.addAll(lineReaderOutput.remainingTokens)
+        remainingTokens = lineReaderOutput.remainingTokens
 
         currentLine++
 
