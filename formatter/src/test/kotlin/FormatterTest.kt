@@ -7,7 +7,6 @@ import lexer.getTokenMap
 import org.junit.jupiter.api.Assertions.assertEquals
 import parser.factory.ProgramParserFactory
 import parser.result.SuccessResult
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatterTest {
@@ -49,7 +48,6 @@ class FormatterTest {
         assertEquals(expected, actual)
     }
 
-    @Ignore("The parses has not implemente Binary Operation")
     @Test
     fun `test_004 Print Statement`() {
         val code = "let a          : number     =    1   ;\nprintln(1+a      )  ;"
