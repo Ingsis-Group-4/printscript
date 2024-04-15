@@ -10,7 +10,7 @@
   "functionNode": {
     "expression": {
       "left": {
-        "value": 5.0,
+        "value": 5,
         "start": {
           "line": 1,
           "column": 9
@@ -21,7 +21,7 @@
         }
       },
       "right": {
-        "value": 5.0,
+        "value": 5,
         "start": {
           "line": 1,
           "column": 13
