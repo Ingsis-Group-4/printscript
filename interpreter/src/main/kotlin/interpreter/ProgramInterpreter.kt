@@ -4,11 +4,14 @@ import ast.AST
 import ast.FunctionStatementNode
 import ast.ProgramNode
 import ast.VariableStatementNode
+import interpreter.readInputFunction.ReadInputFunction
 
+@Deprecated("This class is deprecated", ReplaceWith("StatementInterpreter"))
 class ProgramInterpreter : Interpreter {
     override fun interpret(
         ast: AST,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): InterpretOutput {
         val node = getProgramNodeOrThrow(ast)
 
@@ -28,6 +31,9 @@ class ProgramInterpreter : Interpreter {
                     logs.addAll(interpretOutput.logs)
                     currentEnv = interpretOutput.environment
                 }
+                else -> throw Exception(
+                    "Unknown statement at (line: ${statement.getStart().line} column: ${statement.getStart().column})",
+                )
             }
         }
 

@@ -59,6 +59,7 @@ class VariableNamingRule(
             is AssignationNode -> RuleSuccess
             is FunctionStatementNode -> RuleSuccess
             is DeclarationNode -> checkVariableDeclaration(ast)
+            else -> RuleFailures(emptyList())
         }
     }
 

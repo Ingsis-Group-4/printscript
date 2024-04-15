@@ -7,6 +7,7 @@ include(
         'sca',
         'cli',
         'code-coverage-report',
-        'utils'
+        'utils',
+        'formatter'
 )
 

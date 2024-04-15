@@ -9,6 +9,7 @@ import ast.LiteralNode
 import ast.PrintLnNode
 import ast.ProgramNode
 import ast.StatementNode
+import sca.checkProgramNode
 
 /**
  * Rule that checks if a println call has been made with an argument that is not a literal or a variable
@@ -16,34 +17,9 @@ import ast.StatementNode
 class PrintLnArgumentRule : Rule {
     override fun check(ast: AST): RuleResult {
         return when (ast) {
-            is ProgramNode -> checkProgramNode(ast)
+            is ProgramNode -> checkProgramNode(ast, checkStatementNode = ::checkStatementNode)
             is StatementNode -> checkStatementNode(ast)
             else -> RuleSuccess
-        }
-    }
-
-    /**
-     * Check if all statements in the ProgramNode follow the println rule
-     *
-     * - If none of the statements fail the rule, RuleSuccess is returned
-     * - If any statement fails the rule, RuleFailures with each failure is returned
-     * */
-    private fun checkProgramNode(ast: ProgramNode): RuleResult {
-        val failures = mutableListOf<FailurePayload>()
-
-        for (statement in ast.statements) {
-            when (val statementCheckResult = checkStatementNode(statement)) {
-                is RuleSuccess -> {}
-                is RuleFailures -> {
-                    failures.addAll(statementCheckResult.failures)
-                }
-            }
-        }
-
-        return if (failures.isEmpty()) {
-            RuleSuccess
-        } else {
-            RuleFailures(failures)
         }
     }
 
@@ -58,12 +34,14 @@ class PrintLnArgumentRule : Rule {
             is AssignationNode -> RuleSuccess
             is DeclarationNode -> RuleSuccess
             is FunctionStatementNode -> checkFunctionStatementNode(ast)
+            else -> RuleFailures(emptyList())
         }
     }
 
     private fun checkFunctionStatementNode(node: FunctionStatementNode): RuleResult {
         return when (val functionNode = node.getFunctionNode()) {
             is PrintLnNode -> checkPrintlnExpression(functionNode)
+            else -> RuleFailures(emptyList())
         }
     }
 

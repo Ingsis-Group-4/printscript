@@ -5,10 +5,12 @@ import lexer.LineLexer
 import lexer.getTokenMap
 import org.junit.jupiter.api.Test
 import utils.assertTokenListEquals
+import version.Version
 import kotlin.test.assertEquals
 
 class StatementLineReaderTest {
     private val lexer = Lexer(getTokenMap())
+    private val secondVersionLexer = Lexer(getTokenMap(Version.V2))
     private val lineLexer = LineLexer(getTokenMap())
 
     @Test
@@ -16,7 +18,7 @@ class StatementLineReaderTest {
         val line = "let x: String;"
         val expected = listOf(lexer.lex(line))
 
-        val output = StatementLineReader().read(line, 1)
+        val output = StatementLineReader(Version.V1).read(line, 1)
 
         for (i in expected.indices) {
             assertTokenListEquals(expected[i], output.tokenStatements[i])
@@ -34,7 +36,7 @@ class StatementLineReaderTest {
                 lexer.lex("               let a: String;"),
             )
 
-        val output = StatementLineReader().read(line, 1)
+        val output = StatementLineReader(Version.V1).read(line, 1)
 
         for (i in expected.indices) {
             assertTokenListEquals(expected[i], output.tokenStatements[i])
@@ -51,7 +53,7 @@ class StatementLineReaderTest {
 
         val expectedRemaining = lexer.lex("               let a")
 
-        val output = StatementLineReader().read(line, 1)
+        val output = StatementLineReader(Version.V1).read(line, 1)
 
         for (i in expectedStatements.indices) {
             assertTokenListEquals(expectedStatements[i], output.tokenStatements[i])
@@ -67,7 +69,7 @@ class StatementLineReaderTest {
         val expectedRemainingFirstLine = lexer.lex("let x")
 
         // Execute first line
-        val outputFirstLine = StatementLineReader().read(firstLine, 1)
+        val outputFirstLine = StatementLineReader(Version.V1).read(firstLine, 1)
 
         // Assert first line
         assertEquals(0, outputFirstLine.tokenStatements.size)
@@ -81,7 +83,7 @@ class StatementLineReaderTest {
             )
 
         // Execute second line with previous remaining tokens
-        val outputSecondLine = StatementLineReader().read(secondLine, 2, outputFirstLine.remainingTokens)
+        val outputSecondLine = StatementLineReader(Version.V1).read(secondLine, 2, outputFirstLine.remainingTokens)
 
         // Assert second line
         for (i in expectedStatementsSecondLine.indices) {
@@ -98,7 +100,7 @@ class StatementLineReaderTest {
         val expectedRemainingFirstLine = lexer.lex("let x")
 
         // Execute first line
-        val outputFirstLine = StatementLineReader().read(firstLine, 1)
+        val outputFirstLine = StatementLineReader(Version.V1).read(firstLine, 1)
 
         // Assert first line
         assertEquals(0, outputFirstLine.tokenStatements.size)
@@ -113,7 +115,7 @@ class StatementLineReaderTest {
             )
 
         // Execute second line with previous remaining tokens
-        val outputSecondLine = StatementLineReader().read(secondLine, 2, outputFirstLine.remainingTokens)
+        val outputSecondLine = StatementLineReader(Version.V1).read(secondLine, 2, outputFirstLine.remainingTokens)
 
         // Assert second line
         for (i in expectedStatementsSecondLine.indices) {
@@ -121,5 +123,37 @@ class StatementLineReaderTest {
         }
 
         assertEquals(0, outputSecondLine.remainingTokens.size)
+    }
+
+    @Test
+    fun `test if statement with no else block`() {
+        val line = "if (x == 1) { let a: string; };"
+        val expected = listOf(secondVersionLexer.lex(line))
+
+        val output = StatementLineReader(Version.V2).read(line, 1)
+
+        for (i in expected.indices) {
+            println(expected[i])
+            println()
+            println()
+            println(output.tokenStatements[i])
+            assertTokenListEquals(expected[i], output.tokenStatements[i])
+        }
+    }
+
+    @Test
+    fun `test if statement with else block`() {
+        val line = "if (x == 1) { let a: string; } else {println(2);};"
+        val expected = listOf(secondVersionLexer.lex(line))
+
+        val output = StatementLineReader(Version.V2).read(line, 1)
+
+        for (i in expected.indices) {
+            println(expected[i])
+            println()
+            println()
+            println(output.tokenStatements[i])
+            assertTokenListEquals(expected[i], output.tokenStatements[i])
+        }
     }
 }

@@ -46,11 +46,17 @@ class Lexer(val tokenMap: Map<TokenType, TokenMatcher>) {
         currentLine: Int,
         matcher: Matcher,
     ): Token {
+        val tokenValue =
+            if (tokenType == TokenType.STRING) {
+                matcher.group().substring(1, matcher.group().length - 1)
+            } else {
+                matcher.group()
+            }
         return Token(
             tokenType,
             Position(currentLine, matcher.start() + 1),
             Position(currentLine, matcher.end()),
-            matcher.group(),
+            tokenValue,
         )
     }
 }
