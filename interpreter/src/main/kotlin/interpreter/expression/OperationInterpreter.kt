@@ -51,9 +51,25 @@ class OperationInterpreter() {
                                 left.value.toDouble() + right.value.toDouble()
                             },
                         )
+                    } else {
+                        return when {
+                            left is StringValue && right is StringValue -> {
+                                StringValue(left.value + right.value)
+                            }
+
+                            left is StringValue && right is NumberValue -> {
+                                StringValue(left.value + right.value.toString())
+                            }
+
+                            left is NumberValue && right is StringValue -> {
+                                StringValue(left.value.toString() + right.value)
+                            }
+
+                            else -> throw Exception("Operands must be numbers or strings")
+                        }
                     }
                 } catch (e: Exception) {
-                    throw Exception("Operands must be both numbers or both strings")
+                    throw Exception("Wrong operand types")
                 }
             }
 
