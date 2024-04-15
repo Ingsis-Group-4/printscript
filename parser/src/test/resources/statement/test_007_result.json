@@ -11,7 +11,7 @@
     }
   },
   "expression": {
-    "value": "true",
+    "value": true,
     "start": {
       "line": 1,
       "column": 5
