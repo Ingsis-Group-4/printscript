@@ -9,7 +9,7 @@ import interpreter.Value
 class LiteralInterpreter {
     fun interpret(node: LiteralNode<*>): Value {
         return when (node.value) {
-            is Number -> NumberValue(node.value as Double)
+            is Number -> NumberValue(node.value as Number)
             is String -> StringValue(node.value as String)
             is Boolean -> BooleanValue(node.value as Boolean)
             else -> throw Exception("Unknown literal type")

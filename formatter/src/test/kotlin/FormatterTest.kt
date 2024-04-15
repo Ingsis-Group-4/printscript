@@ -17,7 +17,7 @@ class FormatterTest {
 
     @Test
     fun `test_001 String Declaration`() {
-        val code = "let a: String=\"String\";"
+        val code = "let a: string=\"String\";"
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
@@ -28,7 +28,7 @@ class FormatterTest {
 
     @Test
     fun `test_002 Int Declaration`() {
-        val code = "let   secretNumber    : Number  =           1000;"
+        val code = "let   secretNumber    : number  =           1000;"
         val tokens = lexer.lex(code)
         println(tokens)
         val result = parser.parse(tokens, 0) as SuccessResult
@@ -40,7 +40,7 @@ class FormatterTest {
 
     @Test
     fun `test_003 Two Statements`() {
-        val code = "let              first:           Number =     1     ;\nlet      second    : String           = \"2\"     ;"
+        val code = "let              first:           number =     1     ;\nlet      second    : string           = \"2\"     ;"
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
@@ -52,7 +52,7 @@ class FormatterTest {
     @Test
     @Ignore("The parses has not implemente Binary Operation")
     fun `test_004 Print Statement`() {
-        val code = "let a          : Number     =    1   ;\nprintln(1+a      )  ;"
+        val code = "let a          : number     =    1   ;\nprintln(1+a      )  ;"
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode

@@ -11,7 +11,7 @@
     }
   },
   "expression": {
-    "value": 10.0,
+    "value": 10,
     "start": {
       "line": 1,
       "column": 5
