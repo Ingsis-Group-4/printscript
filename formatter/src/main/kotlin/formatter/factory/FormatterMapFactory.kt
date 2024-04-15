@@ -3,6 +3,7 @@ package formatter.factory
 import ast.AST
 import ast.AssignationNode
 import ast.BinaryOperation
+import ast.ConstNode
 import ast.DeclarationNode
 import ast.FunctionStatementNode
 import ast.IdentifierNode
@@ -27,6 +28,7 @@ class FormatterMapFactory {
         val keywordMap =
             mapOf<KClass<out KeywordNode>, String>(
                 LetNode::class to "let",
+                ConstNode::class to "const",
             )
         return mapOf(
             LiteralNode::class to LiteralNodeFormatter(),

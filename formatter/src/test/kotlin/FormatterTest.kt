@@ -49,8 +49,8 @@ class FormatterTest {
         assertEquals(expected, actual)
     }
 
-    @Test
     @Ignore("The parses has not implemente Binary Operation")
+    @Test
     fun `test_004 Print Statement`() {
         val code = "let a          : number     =    1   ;\nprintln(1+a      )  ;"
         val tokens = lexer.lex(code)
