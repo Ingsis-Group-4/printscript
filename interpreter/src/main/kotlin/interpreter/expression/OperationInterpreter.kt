@@ -114,7 +114,7 @@ class OperationInterpreter() {
                 }
                 if (!isNumericOperation(left, right)) {
                     if (isSum(operatorType)) {
-                        throw Exception("Operands must be both numbers or both strings")
+                        return StringValue(left.toString() + right.toString())
                     }
                     throw Exception("Operands must be numbers")
                 }
