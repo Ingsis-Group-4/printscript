@@ -1,6 +1,8 @@
 package interpreter
 
 import ast.AST
+import interpreter.readInputFunction.ReadInputFunction
+import interpreter.readInputFunction.StandardInputFunction
 
 interface Interpreter {
     /**
@@ -14,5 +16,6 @@ interface Interpreter {
     fun interpret(
         ast: AST,
         environment: Environment = Environment(),
+        inputHandler: ReadInputFunction = StandardInputFunction(),
     ): InterpretOutput
 }

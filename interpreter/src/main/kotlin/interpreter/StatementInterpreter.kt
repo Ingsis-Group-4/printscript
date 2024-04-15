@@ -1,6 +1,7 @@
 package interpreter
 
 import ast.AST
+import interpreter.readInputFunction.ReadInputFunction
 import kotlin.reflect.KClass
 
 class StatementInterpreter(
@@ -9,6 +10,7 @@ class StatementInterpreter(
     override fun interpret(
         ast: AST,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): InterpretOutput {
         val handler =
             handlers.getOrElse(ast::class) {
