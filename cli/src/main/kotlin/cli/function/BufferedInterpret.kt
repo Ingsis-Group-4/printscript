@@ -2,8 +2,8 @@ package cli.function
 
 import ast.AssignationNode
 import ast.DeclarationNode
+import ast.FunctionStatementNode
 import ast.IfStatement
-import ast.PrintLnNode
 import cli.util.getFilePath
 import interpreter.Environment
 import interpreter.FunctionStatementInterpreter
@@ -26,7 +26,7 @@ class BufferedInterpret(
     private val interpreter: Interpreter =
         StatementInterpreter(
             mapOf(
-                PrintLnNode::class to FunctionStatementInterpreter(),
+                FunctionStatementNode::class to FunctionStatementInterpreter(),
                 DeclarationNode::class to VariableStatementInterpreter(),
                 AssignationNode::class to VariableStatementInterpreter(),
                 IfStatement::class to IfStatementInterpreter(),
