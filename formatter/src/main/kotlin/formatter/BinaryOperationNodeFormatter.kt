@@ -25,7 +25,7 @@ class BinaryOperationNodeFormatter : Formatter {
             ast.OperatorType.SUBTRACT -> "-"
             ast.OperatorType.MULTIPLICATION -> "*"
             ast.OperatorType.DIVISION -> "/"
-            ast.OperatorType.NEGATION -> "!"
+            ast.OperatorType.NEGATION -> "-"
         }
     }
 

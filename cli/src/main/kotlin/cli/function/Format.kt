@@ -1,6 +1,7 @@
 package cli.function
 
 import cli.util.generateAST
+import cli.util.getConfigFilePath
 import cli.util.getFilePath
 import formatter.FormattingRule
 import formatter.ProgramNodeFormatter
@@ -20,15 +21,13 @@ class Format(
     private val parser: Parser = ProgramParserFactory.create(),
     private val writer: Writer = FileWriter(),
 ) : CLIFunction {
-    private val configFile = "src/test/resources/format/config/formatter.test.config.json"
-
     override fun run(args: Map<String, String>) {
         // Generate the AST from the source code
         val ast = generateAST(lexer, parser, args)
         val filePath = getFilePath(args)
+        val configPath = getConfigFilePath(args)
         // Format the AST
-        // Not sure if we should have an FormatterResult here
-        val result = ProgramNodeFormatter().format(ast, FormattingRule(configPath = configFile), FormatterMapFactory().createFormatterMap())
+        val result = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
         writer.write(result, filePath)
     }
 }

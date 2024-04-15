@@ -24,7 +24,7 @@ class BufferedInterpret(
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
-        val ast = generateBufferedAST(lexer, parser, args)
+        val ast = generateBufferedAST(parser, args)
 
         val result = StatementInterpreter(getInterpreterMap()).interpret(ast)
 
