@@ -32,7 +32,6 @@ class ExpressionInterpreter {
             is LiteralNode<*> -> ExpressionInterpreterOutput(LiteralInterpreter().interpret(node), listOf())
             is PrintLnNode -> {
                 val value = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler).value.toString()
-                println(value)
                 ExpressionInterpreterOutput(NullValue, listOf(value))
             }
             is ReadEnvNode -> {
