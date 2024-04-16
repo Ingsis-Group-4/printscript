@@ -19,6 +19,6 @@ class StatementInterpreter(
                 )
             }
 
-        return handler.interpret(ast, environment)
+        return handler.interpret(ast, environment, inputHandler)
     }
 }
