@@ -13,7 +13,8 @@ class ReadInputNodeInterpreter {
         environment: Environment,
         readInputFunction: ReadInputFunction,
     ): Value {
-        readInputFunction.read(readInputNode.getExpression().toString()).let {
+        val param = ExpressionInterpreter().interpret(readInputNode.getExpression(), environment, readInputFunction)
+        readInputFunction.read(param.toString()).let {
             return when (it) {
                 is String -> InputValue(it)
                 else -> NullValue
