@@ -13,6 +13,7 @@ class Environment(
         name: String,
         value: Value,
         type: VariableType?,
+        isModifiable: Boolean = true,
     ): Environment {
         if (variables.containsKey(name)) {
             throw Exception("Variable $name already exists")
@@ -22,7 +23,7 @@ class Environment(
             throw Exception("Value assigned to variable $name is not a ${type.toString().lowercase()}")
         }
 
-        return createNewEnvironment(name, EnvironmentElement(value, type))
+        return createNewEnvironment(name, EnvironmentElement(value, type, isModifiable))
     }
 
     fun updateVariable(
@@ -33,6 +34,9 @@ class Environment(
             variables.getOrElse(name) {
                 throw Exception("Variable $name does not exist")
             }
+        if (!oldValue.isModifiable && oldValue.value != NullValue) {
+            throw Exception("Variable $name is not modifiable")
+        }
 
         if (!isOfType(value, oldValue.type)) {
             throw Exception("Value assigned to variable $name is not a ${oldValue.type.toString().lowercase()}")
@@ -50,6 +54,15 @@ class Environment(
         return envElement.value
     }
 
+    fun getVariableType(name: String): VariableType {
+        val envElement =
+            variables.getOrElse(name) {
+                throw Exception("Variable $name does not exist")
+            }
+
+        return envElement.type
+    }
+
     private fun isOfType(
         value: Value,
         type: VariableType,
@@ -62,8 +75,12 @@ class Environment(
             is StringValue -> {
                 type == VariableType.STRING
             }
+            is BooleanValue -> {
+                type == VariableType.BOOLEAN
+            }
 
             NullValue -> true
+            is InputValue -> type == VariableType.INPUT
         }
     }
 
@@ -76,5 +93,5 @@ class Environment(
         )
     }
 
-    data class EnvironmentElement(val value: Value = NullValue, val type: VariableType)
+    data class EnvironmentElement(val value: Value = NullValue, val type: VariableType, val isModifiable: Boolean = true)
 }

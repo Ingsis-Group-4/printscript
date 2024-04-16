@@ -4,18 +4,21 @@ import ast.AST
 import ast.FunctionStatementNode
 import ast.PrintLnNode
 import interpreter.expression.ExpressionInterpreter
+import interpreter.readInputFunction.ReadInputFunction
 
 class FunctionStatementInterpreter : Interpreter {
     override fun interpret(
         ast: AST,
         environment: Environment,
+        inputHandler: ReadInputFunction,
     ): InterpretOutput {
         val node = getFunctionNodeOrThrow(ast)
         when (val function = node.getFunctionNode()) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter().interpret(function.getExpression(), environment)
-                return InterpretOutput(environment, listOf(value.toString()))
+                val value = ExpressionInterpreter().interpret(function, environment, inputHandler)
+                return InterpretOutput(environment, value.logs)
             }
+
             else -> throw Exception("Unknown function at (line: ${node.getStart().line} column: ${node.getStart().column})")
         }
     }

@@ -12,4 +12,10 @@ class IfStatement(
     override fun getStart(): Position = start
 
     override fun getEnd(): Position = end
+
+    fun getCondition(): ExpressionNode = condition
+
+    fun getThenBlock(): BlockNode = thenBlock
+
+    fun getElseBlock(): BlockNode? = elseBlock
 }

@@ -4,13 +4,16 @@ import lexer.LineLexer
 import lexer.getTokenMap
 import token.Token
 import token.TokenType
+import version.Version
 
 /**
  * Utility class for getting all the statements of a single line.
  */
 class StatementLineReader(
-    private val lexer: LineLexer = LineLexer(getTokenMap()),
+    private val version: Version,
 ) {
+    private val lexer: LineLexer = LineLexer(getTokenMap(version))
+
     /**
      * Method for reading all statements and remaining tokens of one line.
      *
@@ -40,24 +43,78 @@ class StatementLineReader(
         return divideIntoStatementsAndRemaining(totalTokens)
     }
 
-    private fun divideIntoStatementsAndRemaining(tokens: List<Token>): LineReaderOutput {
-        val statements = mutableListOf<List<Token>>()
-        var currentStatement = mutableListOf<Token>()
-
-        for (token in tokens) {
-            if (isEndOfStatement(token)) {
-                currentStatement.add(token)
-                statements.add(currentStatement)
-                currentStatement = mutableListOf()
-            } else {
-                currentStatement.add(token)
+    private fun divideIntoStatementsAndRemaining(
+        tokens: List<Token>,
+        criteriaParam: EndOfStatementCriteria = SemicolonEndOfStatementCriteria(),
+        statements: MutableList<List<Token>> = mutableListOf(),
+        currentStatementParam: MutableList<Token> = mutableListOf(),
+    ): LineReaderOutput {
+        var criteria = criteriaParam
+        var currentStatement = currentStatementParam
+        tokens.forEachIndexed { i, token ->
+            when {
+                token.type == TokenType.IF -> {
+                    return ifStatementHandler(currentStatement, token, tokens, i, statements)
+                }
+                criteria.isEndOfStatementCriteria(token) -> {
+                    currentStatement.add(token)
+                    if (criteria is ClosedCurlyEndOfStatementCriteria) {
+                        if (isNotFinalToken(i, tokens) && nextTokenIsElseBlock(tokens, i)) {
+                            return@forEachIndexed
+                        }
+                    }
+                    statements.add(currentStatement)
+                    currentStatement = mutableListOf()
+                    criteria = SemicolonEndOfStatementCriteria()
+                }
+                else -> currentStatement.add(token)
             }
         }
-
         return LineReaderOutput(statements, currentStatement)
     }
 
-    private fun isEndOfStatement(token: Token): Boolean {
+    private fun ifStatementHandler(
+        currentStatement: MutableList<Token>,
+        token: Token,
+        tokens: List<Token>,
+        i: Int,
+        statements: MutableList<List<Token>>,
+    ): LineReaderOutput {
+        currentStatement.add(token)
+        return divideIntoStatementsAndRemaining(
+            tokens.subList(i + 1, tokens.size),
+            ClosedCurlyEndOfStatementCriteria(),
+            statements,
+            currentStatement,
+        )
+    }
+
+//        val statements = mutableListOf<List<Token>>()
+//        var currentStatement = mutableListOf<Token>()
+//
+//        for (token in tokens) {
+//            if (isEndOfStatementCriteria(token)) {
+//                currentStatement.add(token)
+//                statements.add(currentStatement)
+//                currentStatement = mutableListOf()
+//            } else {
+//                currentStatement.add(token)
+//            }
+//        }
+//
+//        return LineReaderOutput(statements, currentStatement)
+
+    private fun nextTokenIsElseBlock(
+        tokens: List<Token>,
+        i: Int,
+    ) = tokens[i + 1].type == TokenType.ELSE
+
+    private fun isNotFinalToken(
+        i: Int,
+        tokens: List<Token>,
+    ) = i < tokens.size - 1
+
+    private fun isEndOfStatementCriteria(token: Token): Boolean {
         return token.type == TokenType.SEMICOLON
     }
 }

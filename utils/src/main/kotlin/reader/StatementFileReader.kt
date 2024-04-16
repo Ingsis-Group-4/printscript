@@ -1,8 +1,9 @@
 package reader
 
 import token.Token
+import version.Version
 import java.io.BufferedReader
-import java.io.File
+import java.io.InputStream
 
 /**
  * Utility class for reading lines as tokens from a file
@@ -10,12 +11,13 @@ import java.io.File
  * Warning: This class is not immutable
  */
 class StatementFileReader(
-    filePath: String,
-    private val lineReader: StatementLineReader = StatementLineReader(),
+    src: InputStream,
+    version: Version = Version.V1,
 ) {
-    private val remainingTokens = mutableListOf<Token>()
+    private val lineReader: StatementLineReader = StatementLineReader(version)
+    private var remainingTokens = listOf<Token>()
     private var currentLine = 1
-    private val buffer: BufferedReader = BufferedReader(File(filePath).reader())
+    private val buffer: BufferedReader = BufferedReader(src.reader())
 
     /**
      * Reads the next line, and returns a list of lists with the tokens of the complete statements the line has.
@@ -27,7 +29,7 @@ class StatementFileReader(
         val line = buffer.readLine()
         val lineReaderOutput = lineReader.read(line, currentLine, remainingTokens)
 
-        remainingTokens.addAll(lineReaderOutput.remainingTokens)
+        remainingTokens = lineReaderOutput.remainingTokens
 
         currentLine++
 
