@@ -31,7 +31,7 @@ fun generateBufferedAST(
     parser: Parser,
     args: Map<String, String>,
 ): AST {
-    val statementFileReader = StatementFileReader(getFilePath(args))
+    val statementFileReader = StatementFileReader(File(getFilePath(args)).inputStream())
     val tokens = mutableListOf<Token>()
     while (statementFileReader.hasNextLine()) {
         val currentLine = statementFileReader.nextLine()

@@ -23,7 +23,7 @@ class CLIBufferedInterpretTest {
         val logs = collectorLogger.getLogs()
 
         assertEquals(1, logs.size)
-        assertEquals("\"test\"", logs[0])
+        assertEquals("test", logs[0])
     }
 
     @Test
@@ -63,7 +63,7 @@ class CLIBufferedInterpretTest {
         val logs = collectorLogger.getLogs()
 
         assertEquals(1, logs.size)
-        assertEquals("5.0", logs[0])
+        assertEquals("5", logs[0])
     }
 
     @Test
@@ -82,7 +82,7 @@ class CLIBufferedInterpretTest {
         val logs = collectorLogger.getLogs()
 
         assertEquals(1, logs.size)
-        assertEquals("10.0", logs[0])
+        assertEquals("10", logs[0])
     }
 
     @Test
@@ -102,7 +102,7 @@ class CLIBufferedInterpretTest {
         val logs = collectorLogger.getLogs()
 
         assertEquals(2, logs.size)
-        assertEquals("\"hola\"", logs[0])
-        assertEquals("1.0", logs[1])
+        assertEquals("hola", logs[0])
+        assertEquals("1", logs[1])
     }
 }

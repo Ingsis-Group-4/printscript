@@ -8,7 +8,7 @@ import kotlin.test.Test
 class CLIFormatTest {
     @Test
     fun `test_001 String Declaration`() {
-        val expected = "let a : String = \"String\";"
+        val expected = "let a : string = \"String\";"
         val logWriter = LogWriter()
         val cli =
             CLI(
@@ -32,7 +32,7 @@ class CLIFormatTest {
 
     @Test
     fun `test_002 Int Declaration`() {
-        val expected = "let secretNumber : Number = 1000;"
+        val expected = "let secretNumber : number = 1000;"
         val logWriter = LogWriter()
         val cli =
             CLI(
@@ -56,7 +56,7 @@ class CLIFormatTest {
 
     @Test
     fun `test_003 Two Statements`() {
-        val expected = "let first : Number = 1;\nlet second : String = \"2\";"
+        val expected = "let first : number = 1;\nlet second : string = \"2\";"
         val logWriter = LogWriter()
         val cli =
             CLI(
@@ -80,7 +80,7 @@ class CLIFormatTest {
 
     @Test
     fun `test_004 Print Statement`() {
-        val expected = "let a : Number = 1;\n\n\nprintln(1 + a);"
+        val expected = "let a : number = 1;\n\n\nprintln(1 + a);"
         val logWriter = LogWriter()
         val cli =
             CLI(
