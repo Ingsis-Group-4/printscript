@@ -5,6 +5,8 @@ import lexer.Lexer
 import parser.Parser
 import parser.result.FailureResult
 import parser.result.SuccessResult
+import reader.StatementFileReader
+import token.Token
 import java.io.File
 
 /**
@@ -20,35 +22,42 @@ fun generateAST(
     parser: Parser,
     args: Map<String, String>,
 ): AST {
-    // Get the file path from the command line arguments
-    val filePath = getFilePath(args)
-    // Read the file into a string
-    val file = File(filePath).readText()
-
-    // Lex the file
+    val file = File(getFilePath(args)).readText()
     val tokens = lexer.lex(file)
+    return parseTokens(parser, tokens)
+}
 
-    // Parse the tokens and return the AST
-    when (val parserResult = parser.parse(tokens, 0)) {
-        is SuccessResult -> {
-            return parserResult.value
-        }
-        is FailureResult -> {
-            // TODO: Add the exact position, not the index of the last token
-            throw IllegalArgumentException(
-                "Parsing Error: ${parserResult.message}",
-            )
-        }
+fun generateBufferedAST(
+    parser: Parser,
+    args: Map<String, String>,
+): AST {
+    val statementFileReader = StatementFileReader(File(getFilePath(args)).inputStream())
+    val tokens = mutableListOf<Token>()
+    while (statementFileReader.hasNextLine()) {
+        val currentLine = statementFileReader.nextLine()
+        tokens.addAll(currentLine.flatten())
     }
+    return parseTokens(parser, tokens)
 }
 
 /**
  * Gets the file path from the command line arguments.
  */
-private fun getFilePath(args: Map<String, String>): String {
-    return if (args.containsKey("-f")) {
-        args["-f"]!!
-    } else {
-        throw IllegalArgumentException("No program file path provided")
+fun getFilePath(args: Map<String, String>): String {
+    return args["-f"] ?: throw IllegalArgumentException("No program file path provided")
+}
+
+fun getConfigFilePath(args: Map<String, String>): String {
+    return args["-c"] ?: throw IllegalArgumentException("No config file path provided")
+}
+
+private fun parseTokens(
+    parser: Parser,
+    tokens: List<Token>,
+): AST {
+// TODO: Add the exact position, not the index of the last token
+    return when (val parserResult = parser.parse(tokens, 0)) {
+        is SuccessResult -> parserResult.value
+        is FailureResult -> throw IllegalArgumentException("Parsing Error: ${parserResult.message}")
     }
 }

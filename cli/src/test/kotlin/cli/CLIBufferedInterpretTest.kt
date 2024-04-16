@@ -1,0 +1,108 @@
+package cli
+
+import cli.function.BufferedInterpret
+import util.CollectorLogger
+import kotlin.test.Ignore
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class CLIBufferedInterpretTest {
+    @Test
+    fun testInterpretWithPrintlnWithLiteral() {
+        val collectorLogger = CollectorLogger()
+
+        val cli =
+            CLI(
+                mapOf(
+                    "interpret" to BufferedInterpret(logger = collectorLogger),
+                ),
+            )
+
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_literal.ps"))
+
+        val logs = collectorLogger.getLogs()
+
+        assertEquals(1, logs.size)
+        assertEquals("test", logs[0])
+    }
+
+    @Test
+    @Ignore
+    fun testInterpretWithPrintlnWithNullVariable() {
+        val collectorLogger = CollectorLogger()
+
+        val cli =
+            CLI(
+                mapOf(
+                    "interpret" to BufferedInterpret(logger = collectorLogger),
+                ),
+            )
+
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_null_variable.ps"))
+
+        val logs = collectorLogger.getLogs()
+
+        assertEquals(1, logs.size)
+        assertEquals("null", logs[0])
+    }
+
+    @Test
+    @Ignore
+    fun testInterpretWithPrintlnWithVariable() {
+        val collectorLogger = CollectorLogger()
+
+        val cli =
+            CLI(
+                mapOf(
+                    "interpret" to BufferedInterpret(logger = collectorLogger),
+                ),
+            )
+
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_variable.ps"))
+
+        val logs = collectorLogger.getLogs()
+
+        assertEquals(1, logs.size)
+        assertEquals("5", logs[0])
+    }
+
+    @Test
+    fun testInterpretWithPrintlnWithSum() {
+        val collectorLogger = CollectorLogger()
+
+        val cli =
+            CLI(
+                mapOf(
+                    "interpret" to BufferedInterpret(logger = collectorLogger),
+                ),
+            )
+
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_sum.ps"))
+
+        val logs = collectorLogger.getLogs()
+
+        assertEquals(1, logs.size)
+        assertEquals("10", logs[0])
+    }
+
+    @Test
+    @Ignore
+    fun testMultiplePrintsWithLiteral() {
+        val collectorLogger = CollectorLogger()
+
+        val cli =
+            CLI(
+                mapOf(
+                    "interpret" to BufferedInterpret(logger = collectorLogger),
+                ),
+            )
+
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/multiple_print_with_literal.ps"))
+
+        val logs = collectorLogger.getLogs()
+
+        assertEquals(2, logs.size)
+        assertEquals("hola", logs[0])
+        assertEquals("1", logs[1])
+    }
+}

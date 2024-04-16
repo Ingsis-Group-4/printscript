@@ -16,7 +16,17 @@ class BinaryOperationNodeFormatter : Formatter {
             binaryOperationNode.getLeft(),
             rule,
             formatterMap,
-        )}$space${binaryOperationNode.getOperator()}$space${formatNode(binaryOperationNode.getRight(), rule, formatterMap)}"
+        )}$space${getOperator(binaryOperationNode)}$space${formatNode(binaryOperationNode.getRight(), rule, formatterMap)}"
+    }
+
+    private fun getOperator(binaryOperationNode: BinaryOperation): String {
+        return when (binaryOperationNode.getOperator().getType()) {
+            ast.OperatorType.SUM -> "+"
+            ast.OperatorType.SUBTRACT -> "-"
+            ast.OperatorType.MULTIPLICATION -> "*"
+            ast.OperatorType.DIVISION -> "/"
+            ast.OperatorType.NEGATION -> "-"
+        }
     }
 
     private fun formatNode(
