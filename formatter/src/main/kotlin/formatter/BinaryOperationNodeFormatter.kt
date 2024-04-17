@@ -2,9 +2,13 @@ package formatter
 
 import ast.AST
 import ast.BinaryOperation
+import ast.OperatorNode
+import ast.OperatorType
+import formatter.utils.OperatorFormatter
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
-class BinaryOperationNodeFormatter : Formatter {
+class BinaryOperationNodeFormatter(private val operatorFormatter: OperatorFormatter) : Formatter {
     override fun format(
         node: AST,
         rule: FormattingRule,
@@ -12,29 +16,20 @@ class BinaryOperationNodeFormatter : Formatter {
     ): String {
         val binaryOperationNode = node as BinaryOperation
         val space = if (rule.hasWhiteSpaceBeforeAndAfterOperation) " " else ""
-        return "${formatNode(
-            binaryOperationNode.getLeft(),
-            rule,
-            formatterMap,
-        )}$space${getOperator(binaryOperationNode)}$space${formatNode(binaryOperationNode.getRight(), rule, formatterMap)}"
+        val formattedLeft = formatNextNode(formatterMap, binaryOperationNode.getLeft(), rule)
+        val formattedRight = formatNextNode(formatterMap, binaryOperationNode.getRight(), rule)
+        val formattedOperator = operatorFormatter.format(getOperatorType(binaryOperationNode.getOperator()))
+        return buildFormattedOutput(formattedLeft, formattedOperator, formattedRight, space)
     }
 
-    private fun getOperator(binaryOperationNode: BinaryOperation): String {
-        return when (binaryOperationNode.getOperator().getType()) {
-            ast.OperatorType.SUM -> "+"
-            ast.OperatorType.SUBTRACT -> "-"
-            ast.OperatorType.MULTIPLICATION -> "*"
-            ast.OperatorType.DIVISION -> "/"
-            ast.OperatorType.NEGATION -> "!"
-        }
-    }
+    private fun buildFormattedOutput(
+        left: String,
+        operator: String,
+        right: String,
+        space: String,
+    ) = "$left$space$operator$space$right"
 
-    private fun formatNode(
-        node: AST,
-        rule: FormattingRule,
-        formatterMap: Map<KClass<out AST>, Formatter>,
-    ): String {
-        return formatterMap[node::class]?.format(node, rule, formatterMap)
-            ?: throw IllegalArgumentException("No formatter found for ${node::class}")
+    private fun getOperatorType(operator: OperatorNode): OperatorType {
+        return operator.getType()
     }
 }

@@ -2,6 +2,7 @@ package formatter
 
 import ast.AST
 import ast.KeywordNode
+import formatter.utils.formatNextNode
 import java.util.Locale
 import kotlin.reflect.KClass
 
@@ -21,8 +22,7 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
             declarationNode.equalsNode?.let {
                 append(if (rule.hasSpaceBetweenEqualSign) " = " else "=")
                 append(
-                    formatterMap[declarationNode.expression!!::class]?.format(declarationNode.expression!!, rule, formatterMap)
-                        ?: throw IllegalArgumentException("No formatter found for ${declarationNode.expression!!::class}"),
+                    formatNextNode(formatterMap, declarationNode.expression!!, rule),
                 )
             }
         }

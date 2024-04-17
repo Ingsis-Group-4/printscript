@@ -1,6 +1,7 @@
 package formatter
 
 import ast.AST
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
 class ProgramNodeFormatter : Formatter {
@@ -12,8 +13,7 @@ class ProgramNodeFormatter : Formatter {
         val programNode = node as ast.ProgramNode
         if (programNode.statements.isNotEmpty()) {
             return programNode.statements.joinToString(";\n") { statement ->
-                formatterMap[statement::class]?.format(statement, rule, formatterMap)
-                    ?: throw IllegalArgumentException("No formatter found for ${statement::class}")
+                formatNextNode(formatterMap, statement, rule)
             } + ';'
         }
         return ""

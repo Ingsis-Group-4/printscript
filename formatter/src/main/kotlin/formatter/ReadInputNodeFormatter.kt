@@ -4,19 +4,19 @@ import ast.AST
 import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
-class PrintLnNodeFormatter : Formatter {
+class ReadInputNodeFormatter : Formatter {
     override fun format(
         node: AST,
         rule: FormattingRule,
         formatterMap: Map<KClass<out AST>, Formatter>,
     ): String {
-        val printLnNode = node as ast.PrintLnNode
+        val readInputNode = node as ast.ReadInputNode
         return buildString {
-            repeat(rule.lineBreakBeforePrintLn) {
-                append("\n")
-            }
+//            repeat(rule.lineBreakBeforePrintLn) {
+//                append("\n")
+//            }
             append(
-                "println(${formatNextNode(formatterMap, printLnNode.getExpression(), rule)})",
+                "readInput(${formatNextNode(formatterMap, readInputNode.getExpression(), rule)})",
             )
         }
     }

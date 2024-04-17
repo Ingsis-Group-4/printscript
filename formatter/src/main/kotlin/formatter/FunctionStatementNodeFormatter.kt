@@ -2,6 +2,7 @@ package formatter
 
 import ast.AST
 import ast.FunctionStatementNode
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
 class FunctionStatementNodeFormatter : Formatter {
@@ -14,8 +15,11 @@ class FunctionStatementNodeFormatter : Formatter {
         val function = functionStatementNode.getFunctionNode()
         return buildString {
             append(
-                formatterMap[function::class]?.format(function, rule, formatterMap)
-                    ?: throw IllegalArgumentException("No formatter found for ${function::class}"),
+                formatNextNode(
+                    formatterMap,
+                    function,
+                    rule,
+                ),
             )
         }
     }
