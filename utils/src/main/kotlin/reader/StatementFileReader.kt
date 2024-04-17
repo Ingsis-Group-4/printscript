@@ -47,4 +47,8 @@ class StatementFileReader(
         buffer.reset()
         return hasLines
     }
+
+    fun hasRemainingTokens(): Boolean {
+        return remainingTokens.isNotEmpty()
+    }
 }

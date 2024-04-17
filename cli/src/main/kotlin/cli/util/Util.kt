@@ -2,10 +2,10 @@ package cli.util
 
 import ast.AST
 import lexer.Lexer
-import lexer.LineLexer
 import parser.Parser
 import parser.result.FailureResult
 import parser.result.SuccessResult
+import reader.StatementFileReader
 import token.Token
 import java.io.File
 
@@ -28,12 +28,15 @@ fun generateAST(
 }
 
 fun generateBufferedAST(
-    lexer: LineLexer,
     parser: Parser,
     args: Map<String, String>,
 ): AST {
-    val file = File(getFilePath(args)).readText()
-    val tokens = lexer.lex(file, 0)
+    val statementFileReader = StatementFileReader(File(getFilePath(args)).inputStream())
+    val tokens = mutableListOf<Token>()
+    while (statementFileReader.hasNextLine()) {
+        val currentLine = statementFileReader.nextLine()
+        tokens.addAll(currentLine.flatten())
+    }
     return parseTokens(parser, tokens)
 }
 
@@ -42,6 +45,10 @@ fun generateBufferedAST(
  */
 fun getFilePath(args: Map<String, String>): String {
     return args["-f"] ?: throw IllegalArgumentException("No program file path provided")
+}
+
+fun getConfigFilePath(args: Map<String, String>): String {
+    return args["-c"] ?: throw IllegalArgumentException("No config file path provided")
 }
 
 private fun parseTokens(

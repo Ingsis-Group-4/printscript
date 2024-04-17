@@ -16,7 +16,15 @@ class CLIFormatTest {
                     "format" to Format(writer = logWriter),
                 ),
             )
-        cli.run(listOf("format", "-f", "src/test/resources/format/program/test_001_result.ps"))
+        cli.run(
+            listOf(
+                "format",
+                "-f",
+                "src/test/resources/format/program/test_001_result.ps",
+                "-c",
+                "src/test/resources/format/config/formatter.test.config.json",
+            ),
+        )
 
         val actual = logWriter.getOutput()
         assertEquals(expected, actual)
@@ -32,7 +40,15 @@ class CLIFormatTest {
                     "format" to Format(writer = logWriter),
                 ),
             )
-        cli.run(listOf("format", "-f", "src/test/resources/format/program/test_002_result.ps"))
+        cli.run(
+            listOf(
+                "format",
+                "-f",
+                "src/test/resources/format/program/test_002_result.ps",
+                "-c",
+                "src/test/resources/format/config/formatter.test.config.json",
+            ),
+        )
 
         val actual = logWriter.getOutput()
         assertEquals(expected, actual)
@@ -48,7 +64,15 @@ class CLIFormatTest {
                     "format" to Format(writer = logWriter),
                 ),
             )
-        cli.run(listOf("format", "-f", "src/test/resources/format/program/test_003_result.ps"))
+        cli.run(
+            listOf(
+                "format",
+                "-f",
+                "src/test/resources/format/program/test_003_result.ps",
+                "-c",
+                "src/test/resources/format/config/formatter.test.config.json",
+            ),
+        )
 
         val actual = logWriter.getOutput()
         assertEquals(expected, actual)
@@ -64,7 +88,15 @@ class CLIFormatTest {
                     "format" to Format(writer = logWriter),
                 ),
             )
-        cli.run(listOf("format", "-f", "src/test/resources/format/program/test_004_result.ps"))
+        cli.run(
+            listOf(
+                "format",
+                "-f",
+                "src/test/resources/format/program/test_004_result.ps",
+                "-c",
+                "src/test/resources/format/config/formatter.test.config.json",
+            ),
+        )
 
         val actual = logWriter.getOutput()
         assertEquals(expected, actual)
