@@ -13,7 +13,7 @@ object DefaultOperatorFormatter : OperatorFormatter {
             OperatorType.SUBTRACT -> "-"
             OperatorType.MULTIPLICATION -> "*"
             OperatorType.DIVISION -> "/"
-            OperatorType.NEGATION -> "!"
+            OperatorType.NEGATION -> "-"
         }
     }
 }
