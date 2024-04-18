@@ -112,7 +112,7 @@ class CLIVerifyTest {
     }
 
     @Test
-    fun mockTest(){
+    fun mockTest()  {
         assertTrue(true)
     }
 }
