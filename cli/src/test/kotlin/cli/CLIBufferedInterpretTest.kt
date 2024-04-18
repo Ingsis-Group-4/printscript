@@ -2,7 +2,6 @@ package cli
 
 import cli.function.BufferedInterpret
 import util.CollectorLogger
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,7 +17,7 @@ class CLIBufferedInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_literal.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_literal.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -27,7 +26,6 @@ class CLIBufferedInterpretTest {
     }
 
     @Test
-    @Ignore
     fun testInterpretWithPrintlnWithNullVariable() {
         val collectorLogger = CollectorLogger()
 
@@ -38,7 +36,7 @@ class CLIBufferedInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_null_variable.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_null_variable.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -47,7 +45,6 @@ class CLIBufferedInterpretTest {
     }
 
     @Test
-    @Ignore
     fun testInterpretWithPrintlnWithVariable() {
         val collectorLogger = CollectorLogger()
 
@@ -58,7 +55,7 @@ class CLIBufferedInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_variable.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_variable.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -77,7 +74,7 @@ class CLIBufferedInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_sum.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_sum.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -86,7 +83,6 @@ class CLIBufferedInterpretTest {
     }
 
     @Test
-    @Ignore
     fun testMultiplePrintsWithLiteral() {
         val collectorLogger = CollectorLogger()
 
@@ -97,7 +93,7 @@ class CLIBufferedInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/multiple_print_with_literal.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/multiple_print_with_literal.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 

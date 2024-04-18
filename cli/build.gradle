@@ -10,6 +10,7 @@ dependencies {
     implementation project(':sca')
     implementation project(':formatter')
     implementation project(':utils')
+    implementation project(':runner')
 }
 
 application {
