@@ -12,7 +12,7 @@ dependencies {
     implementation project(':utils')
     implementation project(':runner')
 }
-
+run { standardInput = System.in }
 application {
     mainClassName = 'cli.MainKt'
 }

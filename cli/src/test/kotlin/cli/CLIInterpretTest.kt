@@ -17,7 +17,7 @@ class CLIInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_literal.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_literal.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -36,7 +36,7 @@ class CLIInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_null_variable.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_null_variable.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -55,7 +55,7 @@ class CLIInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_variable.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_variable.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -74,7 +74,7 @@ class CLIInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_sum.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/println_with_sum.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 
@@ -93,7 +93,7 @@ class CLIInterpretTest {
                 ),
             )
 
-        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/multiple_print_with_literal.ps"))
+        cli.run(listOf("interpret", "-f", "src/test/resources/interpret/multiple_print_with_literal.ps", "-v", "1.0"))
 
         val logs = collectorLogger.getLogs()
 

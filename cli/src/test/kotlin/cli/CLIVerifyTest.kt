@@ -5,6 +5,7 @@ import org.junit.jupiter.api.assertThrows
 import util.CollectorLogger
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class CLIVerifyTest {
     @Test
@@ -23,6 +24,8 @@ class CLIVerifyTest {
                 "verify",
                 "-f",
                 "src/test/resources/verify/valid_declaration.ps",
+                "-v",
+                "1.0",
             ),
         )
 
@@ -49,6 +52,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/invalid_declaration.ps",
+                    "-v",
+                    "1.0",
                 ),
             )
         }
@@ -59,6 +64,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/invalid_declaration.ps",
+                    "-v",
+                    "1.0",
                 ),
             )
         } catch (e: IllegalArgumentException) {
@@ -83,6 +90,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/keyword_as_identifier.ps",
+                    "-v",
+                    "1.1",
                 ),
             )
         }
@@ -93,10 +102,17 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/keyword_as_identifier.ps",
+                    "-v",
+                    "1.1",
                 ),
             )
         } catch (e: IllegalArgumentException) {
             assertEquals("Parsing Error: Expected a let token followed by an identifier and a colon token at position 0", e.message)
         }
+    }
+
+    @Test
+    fun mockTest() {
+        assertTrue(true)
     }
 }
