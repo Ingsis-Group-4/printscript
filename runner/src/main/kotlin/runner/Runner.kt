@@ -19,8 +19,8 @@ class Runner {
         parser: Parser,
         interpreter: Interpreter,
         handler: ErrorLogger,
-        adaptedInputProvider: ReadInputFunction,
-        consoleLogger: Logger,
+        readInputFunction: ReadInputFunction,
+        logger: Logger,
     ) {
         try {
             var environment: Environment = Environment()
@@ -47,13 +47,13 @@ class Runner {
                     var output: InterpretOutput
 
                     try {
-                        output = interpreter.interpret(ast, environment, adaptedInputProvider)
+                        output = interpreter.interpret(ast, environment, readInputFunction)
                     } catch (e: Exception) {
                         e.message?.let { handler.log(it) }
                         return
                     }
 
-                    output.logs.forEach(consoleLogger::log)
+                    output.logs.forEach(logger::log)
                     environment = output.environment
                 }
             }

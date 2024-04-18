@@ -60,7 +60,7 @@ class CLIInterpretTest {
         val logs = collectorLogger.getLogs()
 
         assertEquals(1, logs.size)
-        assertEquals("5.0", logs[0])
+        assertEquals("5", logs[0])
     }
 
     @Test

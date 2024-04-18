@@ -7,6 +7,7 @@ import parser.result.FailureResult
 import parser.result.SuccessResult
 import reader.StatementFileReader
 import token.Token
+import version.Version
 import java.io.File
 
 /**
@@ -49,6 +50,15 @@ fun getFilePath(args: Map<String, String>): String {
 
 fun getConfigFilePath(args: Map<String, String>): String {
     return args["-c"] ?: throw IllegalArgumentException("No config file path provided")
+}
+
+fun getVersion(args: Map<String, String>): Version {
+    val version = args["-v"] ?: throw IllegalArgumentException("No version provided")
+    return when (version) {
+        "1.0" -> Version.V1
+        "1.1" -> Version.V2
+        else -> throw IllegalArgumentException("Invalid version provided")
+    }
 }
 
 private fun parseTokens(

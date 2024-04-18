@@ -1,14 +1,20 @@
 package cli.function
 
-import cli.util.generateBufferedAST
+import cli.util.getFilePath
+import cli.util.getVersion
 import interpreter.StatementInterpreter
 import interpreter.factory.getInterpreterMap
+import interpreter.readInputFunction.StandardInputFunction
 import lexer.LineLexer
 import lexer.getTokenMap
 import logger.ConsoleLogger
+import logger.ErrorLogger
 import logger.Logger
 import parser.Parser
 import parser.factory.StatementParserFactory
+import reader.StatementFileReader
+import runner.Runner
+import java.io.File
 
 /**
  * Interprets the given source code by statement.
@@ -24,12 +30,14 @@ class BufferedInterpret(
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
-        val ast = generateBufferedAST(parser, args)
-
-        val result = StatementInterpreter(getInterpreterMap()).interpret(ast)
-
-        for (log in result.logs) {
-            logger.log(log)
-        }
+        val runner = Runner()
+        runner.run(
+            reader = StatementFileReader(File(getFilePath(args)).inputStream(), getVersion(args)),
+            readInputFunction = StandardInputFunction(),
+            parser = parser,
+            interpreter = StatementInterpreter(getInterpreterMap()),
+            handler = ErrorLogger(),
+            logger = logger,
+        )
     }
 }
