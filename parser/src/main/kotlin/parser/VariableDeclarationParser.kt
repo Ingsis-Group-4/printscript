@@ -9,11 +9,11 @@ import ast.IdentifierNode
 import ast.KeywordNode
 import ast.LetNode
 import ast.VariableTypeNode
+import parser.provider.TypeProvider
+import parser.provider.TypeProviderV1
 import parser.result.FailureResult
 import parser.result.ParserResult
 import parser.result.SuccessResult
-import parser.type.TypeProvider
-import parser.type.TypeProviderV1
 import parser.utils.at
 import parser.utils.getSyntaxSubtree
 import parser.utils.isEndOfStatement

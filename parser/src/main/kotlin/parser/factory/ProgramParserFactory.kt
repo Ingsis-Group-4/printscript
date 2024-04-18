@@ -9,8 +9,9 @@ import parser.StatementParser
 import parser.VariableDeclarationParser
 import parser.conditional.BlockParser
 import parser.conditional.IfStatementParser
-import parser.type.TypeProviderV1
-import parser.type.TypeProviderV2
+import parser.provider.BlockTokenProviderV2
+import parser.provider.TypeProviderV1
+import parser.provider.TypeProviderV2
 import token.TokenType
 import version.Version
 
@@ -66,7 +67,7 @@ object ProgramParserFactoryV2 : ParserFactory {
             )
 
         if (version == Version.V2) {
-            return ProgramParser(parserSelector + parserSelectorV2)
+            return ProgramParser(parserSelector + parserSelectorV2, BlockTokenProviderV2)
         }
 
         return ProgramParser(parserSelector)

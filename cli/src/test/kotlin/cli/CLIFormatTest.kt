@@ -104,7 +104,7 @@ class CLIFormatTest {
 
     @Test
     fun `test_005 If Statement`() {
-        val expected = "let a : boolean = true;\nif (a)\n{\n\n\n  println(1);\n}"
+        val expected = "let a : boolean = true;\nif (a)\n{\n\n\n  println(1);\n}\nconst b : boolean = false;"
         val logWriter = LogWriter()
         val cli =
             CLI(
@@ -117,6 +117,30 @@ class CLIFormatTest {
                 "format",
                 "-f",
                 "src/test/resources/format/program/test_005_result.ps",
+                "-c",
+                "src/test/resources/format/config/formatter.test.config.json",
+            ),
+        )
+
+        val actual = logWriter.getOutput()
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test_006 If Else Statement`() {
+        val expected = "let a : boolean = true;\nif (a)\n{\n\n\n  println(1);\n} else\n{\n\n\n  println(2);\n}"
+        val logWriter = LogWriter()
+        val cli =
+            CLI(
+                mapOf(
+                    "format" to Format(writer = logWriter),
+                ),
+            )
+        cli.run(
+            listOf(
+                "format",
+                "-f",
+                "src/test/resources/format/program/test_006_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
             ),

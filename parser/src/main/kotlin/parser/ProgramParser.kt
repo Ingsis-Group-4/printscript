@@ -2,16 +2,25 @@ package parser
 
 import ast.ProgramNode
 import ast.StatementNode
+import parser.provider.BlockTokenProvider
+import parser.provider.BlockTokenProviderV1
 import parser.result.FailureResult
 import parser.result.ParserResult
 import parser.result.SuccessResult
+import parser.utils.at
 import parser.utils.getSyntaxSubtree
 import parser.utils.isEndOfStatement
+import parser.utils.isOutOfBounds
 import parser.utils.isTokenValid
+import parser.utils.next
+import parser.utils.nextIndex
 import token.Token
 import token.TokenType
 
-class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser {
+class ProgramParser(
+    private val parserSelector: Map<TokenType, Parser>,
+    private val blockTokenProvider: BlockTokenProvider = BlockTokenProviderV1,
+) : Parser {
     override fun parse(
         tokens: List<Token>,
         currentIndex: Int,
@@ -25,14 +34,22 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
         var currentStatement = mutableListOf<Token>()
         var openBlock = false
 
-        for (token in tokens) {
-            if (isTokenValid(token, TokenType.OPENCURLY)) {
+        for (i in tokens.indices) {
+            val token = at(tokens, i)
+            if (isTokenValid(tokens, i, TokenType.OPENCURLY)) {
                 openBlock = true
             }
-            if (isTokenValid(token, TokenType.CLOSECURLY)) {
+            if (isTokenValid(tokens, i, TokenType.CLOSECURLY)) {
                 openBlock = false
             }
-            if ((isEndOfStatement(token) && !openBlock) || isTokenValid(token, TokenType.CLOSECURLY)) {
+            if (!isOutOfBounds(tokens, nextIndex(i))) {
+                if (next(tokens, i).type in blockTokenProvider.getNestedBlockTokens()) {
+                    currentStatement.add(token)
+                    openBlock = true
+                    continue
+                }
+            }
+            if ((isEndOfStatement(token) && !openBlock) || isTokenValid(tokens, i, TokenType.CLOSECURLY)) {
                 currentStatement.add(token)
                 statements.add(currentStatement)
                 currentStatement = mutableListOf()

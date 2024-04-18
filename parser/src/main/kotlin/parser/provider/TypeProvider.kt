@@ -1,4 +1,4 @@
-package parser.type
+package parser.provider
 
 import ast.VariableType
 import token.TokenType

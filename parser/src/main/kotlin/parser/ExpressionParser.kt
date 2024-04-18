@@ -3,9 +3,9 @@ package parser
 import ast.AST
 import parser.factory.FactorHandlerFactory
 import parser.factory.OperationStrategyFactory
+import parser.provider.OperatorProvider
 import parser.result.ParserResult
 import parser.result.SuccessResult
-import parser.utils.OperatorProvider
 import parser.utils.at
 import parser.utils.isOutOfBounds
 import parser.utils.nextIndex
