@@ -2,7 +2,7 @@ package formatter.utils
 
 import ast.AST
 import formatter.Formatter
-import formatter.FormattingRule
+import formatter.rule.FormattingRule
 import kotlin.reflect.KClass
 
 fun formatNextNode(

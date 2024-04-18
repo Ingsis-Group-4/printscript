@@ -1,7 +1,9 @@
-package formatter
+package formatter.statement
 
 import ast.AST
 import ast.FunctionNode
+import formatter.Formatter
+import formatter.rule.FormattingRule
 import formatter.utils.DefaultWhitespacesBeforeFunction
 import formatter.utils.formatNextNode
 import formatter.utils.getClass
@@ -13,7 +15,7 @@ class FunctionCallFormatter(private val functionNameMap: Map<KClass<out Function
         rule: FormattingRule,
         formatterMap: Map<KClass<out AST>, Formatter>,
     ): String {
-        val functionNode = node as ast.FunctionNode
+        val functionNode = node as FunctionNode
         return buildString {
             repeat(
                 DefaultWhitespacesBeforeFunction.getWhitespacesAmount(functionNode, rule),

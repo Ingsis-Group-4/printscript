@@ -1,9 +1,11 @@
-package formatter
+package formatter.expression
 
 import ast.AST
 import ast.BinaryOperation
 import ast.OperatorNode
 import ast.OperatorType
+import formatter.Formatter
+import formatter.rule.FormattingRule
 import formatter.utils.OperatorFormatter
 import formatter.utils.formatNextNode
 import kotlin.reflect.KClass

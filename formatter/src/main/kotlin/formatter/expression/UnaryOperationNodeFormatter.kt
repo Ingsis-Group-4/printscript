@@ -1,23 +1,26 @@
-package formatter
+package formatter.expression
 
 import ast.AST
-import ast.FunctionStatementNode
+import ast.UnaryOperation
+import formatter.Formatter
+import formatter.rule.FormattingRule
 import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
-class FunctionStatementNodeFormatter : Formatter {
+class UnaryOperationNodeFormatter : Formatter {
     override fun format(
         node: AST,
         rule: FormattingRule,
         formatterMap: Map<KClass<out AST>, Formatter>,
     ): String {
-        val functionStatementNode = node as FunctionStatementNode
-        val function = functionStatementNode.getFunctionNode()
+        val unaryOperationNode = node as UnaryOperation
         return buildString {
+            append(unaryOperationNode.getOperator())
+            append(if (rule.hasWhiteSpaceBeforeAndAfterOperation) " " else "")
             append(
                 formatNextNode(
                     formatterMap,
-                    function,
+                    unaryOperationNode.getOperand(),
                     rule,
                 ),
             )

@@ -1,6 +1,7 @@
 package formatter
 
 import ast.AST
+import formatter.rule.FormattingRule
 import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 

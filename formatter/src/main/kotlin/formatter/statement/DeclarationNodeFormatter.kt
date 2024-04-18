@@ -1,7 +1,9 @@
-package formatter
+package formatter.statement
 
 import ast.AST
 import ast.KeywordNode
+import formatter.Formatter
+import formatter.rule.FormattingRule
 import formatter.utils.formatNextNode
 import java.util.Locale
 import kotlin.reflect.KClass
@@ -27,8 +29,8 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
             }
         }
     }
-}
 
-private fun humanize(input: String): String {
-    return input.lowercase(Locale.getDefault())
+    private fun humanize(input: String): String {
+        return input.lowercase(Locale.getDefault())
+    }
 }

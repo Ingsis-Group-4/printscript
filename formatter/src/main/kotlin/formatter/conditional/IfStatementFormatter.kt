@@ -1,7 +1,9 @@
-package formatter
+package formatter.conditional
 
 import ast.AST
 import ast.IfStatement
+import formatter.Formatter
+import formatter.rule.FormattingRule
 import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 

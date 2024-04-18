@@ -3,9 +3,9 @@ package cli.function
 import cli.util.generateAST
 import cli.util.getConfigFilePath
 import cli.util.getFilePath
-import formatter.FormattingRule
 import formatter.ProgramNodeFormatter
 import formatter.factory.FormatterMapFactory
+import formatter.rule.FormattingRule
 import lexer.Lexer
 import lexer.getTokenMap
 import parser.Parser

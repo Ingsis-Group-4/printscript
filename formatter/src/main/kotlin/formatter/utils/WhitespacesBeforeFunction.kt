@@ -1,7 +1,7 @@
 package formatter.utils
 
 import ast.FunctionNode
-import formatter.FormattingRule
+import formatter.rule.FormattingRule
 
 interface WhitespacesBeforeFunction {
     fun getWhitespacesAmount(

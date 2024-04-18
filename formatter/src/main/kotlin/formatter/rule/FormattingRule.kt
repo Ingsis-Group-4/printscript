@@ -1,4 +1,4 @@
-package formatter
+package formatter.rule
 
 import formatter.configurer.IfBlockIndentConfigurer
 import formatter.configurer.LineBreakBeforePrintLnConfigurer
