@@ -1,11 +1,11 @@
 package cli.function
 
 import cli.util.generateAST
+import cli.util.getVersion
 import lexer.Lexer
 import lexer.getTokenMap
 import logger.ConsoleLogger
 import logger.Logger
-import parser.Parser
 import parser.factory.ProgramParserFactory
 
 /**
@@ -15,11 +15,14 @@ import parser.factory.ProgramParserFactory
  * @param parser The parser to use.
  */
 class Verify(
-    private val lexer: Lexer = Lexer(getTokenMap()),
-    private val parser: Parser = ProgramParserFactory.create(),
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
+        val version = getVersion(args)
+
+        val lexer = Lexer(getTokenMap(version))
+        val parser = ProgramParserFactory.create(version)
+
         generateAST(lexer, parser, args)
 
         logger.log("Verification successful!")

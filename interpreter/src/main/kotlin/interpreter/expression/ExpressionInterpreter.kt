@@ -42,8 +42,9 @@ class ExpressionInterpreter {
             }
             is ReadInputNode -> {
                 val expressionOutput = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler)
+                val readOutput = ReadInputNodeInterpreter().interpret(node, environment, inputHandler)
                 ExpressionInterpreterOutput(
-                    ReadInputNodeInterpreter().interpret(node, environment, inputHandler),
+                    readOutput,
                     listOf(expressionOutput.value.toString()),
                 )
             }

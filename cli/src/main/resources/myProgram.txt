@@ -1,2 +1,12 @@
-let aNumber : number = 5;
-println(1 + 1);
+let a_bool : boolean = readInput("message");
+if (a_bool)
+{
+
+
+  println("bool is true");
+} else
+{
+
+
+  println("bool is false");
+}
