@@ -4,7 +4,6 @@ import interpreter.Environment
 import interpreter.InterpretOutput
 import interpreter.Interpreter
 import interpreter.readInputFunction.ReadInputFunction
-import logger.ErrorLogger
 import logger.Logger
 import parser.Parser
 import parser.result.FailureResult
@@ -18,12 +17,12 @@ class Runner {
         reader: StatementFileReader,
         parser: Parser,
         interpreter: Interpreter,
-        handler: ErrorLogger,
+        errorLogger: Logger,
         readInputFunction: ReadInputFunction,
         logger: Logger,
     ) {
         try {
-            var environment: Environment = Environment()
+            var environment = Environment()
 
             while (reader.hasNextLine()) {
                 val statements: List<List<Token>> = reader.nextLine()
@@ -33,12 +32,12 @@ class Runner {
                     try {
                         parserResult = parser.parse(statement, 0)
                     } catch (e: Exception) {
-                        e.message?.let { handler.log(it) }
+                        e.message?.let { errorLogger.log(it) }
                         return
                     }
 
                     if (parserResult is FailureResult) {
-                        handler.log(parserResult.message)
+                        errorLogger.log(parserResult.message)
                         return
                     }
 
@@ -49,7 +48,7 @@ class Runner {
                     try {
                         output = interpreter.interpret(ast, environment, readInputFunction)
                     } catch (e: Exception) {
-                        e.message?.let { handler.log(it) }
+                        e.message?.let { errorLogger.log(it) }
                         return
                     }
 
@@ -58,7 +57,7 @@ class Runner {
                 }
             }
         } catch (e: Exception) {
-            e.message?.let { handler.log(it) }
+            e.message?.let { errorLogger.log(it) }
         }
     }
 }
