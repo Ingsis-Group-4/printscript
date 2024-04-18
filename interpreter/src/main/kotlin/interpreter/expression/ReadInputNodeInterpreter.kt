@@ -14,7 +14,7 @@ class ReadInputNodeInterpreter {
         readInputFunction: ReadInputFunction,
     ): Value {
         val param = ExpressionInterpreter().interpret(readInputNode.getExpression(), environment, readInputFunction)
-        readInputFunction.read(param.toString()).let {
+        readInputFunction.read(param.value.toString()).let {
             return when (it) {
                 is String -> InputValue(it)
                 else -> NullValue
