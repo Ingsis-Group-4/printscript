@@ -43,6 +43,36 @@ object ProgramParserFactory : ParserFactory {
     }
 }
 
+/**
+ * Factory to create a parser for the program V2
+ */
+object ProgramParserFactoryV2 : ParserFactory {
+    /**
+     * Selector for parsers based on token type
+     */
+
+    override fun create(version: Version): Parser {
+        val parserSelector: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.LET to VariableDeclarationParserFactory.create(version),
+                TokenType.IDENTIFIER to AssignationParserFactory.create(version),
+                TokenType.PRINTLN to PrintLnParserFactory.create(version),
+            )
+
+        val parserSelectorV2: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.IF to IfStatementParserFactory.create(version),
+                TokenType.CONST to VariableDeclarationParserFactory.create(version),
+            )
+
+        if (version == Version.V2) {
+            return ProgramParser(parserSelector + parserSelectorV2)
+        }
+
+        return ProgramParser(parserSelector)
+    }
+}
+
 object StatementParserFactory : ParserFactory {
     override fun create(version: Version): Parser {
         // Selector for parsers based on token type

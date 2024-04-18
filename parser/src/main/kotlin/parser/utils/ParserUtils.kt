@@ -122,6 +122,13 @@ fun isTokenValid(
     return at(tokens, tokenIndex).type == expectedType
 }
 
+fun isTokenValid(
+    token: Token,
+    expectedType: TokenType,
+): Boolean {
+    return token.type == expectedType
+}
+
 fun consume(
     tokens: List<Token>,
     currentIndex: Int,

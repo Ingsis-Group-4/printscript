@@ -40,16 +40,6 @@ class IfStatementTest {
             SuccessResult(
                 ProgramNode(
                     listOf(
-                        DeclarationNode(
-                            IdentifierNode("a", VariableType.NUMBER, start = tokens.first().start, end = tokens.last().end),
-                            LiteralNode(1, start = tokens.first().start, end = tokens.last().end),
-                            LetNode(start = tokens.first().start, end = tokens.last().end),
-                            ColonNode(start = tokens.first().start, end = tokens.last().end),
-                            VariableTypeNode(VariableType.NUMBER, start = tokens.first().start, end = tokens.last().end),
-                            EqualsNode(start = tokens.first().start, end = tokens.last().end),
-                            tokens.first().start,
-                            tokens.last().end,
-                        ),
                         IfStatement(
                             start = tokens.first().start,
                             end = tokens.last().end,
@@ -88,6 +78,16 @@ class IfStatementTest {
                                     ),
                                 ),
                             elseBlock = null,
+                        ),
+                        DeclarationNode(
+                            IdentifierNode("a", VariableType.NUMBER, start = tokens.first().start, end = tokens.last().end),
+                            LiteralNode(1, start = tokens.first().start, end = tokens.last().end),
+                            LetNode(start = tokens.first().start, end = tokens.last().end),
+                            ColonNode(start = tokens.first().start, end = tokens.last().end),
+                            VariableTypeNode(VariableType.NUMBER, start = tokens.first().start, end = tokens.last().end),
+                            EqualsNode(start = tokens.first().start, end = tokens.last().end),
+                            tokens.first().start,
+                            tokens.last().end,
                         ),
                     ),
                     start = tokens.first().start,

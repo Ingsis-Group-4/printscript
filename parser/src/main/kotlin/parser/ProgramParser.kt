@@ -7,6 +7,7 @@ import parser.result.ParserResult
 import parser.result.SuccessResult
 import parser.utils.getSyntaxSubtree
 import parser.utils.isEndOfStatement
+import parser.utils.isTokenValid
 import token.Token
 import token.TokenType
 
@@ -22,9 +23,16 @@ class ProgramParser(private val parserSelector: Map<TokenType, Parser>) : Parser
     private fun divideIntoStatements(tokens: List<Token>): List<List<Token>> {
         val statements = mutableListOf<List<Token>>()
         var currentStatement = mutableListOf<Token>()
+        var openBlock = false
 
         for (token in tokens) {
-            if (isEndOfStatement(token)) {
+            if (isTokenValid(token, TokenType.OPENCURLY)) {
+                openBlock = true
+            }
+            if (isTokenValid(token, TokenType.CLOSECURLY)) {
+                openBlock = false
+            }
+            if ((isEndOfStatement(token) && !openBlock) || isTokenValid(token, TokenType.CLOSECURLY)) {
                 currentStatement.add(token)
                 statements.add(currentStatement)
                 currentStatement = mutableListOf()

@@ -23,6 +23,7 @@ class AssignationNodeFormatter : Formatter {
                     rule,
                 ),
             )
+            append(";")
         }
     }
 }

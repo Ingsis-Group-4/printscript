@@ -23,6 +23,7 @@ class FunctionStatementNodeFormatter : Formatter {
                     rule,
                 ),
             )
+            append(";")
         }
     }
 }

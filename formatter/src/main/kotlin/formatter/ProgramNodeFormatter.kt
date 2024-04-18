@@ -13,9 +13,9 @@ class ProgramNodeFormatter : Formatter {
     ): String {
         val programNode = node as ast.ProgramNode
         if (programNode.statements.isNotEmpty()) {
-            return programNode.statements.joinToString(";\n") { statement ->
+            return programNode.statements.joinToString("\n") { statement ->
                 formatNextNode(formatterMap, statement, rule)
-            } + ';'
+            }
         }
         return ""
     }

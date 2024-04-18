@@ -27,6 +27,7 @@ class DeclarationNodeFormatter(private val keywordMap: Map<KClass<out KeywordNod
                     formatNextNode(formatterMap, declarationNode.expression!!, rule),
                 )
             }
+            append(";")
         }
     }
 

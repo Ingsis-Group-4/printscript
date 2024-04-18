@@ -12,6 +12,9 @@ dependencies {
     jacocoAggregation project(':lexer')
     jacocoAggregation project(':parser')
     jacocoAggregation project(':interpreter')
+    jacocoAggregation project(':formatter')
+    jacocoAggregation project(':utils')
+    jacocoAggregation project(':sca')
 }
 
 reporting {
