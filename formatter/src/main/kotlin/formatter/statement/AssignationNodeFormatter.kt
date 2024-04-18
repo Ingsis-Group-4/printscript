@@ -1,6 +1,9 @@
-package formatter
+package formatter.statement
 
 import ast.AST
+import formatter.Formatter
+import formatter.rule.FormattingRule
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
 class AssignationNodeFormatter : Formatter {
@@ -14,9 +17,13 @@ class AssignationNodeFormatter : Formatter {
             append(assignationNode.identifier.variableName)
             append(if (rule.hasSpaceBetweenEqualSign) " = " else "=")
             append(
-                formatterMap[assignationNode.expression::class]?.format(assignationNode.expression, rule, formatterMap)
-                    ?: throw IllegalArgumentException("No formatter found for ${assignationNode.expression::class}"),
+                formatNextNode(
+                    formatterMap,
+                    assignationNode.expression,
+                    rule,
+                ),
             )
+            append(";")
         }
     }
 }

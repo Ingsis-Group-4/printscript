@@ -1,7 +1,10 @@
-package formatter
+package formatter.expression
 
 import ast.AST
 import ast.UnaryOperation
+import formatter.Formatter
+import formatter.rule.FormattingRule
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
 class UnaryOperationNodeFormatter : Formatter {
@@ -15,8 +18,11 @@ class UnaryOperationNodeFormatter : Formatter {
             append(unaryOperationNode.getOperator())
             append(if (rule.hasWhiteSpaceBeforeAndAfterOperation) " " else "")
             append(
-                formatterMap[unaryOperationNode.getOperand()::class]?.format(unaryOperationNode.getOperand(), rule, formatterMap)
-                    ?: throw IllegalArgumentException("No formatter found for ${unaryOperationNode.getOperand()::class}"),
+                formatNextNode(
+                    formatterMap,
+                    unaryOperationNode.getOperand(),
+                    rule,
+                ),
             )
         }
     }

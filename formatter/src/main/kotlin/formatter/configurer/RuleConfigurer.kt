@@ -31,6 +31,13 @@ class LineBreakBeforePrintLnConfigurer(configPath: String) : RuleConfigurer<Int>
     override fun getRule(): Int = rule
 }
 
+class IfBlockIndentConfigurer(configPath: String) : RuleConfigurer<Int> {
+    private val ruleConfigName = "ifBlockIndent"
+    private val rule: Int = getJsonValue(readConfig(configPath), ruleConfigName, String::toInt)
+
+    override fun getRule(): Int = rule
+}
+
 private fun readConfig(configPath: String): JsonObject {
     val fileContent = File(configPath).readText()
     val configJson = Json.parseToJsonElement(fileContent)

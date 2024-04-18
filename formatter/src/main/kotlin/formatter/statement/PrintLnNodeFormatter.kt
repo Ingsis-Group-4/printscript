@@ -1,6 +1,9 @@
-package formatter
+package formatter.statement
 
 import ast.AST
+import formatter.Formatter
+import formatter.rule.FormattingRule
+import formatter.utils.formatNextNode
 import kotlin.reflect.KClass
 
 class PrintLnNodeFormatter : Formatter {
@@ -15,8 +18,7 @@ class PrintLnNodeFormatter : Formatter {
                 append("\n")
             }
             append(
-                "println(${formatterMap[printLnNode.getExpression()::class]?.format(printLnNode.getExpression(), rule, formatterMap)
-                    ?: throw IllegalArgumentException("No formatter found for ${printLnNode.getExpression()::class}")})",
+                "println(${formatNextNode(formatterMap, printLnNode.getExpression(), rule)})",
             )
         }
     }

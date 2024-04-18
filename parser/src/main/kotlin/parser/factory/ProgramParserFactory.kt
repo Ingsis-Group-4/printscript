@@ -9,8 +9,9 @@ import parser.StatementParser
 import parser.VariableDeclarationParser
 import parser.conditional.BlockParser
 import parser.conditional.IfStatementParser
-import parser.type.TypeProviderV1
-import parser.type.TypeProviderV2
+import parser.provider.BlockTokenProviderV2
+import parser.provider.TypeProviderV1
+import parser.provider.TypeProviderV2
 import token.TokenType
 import version.Version
 
@@ -39,6 +40,36 @@ object ProgramParserFactory : ParserFactory {
         )
 
     override fun create(version: Version): Parser {
+        return ProgramParser(parserSelector)
+    }
+}
+
+/**
+ * Factory to create a parser for the program V2
+ */
+object ProgramParserFactoryV2 : ParserFactory {
+    /**
+     * Selector for parsers based on token type
+     */
+
+    override fun create(version: Version): Parser {
+        val parserSelector: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.LET to VariableDeclarationParserFactory.create(version),
+                TokenType.IDENTIFIER to AssignationParserFactory.create(version),
+                TokenType.PRINTLN to PrintLnParserFactory.create(version),
+            )
+
+        val parserSelectorV2: Map<TokenType, Parser> =
+            mapOf(
+                TokenType.IF to IfStatementParserFactory.create(version),
+                TokenType.CONST to VariableDeclarationParserFactory.create(version),
+            )
+
+        if (version == Version.V2) {
+            return ProgramParser(parserSelector + parserSelectorV2, BlockTokenProviderV2)
+        }
+
         return ProgramParser(parserSelector)
     }
 }
