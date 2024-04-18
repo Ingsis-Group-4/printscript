@@ -13,8 +13,9 @@ dependencies {
     jacocoAggregation project(':parser')
     jacocoAggregation project(':interpreter')
     jacocoAggregation project(':formatter')
-    jacocoAggregation project(':utils')
+    jacocoAggregation project(':cli')
     jacocoAggregation project(':sca')
+    jacocoAggregation project(':utils')
 }
 
 reporting {
