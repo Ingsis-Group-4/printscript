@@ -23,6 +23,8 @@ class CLIVerifyTest {
                 "verify",
                 "-f",
                 "src/test/resources/verify/valid_declaration.ps",
+                "-v",
+                "1.0",
             ),
         )
 
@@ -49,6 +51,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/invalid_declaration.ps",
+                    "-v",
+                    "1.0",
                 ),
             )
         }
@@ -59,6 +63,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/invalid_declaration.ps",
+                    "-v",
+                    "1.0",
                 ),
             )
         } catch (e: IllegalArgumentException) {
@@ -83,6 +89,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/keyword_as_identifier.ps",
+                    "-v",
+                    "1.1",
                 ),
             )
         }
@@ -93,6 +101,8 @@ class CLIVerifyTest {
                     "verify",
                     "-f",
                     "src/test/resources/verify/keyword_as_identifier.ps",
+                    "-v",
+                    "1.1",
                 ),
             )
         } catch (e: IllegalArgumentException) {

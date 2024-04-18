@@ -24,6 +24,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_camel_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/empty_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -51,6 +53,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_snake_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -78,6 +82,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_camel_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -105,6 +111,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_camel_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/snake_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -132,6 +140,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_snake_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/snake_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -159,6 +169,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/declarations_with_multiple_namings.ps",
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -187,6 +199,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_sum.ps",
                 "-c",
                 "src/test/resources/analyze/config/println_argument_and_camel_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
@@ -214,6 +228,8 @@ class CLIAnalyzeTest {
                 "src/test/resources/analyze/program/println_with_camel_case_variable.ps",
                 "-c",
                 "src/test/resources/analyze/config/println_argument_and_camel_case_config_file.json",
+                "-v",
+                "1.0"
             ),
         )
 
