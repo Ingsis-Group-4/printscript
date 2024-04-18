@@ -8,6 +8,7 @@ include(
         'cli',
         'code-coverage-report',
         'utils',
-        'formatter'
+        'formatter',
+        'runner'
 )
 
