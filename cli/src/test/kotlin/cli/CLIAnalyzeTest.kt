@@ -25,7 +25,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/empty_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -54,7 +54,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -83,7 +83,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -112,7 +112,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/snake_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -141,7 +141,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/snake_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -170,7 +170,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/camel_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -200,7 +200,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/println_argument_and_camel_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -229,7 +229,7 @@ class CLIAnalyzeTest {
                 "-c",
                 "src/test/resources/analyze/config/println_argument_and_camel_case_config_file.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 

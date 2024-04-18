@@ -24,7 +24,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.1"
+                "1.1",
             ),
         )
 
@@ -50,7 +50,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -76,7 +76,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -102,7 +102,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.0"
+                "1.0",
             ),
         )
 
@@ -128,7 +128,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.1"
+                "1.1",
             ),
         )
 
@@ -154,7 +154,7 @@ class CLIFormatTest {
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
                 "-v",
-                "1.1"
+                "1.1",
             ),
         )
 
