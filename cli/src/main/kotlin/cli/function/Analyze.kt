@@ -1,6 +1,7 @@
 package cli.function
 
 import cli.util.generateAST
+import cli.util.getConfigFilePath
 import cli.util.getVersion
 import lexer.Lexer
 import lexer.getTokenMap
@@ -10,6 +11,7 @@ import parser.factory.ProgramParserFactoryV2
 import sca.StaticCodeAnalyzer
 import sca.factory.DefaultSCARuleFactory
 import sca.factory.SCARuleFactory
+import java.io.File
 
 /**
  * Analyzes the given source code, with a static code analyzer
@@ -48,21 +50,11 @@ class Analyze(
      * Configures and returns the static code analyzer with the set of rules from the config file.
      */
     private fun getSca(args: Map<String, String>): StaticCodeAnalyzer {
-        val configFile = getConfigFile(args)
+        val configFilePath = getConfigFilePath(args)
+        val configFileContent = File(configFilePath).readText()
 
         return StaticCodeAnalyzer(
-            ruleFactory.getRules(configFile),
+            ruleFactory.getRules(configFileContent),
         )
-    }
-
-    /**
-     * Gets the config file from the command line arguments.
-     */
-    private fun getConfigFile(args: Map<String, String>): String {
-        return if (args.containsKey("-c")) {
-            args["-c"]!!
-        } else {
-            throw IllegalArgumentException("No config file provided")
-        }
     }
 }

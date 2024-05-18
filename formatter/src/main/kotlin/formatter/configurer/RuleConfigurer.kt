@@ -4,43 +4,41 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import java.io.File
 
 interface RuleConfigurer<T> {
     fun getRule(): T
 }
 
-class SpaceBetweenColonConfigurer(configPath: String) : RuleConfigurer<Boolean> {
+class SpaceBetweenColonConfigurer(configString: String) : RuleConfigurer<Boolean> {
     private val ruleConfigName = "hasSpaceBetweenColon"
-    private val rule: Boolean = getJsonValue(readConfig(configPath), ruleConfigName, String::toBoolean)
+    private val rule: Boolean = getJsonValue(readConfig(configString), ruleConfigName, String::toBoolean)
 
     override fun getRule(): Boolean = rule
 }
 
-class SpaceBetweenEqualSignConfigurer(configPath: String) : RuleConfigurer<Boolean> {
+class SpaceBetweenEqualSignConfigurer(configString: String) : RuleConfigurer<Boolean> {
     private val ruleConfigName = "hasSpaceBetweenEqualSign"
-    private val rule: Boolean = getJsonValue(readConfig(configPath), ruleConfigName, String::toBoolean)
+    private val rule: Boolean = getJsonValue(readConfig(configString), ruleConfigName, String::toBoolean)
 
     override fun getRule(): Boolean = rule
 }
 
-class LineBreakBeforePrintLnConfigurer(configPath: String) : RuleConfigurer<Int> {
+class LineBreakBeforePrintLnConfigurer(configString: String) : RuleConfigurer<Int> {
     private val ruleConfigName = "lineBreakBeforePrintLn"
-    private val rule: Int = getJsonValue(readConfig(configPath), ruleConfigName, String::toInt)
+    private val rule: Int = getJsonValue(readConfig(configString), ruleConfigName, String::toInt)
 
     override fun getRule(): Int = rule
 }
 
-class IfBlockIndentConfigurer(configPath: String) : RuleConfigurer<Int> {
+class IfBlockIndentConfigurer(configString: String) : RuleConfigurer<Int> {
     private val ruleConfigName = "ifBlockIndent"
-    private val rule: Int = getJsonValue(readConfig(configPath), ruleConfigName, String::toInt)
+    private val rule: Int = getJsonValue(readConfig(configString), ruleConfigName, String::toInt)
 
     override fun getRule(): Int = rule
 }
 
-private fun readConfig(configPath: String): JsonObject {
-    val fileContent = File(configPath).readText()
-    val configJson = Json.parseToJsonElement(fileContent)
+private fun readConfig(configString: String): JsonObject {
+    val configJson = Json.parseToJsonElement(configString)
     return configJson.jsonObject
 }
 

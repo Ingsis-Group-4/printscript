@@ -6,7 +6,6 @@ import kotlinx.serialization.json.jsonObject
 import sca.configurer.PrintLnArgumentNonExpressionRuleConfigurer
 import sca.configurer.VariableNamingRuleConfigurer
 import sca.rule.Rule
-import java.io.File
 
 /**
  * Factory for creating the rule list of a StaticCodeAnalyzer.
@@ -15,10 +14,10 @@ interface SCARuleFactory {
     /**
      * Get the rules from a configuration file.
      *
-     * @param configPath Path to the JSON configuration file
+     * @param configString String in JSON format with rules config
      * @return List of rules
      * */
-    fun getRules(configPath: String): List<Rule>
+    fun getRules(configString: String): List<Rule>
 }
 
 class DefaultSCARuleFactory : SCARuleFactory {
@@ -28,8 +27,8 @@ class DefaultSCARuleFactory : SCARuleFactory {
             "printLnArgumentNonExpressionRule" to PrintLnArgumentNonExpressionRuleConfigurer(),
         )
 
-    override fun getRules(configPath: String): List<Rule> {
-        val config = readConfig(configPath)
+    override fun getRules(configString: String): List<Rule> {
+        val config = readConfig(configString)
         val rules =
             config.keys.map {
                     ruleName ->
@@ -40,10 +39,8 @@ class DefaultSCARuleFactory : SCARuleFactory {
         return rules
     }
 
-    private fun readConfig(configPath: String): JsonObject {
-        // Read config from file
-        val fileContent = File(configPath).readText()
-        val configJson = Json.parseToJsonElement(fileContent)
+    private fun readConfig(configString: String): JsonObject {
+        val configJson = Json.parseToJsonElement(configString)
         return configJson.jsonObject
     }
 }

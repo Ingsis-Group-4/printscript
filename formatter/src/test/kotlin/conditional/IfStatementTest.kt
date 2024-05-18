@@ -24,13 +24,14 @@ import parser.factory.StatementParserFactory
 import parser.result.SuccessResult
 import utils.getStringFromFile
 import version.Version
+import java.io.File
 import kotlin.test.Test
 
 class IfStatementTest {
     private val lexer = Lexer(getTokenMap(Version.V2))
     private val parser = ProgramParserFactory.create()
     private val statementParser = StatementParserFactory.create(Version.V2)
-    private val configPath: String = "src/test/resources/formatter.test.config.json"
+    private val configContent: String = File("src/test/resources/formatter.test.config.json").readText()
 
     @Test
     fun `test_005 If Statement`() {
@@ -96,7 +97,7 @@ class IfStatementTest {
                 tokens.size,
             )
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_005_result.ps")
         Assertions.assertEquals(expected, actual)
     }
@@ -187,7 +188,7 @@ class IfStatementTest {
                 tokens.size,
             )
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_008_result.ps")
         Assertions.assertEquals(expected, actual)
     }
@@ -264,7 +265,7 @@ class IfStatementTest {
                 tokens.size,
             )
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_009_result.ps")
         Assertions.assertEquals(expected, actual)
     }
@@ -380,7 +381,7 @@ class IfStatementTest {
                 tokens.size,
             )
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_010_result.ps")
         Assertions.assertEquals(expected, actual)
     }

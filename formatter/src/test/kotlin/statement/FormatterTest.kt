@@ -13,13 +13,14 @@ import parser.factory.StatementParserFactory
 import parser.result.SuccessResult
 import utils.getStringFromFile
 import version.Version
+import java.io.File
 import kotlin.test.Test
 
 class FormatterTest {
     private val lexer = Lexer(getTokenMap(Version.V2))
     private val parser = ProgramParserFactory.create()
     private val statementParser = StatementParserFactory.create(Version.V2)
-    private val configPath: String = "src/test/resources/formatter.test.config.json"
+    private val configContent: String = File("src/test/resources/formatter.test.config.json").readText()
 
     @Test
     fun `test_001 String Declaration`() {
@@ -27,7 +28,7 @@ class FormatterTest {
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_001_result.ps")
         assertEquals(expected, actual)
     }
@@ -39,7 +40,7 @@ class FormatterTest {
         println(tokens)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_002_result.ps")
         assertEquals(expected, actual)
     }
@@ -50,7 +51,7 @@ class FormatterTest {
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_003_result.ps")
         assertEquals(expected, actual)
     }
@@ -61,7 +62,7 @@ class FormatterTest {
         val tokens = lexer.lex(code)
         val result = parser.parse(tokens, 0) as SuccessResult
         val ast = result.value as ProgramNode
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_004_result.ps")
         assertEquals(expected, actual)
     }
@@ -79,7 +80,7 @@ class FormatterTest {
                 tokens.first().start,
                 tokens.last().end,
             )
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_006_result.ps")
         assertEquals(expected, actual)
     }
@@ -97,7 +98,7 @@ class FormatterTest {
                 tokens.first().start,
                 tokens.last().end,
             )
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_007_result.ps")
         assertEquals(expected, actual)
     }
@@ -115,7 +116,7 @@ class FormatterTest {
                 tokens.first().start,
                 tokens.last().end,
             )
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_011_result.ps")
         assertEquals(expected, actual)
     }
@@ -133,7 +134,7 @@ class FormatterTest {
                 tokens.first().start,
                 tokens.last().end,
             )
-        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val actual = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         val expected = getStringFromFile("src/test/resources/test_012_result.ps")
         assertEquals(expected, actual)
     }
