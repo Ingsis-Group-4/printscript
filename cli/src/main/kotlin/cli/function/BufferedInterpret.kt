@@ -8,7 +8,6 @@ import interpreter.readInputFunction.StandardInputFunction
 import lexer.LineLexer
 import lexer.getTokenMap
 import logger.ConsoleLogger
-import logger.ErrorLogger
 import logger.Logger
 import parser.factory.StatementParserFactory
 import reader.StatementFileReader
@@ -28,14 +27,16 @@ class BufferedInterpret(
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
-        val parser = StatementParserFactory.create(getVersion(args))
+        val version = getVersion(args)
+
+        val parser = StatementParserFactory.create(version)
         val runner = Runner()
         runner.run(
-            reader = StatementFileReader(File(getFilePath(args)).inputStream(), getVersion(args)),
+            reader = StatementFileReader(File(getFilePath(args)).inputStream(), version),
             readInputFunction = StandardInputFunction(),
             parser = parser,
-            interpreter = StatementInterpreter(getInterpreterMap()),
-            errorLogger = ErrorLogger(),
+            interpreter = StatementInterpreter(getInterpreterMap(version)),
+            errorLogger = logger,
             logger = logger,
         )
     }

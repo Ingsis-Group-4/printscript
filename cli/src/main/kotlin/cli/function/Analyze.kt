@@ -2,12 +2,12 @@ package cli.function
 
 import cli.util.generateAST
 import cli.util.getConfigFilePath
+import cli.util.getVersion
 import lexer.Lexer
 import lexer.getTokenMap
 import logger.ConsoleLogger
 import logger.Logger
-import parser.Parser
-import parser.factory.ProgramParserFactory
+import parser.factory.ProgramParserFactoryV2
 import sca.StaticCodeAnalyzer
 import sca.factory.DefaultSCARuleFactory
 import sca.factory.SCARuleFactory
@@ -24,12 +24,15 @@ import java.io.File
  */
 
 class Analyze(
-    private val lexer: Lexer = Lexer(getTokenMap()),
-    private val parser: Parser = ProgramParserFactory.create(),
     private val ruleFactory: SCARuleFactory = DefaultSCARuleFactory(),
     private val logger: Logger = ConsoleLogger(),
 ) : CLIFunction {
     override fun run(args: Map<String, String>) {
+        val version = getVersion(args)
+
+        val lexer = Lexer(getTokenMap(version))
+        val parser = ProgramParserFactoryV2.create(version)
+
         // Generate the AST from the source code
         val ast = generateAST(lexer, parser, args)
 

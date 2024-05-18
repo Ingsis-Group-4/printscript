@@ -23,6 +23,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_001_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.1",
             ),
         )
 
@@ -47,6 +49,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_002_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.0",
             ),
         )
 
@@ -71,6 +75,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_003_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.0",
             ),
         )
 
@@ -95,6 +101,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_004_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.0",
             ),
         )
 
@@ -119,6 +127,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_005_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.1",
             ),
         )
 
@@ -143,6 +153,8 @@ class CLIFormatTest {
                 "src/test/resources/format/program/test_006_result.ps",
                 "-c",
                 "src/test/resources/format/config/formatter.test.config.json",
+                "-v",
+                "1.1",
             ),
         )
 
