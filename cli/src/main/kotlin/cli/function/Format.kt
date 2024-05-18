@@ -13,6 +13,7 @@ import parser.factory.ProgramParserFactoryV2
 import version.Version
 import writer.FileWriter
 import writer.Writer
+import java.io.File
 
 /**
  * Formats the given source code.
@@ -27,8 +28,9 @@ class Format(
         val ast = generateAST(lexer, parser, args)
         val filePath = getFilePath(args)
         val configPath = getConfigFilePath(args)
+        val configContent = File(configPath).readText()
         // Format the AST
-        val result = ProgramNodeFormatter().format(ast, FormattingRule(configPath), FormatterMapFactory().createFormatterMap())
+        val result = ProgramNodeFormatter().format(ast, FormattingRule(configContent), FormatterMapFactory().createFormatterMap())
         writer.write(result, filePath)
     }
 }

@@ -59,5 +59,7 @@ class Runner {
         } catch (e: Exception) {
             e.message?.let { errorLogger.log(it) }
         }
+
+        if (reader.hasRemainingTokens()) errorLogger.log("Unexpected end of file")
     }
 }

@@ -9,13 +9,15 @@ import ast.VariableTypeNode
 import position.Position
 import sca.StaticCodeAnalyzer
 import sca.factory.DefaultSCARuleFactory
+import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class StaticCodeAnalyzerConfigurerTest {
     @Test
     fun testSCAProviderWithCamelCase() {
-        val rules = DefaultSCARuleFactory().getRules("src/test/resources/sca.config.json")
+        val configFileContent = File("src/test/resources/sca.config.json").readText()
+        val rules = DefaultSCARuleFactory().getRules(configFileContent)
         val sca = StaticCodeAnalyzer(rules)
 
         val result =
