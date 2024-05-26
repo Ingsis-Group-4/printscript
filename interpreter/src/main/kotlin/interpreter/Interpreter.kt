@@ -1,6 +1,8 @@
 package interpreter
 
 import ast.AST
+import interpreter.readEnvFunction.ReadEnvFunction
+import interpreter.readEnvFunction.SystemEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 import interpreter.readInputFunction.StandardInputFunction
 
@@ -17,5 +19,6 @@ interface Interpreter {
         ast: AST,
         environment: Environment = Environment(),
         inputHandler: ReadInputFunction = StandardInputFunction(),
+        envHandler: ReadEnvFunction = SystemEnvFunction(),
     ): InterpretOutput
 }

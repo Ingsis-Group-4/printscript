@@ -5,6 +5,7 @@ import ast.IfStatement
 import ast.StatementNode
 import ast.VariableStatementNode
 import interpreter.expression.ExpressionInterpreter
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 
 class IfStatementInterpreter : Interpreter {
@@ -12,10 +13,11 @@ class IfStatementInterpreter : Interpreter {
         ast: AST,
         environment: Environment,
         inputHandler: ReadInputFunction,
+        envHandler: ReadEnvFunction,
     ): InterpretOutput {
         val node = getIfNodeOrThrow(ast)
 
-        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment, inputHandler).value
+        val condition = ExpressionInterpreter().interpret(node.getCondition(), environment, inputHandler, envHandler).value
 
         if (condition !is BooleanValue) {
             throw Exception("Condition must be a boolean value")
@@ -32,9 +34,9 @@ class IfStatementInterpreter : Interpreter {
         for (statement in statements) {
             val interpretResult =
                 when (statement) {
-                    is VariableStatementNode -> VariableStatementInterpreter().interpret(statement, environment)
-                    is FunctionStatementNode -> FunctionStatementInterpreter().interpret(statement, environment)
-                    is IfStatement -> interpret(statement, environment)
+                    is VariableStatementNode -> VariableStatementInterpreter().interpret(statement, environment, inputHandler, envHandler)
+                    is FunctionStatementNode -> FunctionStatementInterpreter().interpret(statement, environment, inputHandler, envHandler)
+                    is IfStatement -> interpret(statement, environment, inputHandler, envHandler)
                     else -> throw Exception(
                         "Unknown statement at (line: ${statement.getStart().line} column: ${statement.getStart().column})",
                     )

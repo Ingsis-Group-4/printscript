@@ -10,6 +10,7 @@ import ast.ReadInputNode
 import interpreter.Environment
 import interpreter.ExpressionInterpreterOutput
 import interpreter.NullValue
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 
 class ExpressionInterpreter {
@@ -17,11 +18,12 @@ class ExpressionInterpreter {
         node: ExpressionNode,
         environment: Environment,
         inputHandler: ReadInputFunction,
+        envHandler: ReadEnvFunction,
     ): ExpressionInterpreterOutput {
         return when (node) {
             is OperationNode ->
                 ExpressionInterpreterOutput(
-                    OperationInterpreter().interpret(node, environment, inputHandler),
+                    OperationInterpreter().interpret(node, environment, inputHandler, envHandler),
                     listOf(),
                 )
             is IdentifierNode ->
@@ -31,19 +33,19 @@ class ExpressionInterpreter {
                 )
             is LiteralNode<*> -> ExpressionInterpreterOutput(LiteralInterpreter().interpret(node), listOf())
             is PrintLnNode -> {
-                val value = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler).value.toString()
+                val value = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler, envHandler).value.toString()
                 ExpressionInterpreterOutput(NullValue, listOf(value))
             }
             is ReadEnvNode -> {
                 ExpressionInterpreterOutput(
-                    ReadEnvInterpreter().interpret(node, environment, inputHandler),
+                    ReadEnvInterpreter().interpret(node, environment, inputHandler, envHandler),
                     listOf(),
                 )
             }
             is ReadInputNode -> {
-                val expressionOutput = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler)
+                val expressionOutput = ExpressionInterpreter().interpret(node.getExpression(), environment, inputHandler, envHandler)
                 ExpressionInterpreterOutput(
-                    ReadInputNodeInterpreter().interpret(node, environment, inputHandler),
+                    ReadInputNodeInterpreter().interpret(node, environment, inputHandler, envHandler),
                     listOf(expressionOutput.value.toString()),
                 )
             }

@@ -4,6 +4,7 @@ import cli.util.getFilePath
 import cli.util.getVersion
 import interpreter.StatementInterpreter
 import interpreter.factory.getInterpreterMap
+import interpreter.readEnvFunction.SystemEnvFunction
 import interpreter.readInputFunction.StandardInputFunction
 import lexer.LineLexer
 import lexer.getTokenMap
@@ -38,6 +39,7 @@ class BufferedInterpret(
             interpreter = StatementInterpreter(getInterpreterMap(version)),
             errorLogger = logger,
             logger = logger,
+            readEnvFunction = SystemEnvFunction(),
         )
     }
 }

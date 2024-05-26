@@ -7,6 +7,7 @@ import ast.DeclarationNode
 import ast.VariableStatementNode
 import ast.VariableType
 import interpreter.expression.ExpressionInterpreter
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 
 class VariableStatementInterpreter :
@@ -15,10 +16,11 @@ class VariableStatementInterpreter :
         ast: AST,
         environment: Environment,
         inputHandler: ReadInputFunction,
+        envHandler: ReadEnvFunction,
     ): InterpretOutput {
         when (val node = getVariableStatementNodeOrThrow(ast)) {
             is AssignationNode -> {
-                val expressionOutput = ExpressionInterpreter().interpret(node.expression, environment, inputHandler)
+                val expressionOutput = ExpressionInterpreter().interpret(node.expression, environment, inputHandler, envHandler)
                 var value = expressionOutput.value
                 if (value is InputValue) {
                     value = castVariableTypeAssignationNode(node, environment, value)
@@ -29,7 +31,7 @@ class VariableStatementInterpreter :
 
             is DeclarationNode -> {
                 if (node.expression != null) {
-                    val expressionOutput = ExpressionInterpreter().interpret(node.expression!!, environment, inputHandler)
+                    val expressionOutput = ExpressionInterpreter().interpret(node.expression!!, environment, inputHandler, envHandler)
                     var value = expressionOutput.value
                     if (value is InputValue) {
                         value = castVariableTypeDeclarationNode(node, value)

@@ -5,6 +5,7 @@ import ast.ReadInputNode
 import interpreter.Environment
 import interpreter.InputValue
 import interpreter.NullValue
+import interpreter.readEnvFunction.SystemEnvFunction
 import interpreter.readInputFunction.StandardInputFunction
 import interpreter.readInputFunction.StringInputFunction
 import org.junit.jupiter.api.Test
@@ -24,7 +25,7 @@ class ReadInputNodeInterpreterTest {
 
         val interpreter = ReadInputNodeInterpreter()
 
-        val result = interpreter.interpret(input, environment, readInputFunction)
+        val result = interpreter.interpret(input, environment, readInputFunction, SystemEnvFunction())
 
         assert(result is InputValue)
     }
@@ -42,7 +43,7 @@ class ReadInputNodeInterpreterTest {
 
         val interpreter = ReadInputNodeInterpreter()
 
-        val result = interpreter.interpret(input, environment, readInputFunction)
+        val result = interpreter.interpret(input, environment, readInputFunction, SystemEnvFunction())
 
         assert(result is NullValue)
     }
