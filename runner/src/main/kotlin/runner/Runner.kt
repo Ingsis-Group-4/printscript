@@ -3,6 +3,7 @@ package runner
 import interpreter.Environment
 import interpreter.InterpretOutput
 import interpreter.Interpreter
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 import logger.Logger
 import parser.Parser
@@ -20,6 +21,7 @@ class Runner {
         errorLogger: Logger,
         readInputFunction: ReadInputFunction,
         logger: Logger,
+        readEnvFunction: ReadEnvFunction,
     ) {
         try {
             var environment = Environment()
@@ -46,7 +48,7 @@ class Runner {
                     var output: InterpretOutput
 
                     try {
-                        output = interpreter.interpret(ast, environment, readInputFunction)
+                        output = interpreter.interpret(ast, environment, readInputFunction, readEnvFunction)
                     } catch (e: Exception) {
                         e.message?.let { errorLogger.log(it) }
                         return
