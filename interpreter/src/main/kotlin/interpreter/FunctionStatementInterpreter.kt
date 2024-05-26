@@ -4,6 +4,7 @@ import ast.AST
 import ast.FunctionStatementNode
 import ast.PrintLnNode
 import interpreter.expression.ExpressionInterpreter
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 
 class FunctionStatementInterpreter : Interpreter {
@@ -11,11 +12,12 @@ class FunctionStatementInterpreter : Interpreter {
         ast: AST,
         environment: Environment,
         inputHandler: ReadInputFunction,
+        envHandler: ReadEnvFunction,
     ): InterpretOutput {
         val node = getFunctionNodeOrThrow(ast)
         when (val function = node.getFunctionNode()) {
             is PrintLnNode -> {
-                val value = ExpressionInterpreter().interpret(function, environment, inputHandler)
+                val value = ExpressionInterpreter().interpret(function, environment, inputHandler, envHandler)
                 return InterpretOutput(environment, value.logs)
             }
 

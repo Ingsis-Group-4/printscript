@@ -4,6 +4,7 @@ import ast.AST
 import ast.FunctionStatementNode
 import ast.ProgramNode
 import ast.VariableStatementNode
+import interpreter.readEnvFunction.ReadEnvFunction
 import interpreter.readInputFunction.ReadInputFunction
 
 @Deprecated("This class is deprecated", ReplaceWith("StatementInterpreter"))
@@ -12,6 +13,7 @@ class ProgramInterpreter : Interpreter {
         ast: AST,
         environment: Environment,
         inputHandler: ReadInputFunction,
+        envHandler: ReadEnvFunction,
     ): InterpretOutput {
         val node = getProgramNodeOrThrow(ast)
 
@@ -22,12 +24,12 @@ class ProgramInterpreter : Interpreter {
         for (statement in node.statements) {
             when (statement) {
                 is VariableStatementNode -> {
-                    val interpretOutput = VariableStatementInterpreter().interpret(statement, currentEnv)
+                    val interpretOutput = VariableStatementInterpreter().interpret(statement, currentEnv, inputHandler, envHandler)
                     logs.addAll(interpretOutput.logs)
                     currentEnv = interpretOutput.environment
                 }
                 is FunctionStatementNode -> {
-                    val interpretOutput = FunctionStatementInterpreter().interpret(statement, currentEnv)
+                    val interpretOutput = FunctionStatementInterpreter().interpret(statement, currentEnv, inputHandler, envHandler)
                     logs.addAll(interpretOutput.logs)
                     currentEnv = interpretOutput.environment
                 }
